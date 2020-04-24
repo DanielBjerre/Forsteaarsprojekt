@@ -1,7 +1,0 @@
-/**
- * test
- */
-public class test {
-
-    
-}
