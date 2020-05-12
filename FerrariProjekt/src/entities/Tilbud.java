@@ -5,8 +5,8 @@ public class Tilbud {
     private int bruger;
     private int kundetelefon;
     private int bil;
-    private boolean accepteret;
-    private boolean godkendt;
+    private int accepteret;
+    private int godkendt;
     private int loebetid;
     private double udbetaling;
     private double rente;
@@ -43,19 +43,19 @@ public class Tilbud {
         this.bil = bil;
     }
 
-    public boolean isAccepteret() {
+    public int getAccepteret() {
         return accepteret;
     }
 
-    public void setAccepteret(boolean accepteret) {
+    public void setAccepteret(int accepteret) {
         this.accepteret = accepteret;
     }
 
-    public boolean isGodkendt() {
+    public int getGodkendt() {
         return godkendt;
     }
 
-    public void setGodkendt(boolean godkendt) {
+    public void setGodkendt(int godkendt) {
         this.godkendt = godkendt;
     }
 
@@ -82,4 +82,5 @@ public class Tilbud {
     public void setRente(double rente) {
         this.rente = rente;
     }
+
 }
