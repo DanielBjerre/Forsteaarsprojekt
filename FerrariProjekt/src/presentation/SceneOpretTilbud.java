@@ -34,6 +34,8 @@ public class SceneOpretTilbud {
 		Label lbTitel = cl.lb("Opret Tilbud", 50);
 		lbTitel.setPrefHeight(stage.getHeight()/20);
 		Button btnTilbage = cb.btn("Tilbage", knapWidth, knapHeight);
+		
+		VBox vbTelefon = new VBox();
 
 		// Knap funktioner
 		btnTilbage.setOnAction(e -> {
