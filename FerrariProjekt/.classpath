@@ -8,17 +8,4 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="output" path="bin"/>
-
-			<!--MS SQL-->
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/JARS/sqljdbc_7.4/enu/mssql-jdbc-7.4.1.jre12.jar"/>
-
-	<!--JAVAFX-->
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/SDK/javafx-sdk-13.0.1/lib/javafx.base.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/SDK/javafx-sdk-13.0.1/lib/javafx.controls.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/SDK/javafx-sdk-13.0.1/lib/javafx.fxml.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/SDK/javafx-sdk-13.0.1/lib/javafx.graphics.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/SDK/javafx-sdk-13.0.1/lib/javafx.media.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/SDK/javafx-sdk-13.0.1/lib/javafx-swt.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/SDK/javafx-sdk-13.0.1/lib/javafx.swing.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/klund/OneDrive/Skole/Datamatiker/SDK/javafx-sdk-13.0.1/lib/javafx.web.jar"/>
 </classpath>
