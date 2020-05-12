@@ -21,6 +21,7 @@ public class SceneHovedmenu {
 
 		double knapWidth = stage.getWidth()/4;
 		double knapHeight = stage.getHeight()/20;
+		double textsize = stage.getHeight()/40;
 
 		// Opsætning
 		Insets insets = new Insets(5, 5, 5, 5);
@@ -31,8 +32,7 @@ public class SceneHovedmenu {
 		vBoxCenter.setAlignment(Pos.TOP_CENTER);
 
 		// Lav knapper og labels
-		Label lbTitel = cl.lb("Ferrari Financing", 50);
-		lbTitel.setPrefHeight(stage.getHeight()/20);
+		Label lbTitel = cl.lb("Ferrari Financing", textsize*2);
 		Button btnOpretTilbud = cb.btn("Opret Tilbud", knapWidth, knapHeight);
 		Button btnLuk = cb.btn("Luk", knapWidth, knapHeight);
 

@@ -16,5 +16,6 @@ public class Main extends Application {
 		primaryStage.show();
 		SceneHovedmenu scHM = new SceneHovedmenu();
 		scHM.init(primaryStage);
+		ConstantsPresentation.stage = primaryStage;
 	}
 }
