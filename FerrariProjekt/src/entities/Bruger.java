@@ -1,4 +1,4 @@
-package entity;
+package entities;
 
 public class Bruger {
     private static Bruger single_instance = null;
@@ -67,6 +67,9 @@ public class Bruger {
         this.title = title;
     }
 
+    /**
+     * Giver et syso på alle info i entities
+     */
     public void showBrugerInfo()
     {
         System.out.println("BRUGER INFO DUMP");

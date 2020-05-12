@@ -5,13 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import entity.Bruger;
+import entities.Bruger;
 
 public class ReadBruger {
 
     public static void main(String[] args) {
     ReadBruger rb = new ReadBruger();
-    rb.checkLogin("SK", "KODe");    
+    rb.checkLogin("SK", "KODE");    
     }
 
 
