@@ -1,7 +1,7 @@
 package database;
 
-import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class dbConnection {
 	private Connection connection;

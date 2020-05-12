@@ -1,6 +1,7 @@
 package presentation;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -9,7 +10,11 @@ public class Main extends Application {
 	}
 
 	@Override
-	public void start(Stage arg0) throws Exception {
-		
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setMaximized(true);
+		primaryStage.initStyle(StageStyle.UNDECORATED);
+		primaryStage.show();
+		SceneHovedmenu scHM = new SceneHovedmenu();
+		scHM.init(primaryStage);
 	}
 }
