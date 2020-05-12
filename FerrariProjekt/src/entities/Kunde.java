@@ -4,9 +4,10 @@ public class Kunde {
     private String telefonnummer;
     private String fornavn;
     private String efternavn;
+    private String cprnummer;
     private String email;
     private String city;
-    private int postnummer;
+    private String postnummer;
 
     public String getTelefonnummer() {
         return telefonnummer;
@@ -48,11 +49,21 @@ public class Kunde {
         this.city = city;
     }
 
-    public int getPostnummer() {
+    public String getPostnummer() {
         return postnummer;
     }
 
-    public void setPostnummer(int postnummer) {
+    public void setPostnummer(String postnummer) {
         this.postnummer = postnummer;
     }
+
+    public String getCprnummer() {
+        return cprnummer;
+    }
+
+    public void setCprnummer(String cprnummer) {
+        this.cprnummer = cprnummer;
+    }
+
+
 }
