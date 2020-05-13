@@ -1,8 +1,11 @@
 package presentation;
 
+import FFL.CreditRator;
+import FFL.Rating;
 import create.CreateButton;
 import create.CreateLabel;
 import create.CreateTextField;
+import entities.Kunde;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,13 +16,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.KundeLogic;
 
 public class SceneOpretTilbud {
 	Stage stage;
 	CreateLabel cl = new CreateLabel();
 	CreateButton cb = new CreateButton();
 	CreateTextField ctf = new CreateTextField();
-
+	
+	TextField tfTelefonnummer, tfCPRNummer, tfCreditrating, tfFornavn, 
+	tfEfternavn, tfEmail, tfCity, tfPostnummer;
 	public void init(Stage stage) {
 		this.stage = stage;
 		double knapWidth = stage.getWidth()/4;
@@ -42,53 +48,53 @@ public class SceneOpretTilbud {
 		
 		HBox hbTelefon = new HBox();
 		Label lbTelefonnnummer = cl.lb("Telefonnummer:", textsize);
-		TextField tfTelefonnummer = ctf.tf("");
+		tfTelefonnummer = ctf.tf("");
 		Button btnTelefonnummer = new Button("Søg");
 		hbTelefon.setAlignment(Pos.CENTER);
 		hbTelefon.getChildren().addAll(lbTelefonnnummer, tfTelefonnummer, btnTelefonnummer);
 		
 		HBox hbCPRNummer = new HBox();
 		Label lbCPRNummer = cl.lb("CPR Nummer:", textsize);
-		TextField tfCPRNummer = ctf.tf("");
+		tfCPRNummer = ctf.tf("");
 		Button btnCPRNummer = new Button("Søg");
 		hbCPRNummer.setAlignment(Pos.CENTER);
 		hbCPRNummer.getChildren().addAll(lbCPRNummer, tfCPRNummer, btnCPRNummer);
 		
 		HBox hbCreditRating = new HBox();
 		Label lbCreditRating = cl.lb("Kundens Kreditvurdering:", textsize);
-		TextField tfCreditrating = ctf.tf("");
+		tfCreditrating = ctf.tf("");
 		hbCreditRating.setAlignment(Pos.CENTER);
 		hbCreditRating.getChildren().addAll(lbCreditRating, tfCreditrating);
 		
 		HBox hbFornavn = new HBox();
 		Label lbFornavn = cl.lb("Fornavn(e)", textsize);
-		TextField tfFornavn = ctf.tf("");
+		tfFornavn = ctf.tf("");
 		hbFornavn.setAlignment(Pos.CENTER);
 		hbFornavn.getChildren().addAll(lbFornavn, tfFornavn);
 		
 		HBox hbEfternavn = new HBox();
 		Label lbEfternavn = cl.lb("Efternavn", textsize);
-		TextField tfEfternavn = ctf.tf("");
+		tfEfternavn = ctf.tf("");
 		hbEfternavn.setAlignment(Pos.CENTER);
 		hbEfternavn.getChildren().addAll(lbEfternavn, tfEfternavn);
 		
 		HBox hbEmail = new HBox();
 		Label lbEmail = cl.lb("Email:", textsize);
-		TextField tfEmail = ctf.tf("");
+		tfEmail = ctf.tf("");
 		hbEmail.setAlignment(Pos.CENTER);
 		hbEmail.getChildren().addAll(lbEmail, tfEmail);
 		
 		HBox hbCity = new HBox();
 		Label lbCity = cl.lb("By:", textsize);
-		TextField tfCity = ctf.tf("");
+		tfCity = ctf.tf("");
 		hbCity.setAlignment(Pos.CENTER);
 		hbCity.getChildren().addAll(lbCity, tfCity);
 		
-		HBox hbPostNR = new HBox();
-		Label lbPostNR = cl.lb("Postnummer:", textsize);
-		TextField tfPostNR = ctf.tf("");
-		hbPostNR.setAlignment(Pos.CENTER);
-		hbPostNR.getChildren().addAll(lbPostNR, tfPostNR);
+		HBox hbPostnummer = new HBox();
+		Label lbPostnummer = cl.lb("Postnummer:", textsize);
+		tfPostnummer = ctf.tf("");
+		hbPostnummer.setAlignment(Pos.CENTER);
+		hbPostnummer.getChildren().addAll(lbPostnummer, tfPostnummer);
 		
 		HBox hbBil = new HBox();
 		Label lbBil = cl.lb("Bil:", textsize);
@@ -108,21 +114,60 @@ public class SceneOpretTilbud {
 		hbLoebetid.setAlignment(Pos.CENTER);
 		hbLoebetid.getChildren().addAll(lbLoebetid, tfLoebetid);
 		
-		
-
-		
 		// Knap funktioner
 		btnTilbage.setOnAction(e -> {
 			SceneHovedmenu scHM = new SceneHovedmenu();
 			scHM.init(stage);
 		});
+		btnTelefonnummer.setOnAction(e -> {
+			fillKunde(tfTelefonnummer.getText());
+		});
+		btnCPRNummer.setOnAction(e -> {
+			getCreditRating(tfCPRNummer.getText());
+		});
 
 		// Tilføj tl VBox
 		vBoxCenter.getChildren().addAll(lbTitel,hbTelefon,hbCPRNummer,hbCreditRating,hbFornavn,hbEfternavn,
-				hbEmail,hbCity,hbPostNR,hbBil,hbUdbetaling,hbLoebetid,btnTilbage);
+				hbEmail,hbCity,hbPostnummer,hbBil,hbUdbetaling,hbLoebetid,btnTilbage);
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
 
 	}
+	private void fillKunde(String telefonnummer) {
+		KundeLogic kl = new KundeLogic();
+		Kunde k = kl.findKunde(telefonnummer);
+		tfCPRNummer.setText(k.getCprnummer());
+		tfFornavn.setText(k.getTelefonnummer());
+		tfEfternavn.setText(k.getEfternavn());
+		tfCity.setText(k.getCity());
+		tfPostnummer.setText(k.getPostnummer());
+		tfEmail.setText(k.getEmail());
+		getCreditRating(k.getCprnummer());
+	}
+	private void getCreditRating (String cprnummer) {
+		CreditRator cr = CreditRator.i();
+		Rating creditRate = cr.rate(cprnummer);
+		
+		switch(creditRate) {
+		case A:
+			tfCreditrating.setText("A");
+			break;
+		case B:
+			tfCreditrating.setText("B");
+			break;
+		case C:
+			tfCreditrating.setText("C");
+			break;
+		case D:
+			tfCreditrating.setText("D");
+			break;
+		}
+		
+		
+
+		
+	}
+	
+	
 }

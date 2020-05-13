@@ -17,6 +17,7 @@ public class ReadKunde {
             stmt.setString(1, telefonnummer);
 
             try (ResultSet rs = stmt.executeQuery()) {
+            	rs.next();
                 k.setTelefonnummer(telefonnummer);
                 k.setFornavn(rs.getString("fornavn"));
                 k.setEfternavn(rs.getString("efternavn"));
