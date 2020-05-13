@@ -2,6 +2,8 @@ package logic;
 
 import java.util.ArrayList;
 
+
+
 import FFL.Rating;
 
 public class loan {
@@ -50,9 +52,7 @@ public class loan {
 
     private void calcAaop() {
         int rent = bankRate;
-        if (udbetaling < (pris / 2)) {
-            rent++;
-        }
+        rent += udbetalingsRate(udbetaling, pris);
 
         if (loebetid > 36) {
             rent++;
@@ -74,7 +74,25 @@ public class loan {
         this.aaop = rent;
     }
 
+    private int udbetalingsRate(double udbetaling, double pris)
+    {
+        if (udbetaling < (pris / 2)) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+
+    //evt jUnit
+    public void testUdbetalingsRate()
+    {
+        assertEquals(0, 0);
+    }
     
+
+
+
     private void calcTerminRent()
     {
         terminRent = Math.pow(1+((double) aaop/100), 1.0/12)-1;
