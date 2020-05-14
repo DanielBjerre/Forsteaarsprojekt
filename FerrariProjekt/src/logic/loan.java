@@ -84,14 +84,6 @@ public class loan {
 
     }
 
-    //evt jUnit
-    public void testUdbetalingsRate()
-    {
-        assertEquals(0, 0);
-    }
-    
-
-
 
     private void calcTerminRent()
     {

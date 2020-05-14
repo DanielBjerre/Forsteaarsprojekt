@@ -23,6 +23,7 @@ public class SceneOpretTilbud {
 	CreateLabel cl = new CreateLabel();
 	CreateButton cb = new CreateButton();
 	CreateTextField ctf = new CreateTextField();
+	Kunde kunde;
 	
 	TextField tfTelefonnummer, tfCPRNummer, tfCreditrating, tfFornavn, 
 	tfEfternavn, tfEmail, tfCity, tfPostnummer;
@@ -134,20 +135,20 @@ public class SceneOpretTilbud {
 		stage.setScene(scene);
 
 	}
-	private void fillKunde(String telefonnummer) {
+	private void fillKunde(String cprNummer) {
 		KundeLogic kl = new KundeLogic();
-		Kunde k = kl.findKunde(telefonnummer);
-		tfCPRNummer.setText(k.getCprnummer());
-		tfFornavn.setText(k.getTelefonnummer());
-		tfEfternavn.setText(k.getEfternavn());
-		tfCity.setText(k.getCity());
-		tfPostnummer.setText(k.getPostnummer());
-		tfEmail.setText(k.getEmail());
-		getCreditRating(k.getCprnummer());
+		kunde = kl.findKunde(cprNummer);
+		tfCPRNummer.setText(kunde.getCprnummer());
+		tfFornavn.setText(kunde.getTelefonnummer());
+		tfEfternavn.setText(kunde.getEfternavn());
+		tfCity.setText(kunde.getCity());
+		tfPostnummer.setText(kunde.getPostnummer());
+		tfEmail.setText(kunde.getEmail());
+		getCreditRating(cprNummer);
 	}
-	private void getCreditRating (String cprnummer) {
+	private void getCreditRating (String cprNummer) {
 		CreditRator cr = CreditRator.i();
-		Rating creditRate = cr.rate(cprnummer);
+		Rating creditRate = cr.rate(cprNummer);
 		
 		switch(creditRate) {
 		case A:
