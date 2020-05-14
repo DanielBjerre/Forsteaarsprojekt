@@ -5,6 +5,8 @@ import FFL.Rating;
 import create.CreateButton;
 import create.CreateLabel;
 import create.CreateTextField;
+import entities.Car;
+import entities.Employee;
 import entities.Kunde;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,7 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import logic.KundeLogic;
+import logic.DBFacade;
 
 public class SceneOpretTilbud {
 	Stage stage;
@@ -24,9 +26,11 @@ public class SceneOpretTilbud {
 	CreateButton cb = new CreateButton();
 	CreateTextField ctf = new CreateTextField();
 	Kunde kunde;
-	
+	Car bil;
+	Employee bruger;
 	TextField tfTelefonnummer, tfCPRNummer, tfCreditrating, tfFornavn, 
 	tfEfternavn, tfEmail, tfCity, tfPostnummer;
+	
 	public void init(Stage stage) {
 		this.stage = stage;
 		double knapWidth = stage.getWidth()/4;
@@ -121,7 +125,7 @@ public class SceneOpretTilbud {
 			scHM.init(stage);
 		});
 		btnTelefonnummer.setOnAction(e -> {
-			fillKunde(tfTelefonnummer.getText());
+			FindCustomer(tfTelefonnummer.getText());
 		});
 		btnCPRNummer.setOnAction(e -> {
 			getCreditRating(tfCPRNummer.getText());
@@ -135,8 +139,8 @@ public class SceneOpretTilbud {
 		stage.setScene(scene);
 
 	}
-	private void fillKunde(String cprNummer) {
-		KundeLogic kl = new KundeLogic();
+	private void FindCustomer(String cprNummer) {
+		DBFacade kl = new DBFacade();
 		kunde = kl.findKunde(cprNummer);
 		tfCPRNummer.setText(kunde.getCprnummer());
 		tfFornavn.setText(kunde.getTelefonnummer());

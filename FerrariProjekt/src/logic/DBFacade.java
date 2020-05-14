@@ -3,7 +3,6 @@ package logic;
 import database.ReadKunde;
 import database.ReadUser;
 import entities.Employee;
-import entities.Kunde;
 
 public class DBFacade {
 //    public Kunde findKunde(String telefonnummer)
@@ -17,7 +16,7 @@ public class DBFacade {
 //        return k;
 //    }
 //}
-	public void readEmployee(String username, String password) {
+	public void login(String username, String password) {
 		ReadUser ru = new ReadUser();
 		Employee employee = ru.checkLogin(username, password);
 	}
