@@ -14,7 +14,7 @@ public class Main extends Application {
 		primaryStage.setMaximized(true);
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.show();
-		SceneHovedmenu scHM = new SceneHovedmenu();
-		scHM.init(primaryStage);
+		SceneLogin sl = new SceneLogin();
+		sl.init(primaryStage);
 	}
 }
