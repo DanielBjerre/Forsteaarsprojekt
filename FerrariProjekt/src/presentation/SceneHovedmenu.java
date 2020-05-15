@@ -7,9 +7,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.ActiveEmployee;
 
 public class SceneHovedmenu {
 	Stage stage;
@@ -30,6 +32,8 @@ public class SceneHovedmenu {
 		VBox vBoxCenter = new VBox(20);
 		root.setCenter(vBoxCenter);
 		vBoxCenter.setAlignment(Pos.TOP_CENTER);
+		TextField tfEmployee = new TextField();
+		tfEmployee.setText(ActiveEmployee.getInstance().getEmployee().getFirstName());
 
 		// Lav knapper og labels
 		Label lbTitel = cl.lb("Ferrari Financing", textsize*2);
@@ -47,7 +51,7 @@ public class SceneHovedmenu {
 		});
 
 		// Tilføj tl VBox
-		vBoxCenter.getChildren().addAll(lbTitel,btnOpretTilbud,btnLuk);
+		vBoxCenter.getChildren().addAll(lbTitel,btnOpretTilbud,btnLuk,tfEmployee);
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);

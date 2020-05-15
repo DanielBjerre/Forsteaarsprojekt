@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entities.Employee;
+import exception.CustomException;
 
-public class ReadUser {
+public class ReadEmployee {
 	public Employee login(String username, String password) {
-		Employee e = new Employee();
 		try (Connection con = new dbConnection().newConnection()) {
 			String sql = "SELECT * from Employee WHERE username=? AND employeePassword =?";
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -20,17 +20,20 @@ public class ReadUser {
 				if (rs.next()) {				
 					if (username.toUpperCase().equals(rs.getString("username").toUpperCase())
 							&& password.equals(rs.getString("employeePassword"))) {
+						Employee e = new Employee();
 						e.setEmployeeID(rs.getString("employeeID"));
 						e.setFirstName(rs.getString("firstName"));
 						e.setLastName(rs.getString("lastName"));
 						e.setLimit(rs.getString("limit"));
 						e.setTitle(rs.getString("title"));
+						return e;
 					}
+				
 				}
 			} catch (SQLException exc) {
 			}
 		} catch (SQLException ex) {
 	}
-		return e;
+		throw new CustomException("Brugernavn eller adgangskode forkert");
 	}
 }

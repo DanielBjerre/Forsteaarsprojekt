@@ -1,7 +1,7 @@
 package logic;
 
 import database.ReadKunde;
-import database.ReadUser;
+import database.ReadEmployee;
 import entities.Employee;
 
 public class DBFacade {
@@ -16,10 +16,11 @@ public class DBFacade {
 //        return k;
 //    }
 //}
-	public void login(String username, String password) {
-		ReadUser ru = new ReadUser();
+	public void readEmployee(String username, String password) {
+		ReadEmployee ru = new ReadEmployee();
 		Employee employee = ru.login(username, password);
-		ActiveUser au = new ActiveUser();
+		ActiveEmployee au = new ActiveEmployee();
 		au.setEmployee(employee);
+		au.setLoggedIn(true);
 	}
 }
