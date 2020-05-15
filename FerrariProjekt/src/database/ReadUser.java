@@ -11,15 +11,15 @@ public class ReadUser {
 	public Employee login(String username, String password) {
 		Employee e = new Employee();
 		try (Connection con = new dbConnection().newConnection()) {
-			String sql = "SELECT * from Bruger WHERE brugernavn=? AND adgangskode =?";
+			String sql = "SELECT * from Employee WHERE username=? AND employeePassword =?";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, username);
 			stmt.setString(2, password);
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
-					if (username.toUpperCase().equals(rs.getString("brugernavn").toUpperCase())
-							&& password.equals(rs.getString("adgangskode"))) {
+					if (username.toUpperCase().equals(rs.getString("username").toUpperCase())
+							&& password.equals(rs.getString("employeePassword"))) {
 						e.setEmployeeID(rs.getString("employeeID"));
 						e.setFirstName(rs.getString("firtsName"));
 						e.setLastName(rs.getString("lastName"));
