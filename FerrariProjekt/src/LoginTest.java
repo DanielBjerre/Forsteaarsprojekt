@@ -11,23 +11,6 @@ import entities.Employee;
 import logic.DBFacade;
 
 class LoginTest {
-
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
 	@Test
 	void test() {
 		ReadUser ru = new ReadUser();

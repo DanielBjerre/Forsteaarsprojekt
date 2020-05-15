@@ -19,5 +19,7 @@ public class DBFacade {
 	public void login(String username, String password) {
 		ReadUser ru = new ReadUser();
 		Employee employee = ru.login(username, password);
+		ActiveUser au = new ActiveUser();
+		au.setEmployee(employee);
 	}
 }

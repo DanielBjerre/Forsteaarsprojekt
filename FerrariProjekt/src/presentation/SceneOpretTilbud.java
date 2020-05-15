@@ -6,8 +6,8 @@ import create.CreateButton;
 import create.CreateLabel;
 import create.CreateTextField;
 import entities.Car;
+import entities.Customer;
 import entities.Employee;
-import entities.Kunde;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,9 +25,9 @@ public class SceneOpretTilbud {
 	CreateLabel cl = new CreateLabel();
 	CreateButton cb = new CreateButton();
 	CreateTextField ctf = new CreateTextField();
-	Kunde kunde;
-	Car bil;
-	Employee bruger;
+	Customer customer;
+	Car car;
+	Employee employee;
 	TextField tfTelefonnummer, tfCPRNummer, tfCreditrating, tfFornavn, 
 	tfEfternavn, tfEmail, tfCity, tfPostnummer;
 	

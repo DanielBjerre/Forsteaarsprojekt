@@ -17,11 +17,11 @@ public class ReadUser {
 			stmt.setString(2, password);
 
 			try (ResultSet rs = stmt.executeQuery()) {
-				if (rs.next()) {
+				if (rs.next()) {				
 					if (username.toUpperCase().equals(rs.getString("username").toUpperCase())
 							&& password.equals(rs.getString("employeePassword"))) {
 						e.setEmployeeID(rs.getString("employeeID"));
-						e.setFirstName(rs.getString("firtsName"));
+						e.setFirstName(rs.getString("firstName"));
 						e.setLastName(rs.getString("lastName"));
 						e.setLimit(rs.getString("limit"));
 						e.setTitle(rs.getString("title"));
@@ -30,8 +30,7 @@ public class ReadUser {
 			} catch (SQLException exc) {
 			}
 		} catch (SQLException ex) {
-
-		}
+	}
 		return e;
 	}
 }
