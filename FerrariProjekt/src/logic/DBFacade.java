@@ -18,6 +18,6 @@ public class DBFacade {
 //}
 	public void login(String username, String password) {
 		ReadUser ru = new ReadUser();
-		Employee employee = ru.checkLogin(username, password);
+		Employee employee = ru.login(username, password);
 	}
 }
