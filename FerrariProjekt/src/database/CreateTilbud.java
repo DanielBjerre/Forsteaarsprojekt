@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import entities.Tilbud;
+import entities.Offer;
 
 public class CreateTilbud {
-    public CreateTilbud(Tilbud data)
+    public CreateTilbud(Offer data)
     {
         try (Connection con = new dbConnection().newConnection()) {
             String sql = "INSERT INTO Tilbud (bruger,kundetelefon,bil,accepteret,godkendt,løbetid,udbetaling,rente) values (?,?,?,?,?,?,?,?)";

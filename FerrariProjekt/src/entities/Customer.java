@@ -67,4 +67,8 @@ public class Customer {
 	public void setCreditRating(Rating creditRating) {
 		this.creditRating = creditRating;
 	}
+
+	public void setCprNumber(String cprNumber) {
+		this.cprNumber = cprNumber;
+	}
 }

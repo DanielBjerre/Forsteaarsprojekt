@@ -5,26 +5,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import entities.Kunde;
+import entities.Customer;
 
 public class ReadKunde {
-    public Kunde findKunde(String telefonnummer)
+    public Customer findKunde(String telefonnummer)
     {
-        Kunde k = new Kunde();
+        Customer k = new Customer();
         try (Connection con = new dbConnection().newConnection()) {
-            String sql = "SELECT * FROM kunde WHERE telefonnummer = ?";
+            String sql = "SELECT * FROM Customer WHERE phoneNumber = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, telefonnummer);
 
             try (ResultSet rs = stmt.executeQuery()) {
             	rs.next();
-                k.setTelefonnummer(telefonnummer);
-                k.setFornavn(rs.getString("fornavn"));
-                k.setEfternavn(rs.getString("efternavn"));
-                k.setCprnummer(rs.getString("cprnummer"));
-                k.setEmail(rs.getString("email"));
+                k.setPhoneNumber(telefonnummer);
+                k.setFirstName(rs.getString("firstName"));
+                k.setLastName(rs.getString("lastName"));
+                k.setCprNumber(rs.getString("cprnummer"));
+                k.seteMail(rs.getString("eMail"));
                 k.setCity(rs.getString("city"));
-                k.setPostnummer(rs.getString("postnummer"));
+                k.setZipCode(rs.getString("zipCode"));
+                k.setAdress(rs.getString("adress"));
 
             } catch (SQLException e) {
                 //TODO: handle exception
