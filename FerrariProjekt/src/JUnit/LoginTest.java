@@ -15,10 +15,10 @@ class LoginTest {
 	@Test
 	void testLoginData() {
 		ReadEmployee ru = new ReadEmployee();
-		Employee testEmployee = ru.login("Test", "Test");
-		assertEquals("Test", testEmployee.getFirstName());
+		Employee testEmployee = ru.login("username", "password");
+		assertEquals("testFirstName", testEmployee.getFirstName());
 		assertThrows(CustomException.class, () -> {
-			ru.login("test", "test");
+			ru.login("failed", "failed");
 		});
 	
 	}
@@ -28,11 +28,11 @@ class LoginTest {
 	@Test
 	void testLoginLogic() {
 		Login login = new Login();
-		login.login("Test", "Test");
+		login.login("username", "password");
 		ActiveEmployee ae = ActiveEmployee.getInstance();
 		assertEquals(true, ae.getLoggedIn());
 		assertThrows(CustomException.class, () -> {
-			login.login("test", "test");
+			login.login("failed", "failed");
 		});
 	}
 }

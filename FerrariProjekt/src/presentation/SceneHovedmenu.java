@@ -42,7 +42,7 @@ public class SceneHovedmenu {
 
 		// Knap funktioner
 		btnOpretTilbud.setOnAction(e -> {
-			SceneOpretTilbud scOT = new SceneOpretTilbud();
+			SceneCreateOffer scOT = new SceneCreateOffer();
 			scOT.init(stage);
 		});
 		
