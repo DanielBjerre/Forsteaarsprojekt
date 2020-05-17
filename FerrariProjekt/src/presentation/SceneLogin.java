@@ -10,9 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.ActiveEmployee;
-import logic.DBFacade;
+import logic.CustomerController;
 import logic.Login;
 
 public class SceneLogin {
@@ -45,8 +46,18 @@ public class SceneLogin {
 				login();
 			}
 		});
-		vBoxCenter.getChildren().addAll(tfUsername, tfPassword, tfError, btnLogin);
+		Button btnClose = cb.btn("Luk", stage.getWidth()/20,  stage.getHeight()/20);
+		btnClose.setOnAction(e -> {
+			stage.close();
+		});
+		
+		vBoxCenter.getChildren().addAll(tfUsername, tfPassword, tfError, btnLogin,btnClose);
 
+		// TESTING PURPOSES
+		tfUsername.setText("username");
+		tfPassword.setText("password");
+		
+		
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
 		stage.show();

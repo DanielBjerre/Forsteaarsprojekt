@@ -10,8 +10,9 @@ public class Customer {
     private String lastName;
     private String eMail;
     private String adress;
-    private String city;
     private String zipCode;
+    private String city;
+    private boolean badStanding;
     private Rating creditRating;
 	public String getCustomerID() {
 		return customerID;
@@ -70,5 +71,14 @@ public class Customer {
 
 	public void setCprNumber(String cprNumber) {
 		this.cprNumber = cprNumber;
+	}
+	public boolean isBadStanding() {
+		return badStanding;
+	}
+	public void setBadStanding(boolean badStanding) {
+		this.badStanding = badStanding;
+	}
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
 	}
 }
