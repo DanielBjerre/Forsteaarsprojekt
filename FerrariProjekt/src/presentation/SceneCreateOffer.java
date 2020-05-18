@@ -1,8 +1,5 @@
 package presentation;
 
-import org.graalvm.compiler.api.replacements.Snippet.VarargsParameter;
-
-import FFL.CreditRator;
 import FFL.Rating;
 import create.CreateButton;
 import create.CreateLabel;
@@ -169,7 +166,7 @@ public class SceneCreateOffer {
 			offer.setOfferCustomer(new Customer());
 			customerError.setText(e.getMessage());
 		} finally {
-			offer.getOfferCustomer().setCreditRating(findRating(cprNumber));
+			findRating(cprNumber);
 		}
 		
 	}
@@ -185,7 +182,7 @@ public class SceneCreateOffer {
 		
 	}
 	
-	private Rating findRating (String cprNumber) {
+	private void findRating (String cprNumber) {
 		APIController ac = new APIController();
 		Rating creditRate = ac.findRating(cprNumber);
 		switch(creditRate) {
@@ -203,11 +200,10 @@ public class SceneCreateOffer {
 			customerError.setText("Kunder med kreditvurdering D betjenes ikke");
 			break;
 		}
-		return creditRate;	
+		offer.getOfferCustomer().setCreditRating(creditRate);
 	}
 	private HBox makeHbox(Node...nodes) {
 		HBox tempHBox = new HBox();
-		tempHBox.setPadding(insets);
 		for(Node node: nodes) {
 			tempHBox.getChildren().add(node);
 		}
