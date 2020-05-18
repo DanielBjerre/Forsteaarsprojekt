@@ -12,7 +12,7 @@ public class Offer {
     private String numOfTerms;
     private String downPayment;
     private String rate;
-    private ArrayList<Period> periods;
+    private ArrayList<Term> periods;
 	public String getOfferID() {
 		return offerID;
 	}
@@ -67,10 +67,21 @@ public class Offer {
 	public void setRate(String rate) {
 		this.rate = rate;
 	}
-	public ArrayList<Period> getPeriods() {
+	public ArrayList<Term> getPeriods() {
 		return periods;
 	}
-	public void setPeriods(ArrayList<Period> periods) {
+	public void setPeriods(ArrayList<Term> periods) {
 		this.periods = periods;
 	} 
+	public double getDownPaymentDouble() {
+		return Double.parseDouble(downPayment);
+	}
+	public double getNumOfTermsDouble() {
+		return Double.parseDouble(numOfTerms);
+	}
+	public double getRateDouble() {
+		return Double.parseDouble(rate);
+	}
+	
+	
 }

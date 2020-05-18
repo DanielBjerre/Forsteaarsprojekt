@@ -1,5 +1,4 @@
-/database/
-/logic/
-/entities/
 /presentation/
 /JUnit/
+/logic/
+/entities/

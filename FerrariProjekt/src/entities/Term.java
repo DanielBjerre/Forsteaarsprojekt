@@ -1,6 +1,6 @@
 package entities;
 
-public class Period {
+public class Term {
 	private String previousBalance;
 	private String newBalance;
 	private String interest;

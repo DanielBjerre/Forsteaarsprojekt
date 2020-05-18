@@ -58,4 +58,8 @@ public class Car {
 	public void setSold(boolean sold) {
 		this.sold = sold;
 	}    
+	public double getPriceDouble() {
+		return Double.parseDouble(price);
+	}
+	
 }

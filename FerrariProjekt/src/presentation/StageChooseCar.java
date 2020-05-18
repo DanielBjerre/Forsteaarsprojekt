@@ -67,15 +67,12 @@ public class StageChooseCar {
 		  clmCondition.setCellValueFactory(cellData -> {
 	            boolean condition = cellData.getValue().isUsed();
 	            String conditionAsString;
-	            if(condition == true)
-	            {
+	            if(condition == true) {
 	                conditionAsString = "Brugt";
 	            }
-	            else
-	            {
+	            else {
 	                conditionAsString = "Ny";
 	            }
-
 	         return new ReadOnlyStringWrapper(conditionAsString);
 	        });
 		clmSerialNumber.setCellValueFactory(new PropertyValueFactory<Car, String>("serialNumber"));
@@ -97,11 +94,12 @@ public class StageChooseCar {
 		});
 		Button btnChoose = cb.btn("Vælg bil", buttonWidth, buttonHeight);
 		btnChoose.setOnAction(e -> {
+			if(tvCar.getSelectionModel().getSelectedItem() != null) {
 			offer.setOfferCar(tvCar.getSelectionModel().getSelectedItem());
 			tfCarModel.setText(tvCar.getSelectionModel().getSelectedItem().getModel());
 			tfCarPrice.setText(tvCar.getSelectionModel().getSelectedItem().getPrice());
 			stage.close();
-			
+			}
 		});
 		hBoxButtons.getChildren().addAll(btnClose, btnChoose);
 		hBoxButtons.setAlignment(Pos.CENTER);
