@@ -147,6 +147,8 @@ public class SceneCreateOffer {
 		btnCalculate.setOnAction(e -> {
 			offer.setNumOfTerms(tfNumOfTerms.getText());
 			offer.setDownPayment(tfDownpayment.getText());
+			Double loanValue = offer.getOfferCar().getPriceDouble()-offer.getDownPaymentDouble();
+			offer.setLoanValue(loanValue.toString());
 			new CalculateLoan(offer);
 		});
 		Button btnBack = cb.btn("Tilbage", knapWidth, knapHeight);
@@ -158,7 +160,7 @@ public class SceneCreateOffer {
 		vBoxCenter.getChildren().addAll(btnBack, btnCalculate);
 		// TESTING PURPOSES
 		tfCprNumber.setText("0123456789");
-		tfDownpayment.setText("10000");
+		tfDownpayment.setText("100000");
 		tfNumOfTerms.setText("24");
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());

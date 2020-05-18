@@ -12,6 +12,7 @@ public class Offer {
     private String numOfTerms;
     private String downPayment;
     private String rate;
+    private String loanValue;
     private ArrayList<Term> periods;
 	public String getOfferID() {
 		return offerID;
@@ -82,6 +83,13 @@ public class Offer {
 	public double getRateDouble() {
 		return Double.parseDouble(rate);
 	}
-	
-	
+	public String getLoanValue() {
+		return loanValue;
+	}
+	public void setLoanValue(String loanValue) {
+		this.loanValue = loanValue;
+	}
+	public double getLoanValueDouble() {
+		return Double.parseDouble(loanValue);
+	}
 }
