@@ -1,5 +1,7 @@
 package presentation;
 
+import org.graalvm.compiler.api.replacements.Snippet.VarargsParameter;
+
 import FFL.CreditRator;
 import FFL.Rating;
 import create.CreateButton;
@@ -12,6 +14,7 @@ import entities.Offer;
 import exception.CustomException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,6 +35,8 @@ public class SceneCreateOffer {
 	TextField tfPhoneNumber, tfCprNumber, tfCreditrating, tfFirstName, 
 	tfLastName, tfEMail, tfCity, tfZipCode, tfAddress;
 	Label customerError;
+	VBox vBoxCenter;
+	Insets insets = new Insets(15, 15, 15, 15);
 	
 	public void init(Stage stage) {
 		this.stage = stage;
@@ -39,106 +44,22 @@ public class SceneCreateOffer {
 		double knapHeight = stage.getHeight()/20;
 		double textsize = stage.getHeight()/40;
 
-		// Opsætning
-		Insets insets = new Insets(5, 5, 5, 5);
+		// Setup
 		BorderPane root = new BorderPane();
 		root.setPadding(insets);
-		VBox vBoxCenter = new VBox(20);
+		vBoxCenter = new VBox(20);
 		root.setCenter(vBoxCenter);
 		vBoxCenter.setAlignment(Pos.TOP_CENTER);
 
-		// Lav knapper og labels
-		Label lbTitel = cl.lb("Opret Tilbud", 50);
-		lbTitel.setPrefHeight(stage.getHeight()/20);
-		Button btnTilbage = cb.btn("Tilbage", knapWidth, knapHeight);
-	
-		HBox hbCPRNummer = new HBox();
-		Label lbCPRNummer = cl.lb("CPR Nummer:", textsize);
+		// STAGE TITLE
+		Label lbTitle = cl.lb("Opret Tilbud", 50);
+		lbTitle.setPrefHeight(stage.getHeight()/20);
+		vBoxCenter.getChildren().add(lbTitle);
+		
+		// CPR NUMBER
 		tfCprNumber = ctf.tf("");
+		Label lbCprNumber = cl.lb("CPR Nummer:", textsize);
 		Button btnFindCustomer = new Button("Søg");
-		hbCPRNummer.setAlignment(Pos.CENTER);
-		hbCPRNummer.getChildren().addAll(lbCPRNummer, tfCprNumber, btnFindCustomer);
-	
-		customerError = new Label();
-		customerError.setAlignment(Pos.CENTER);
-		
-		HBox hbCreditRating = new HBox();
-		Label lbCreditRating = cl.lb("Kundens Kreditvurdering:", textsize);
-		tfCreditrating = ctf.tf("");
-		hbCreditRating.setAlignment(Pos.CENTER);
-		hbCreditRating.getChildren().addAll(lbCreditRating, tfCreditrating);
-		
-		HBox hbTelefon = new HBox();
-		Label lbTelefonnnummer = cl.lb("Telefonnummer:", textsize);
-		tfPhoneNumber = ctf.tf("");
-		hbTelefon.setAlignment(Pos.CENTER);
-		hbTelefon.getChildren().addAll(lbTelefonnnummer, tfPhoneNumber);
-		
-		HBox hbFornavn = new HBox();
-		Label lbFornavn = cl.lb("Fornavn(e)", textsize);
-		tfFirstName = ctf.tf("");
-		hbFornavn.setAlignment(Pos.CENTER);
-		hbFornavn.getChildren().addAll(lbFornavn, tfFirstName);
-		
-		HBox hbEfternavn = new HBox();
-		Label lbEfternavn = cl.lb("Efternavn", textsize);
-		tfLastName = ctf.tf("");
-		hbEfternavn.setAlignment(Pos.CENTER);
-		hbEfternavn.getChildren().addAll(lbEfternavn, tfLastName);
-		
-		HBox hbEmail = new HBox();
-		Label lbEmail = cl.lb("Email:", textsize);
-		tfEMail = ctf.tf("");
-		hbEmail.setAlignment(Pos.CENTER);
-		hbEmail.getChildren().addAll(lbEmail, tfEMail);
-		
-		HBox hbCity = new HBox();
-		Label lbCity = cl.lb("By:", textsize);
-		tfCity = ctf.tf("");
-		hbCity.setAlignment(Pos.CENTER);
-		hbCity.getChildren().addAll(lbCity, tfCity);
-		
-		HBox hbPostnummer = new HBox();
-		Label lbPostnummer = cl.lb("Postnummer:", textsize);
-		tfZipCode = ctf.tf("");
-		hbPostnummer.setAlignment(Pos.CENTER);
-		hbPostnummer.getChildren().addAll(lbPostnummer, tfZipCode);
-		
-		HBox hbAddress = new HBox();
-		Label lbAddress = cl.lb("Adresse:", textsize);
-		tfAddress = ctf.tf("");
-		hbAddress.setAlignment(Pos.CENTER);
-		hbAddress.getChildren().addAll(lbAddress, tfAddress);
-		
-		HBox hbBil = new HBox();
-		Label lbBil = cl.lb("Bil:", textsize);
-		TextField tfBil = ctf.tf("");
-		Button btnChooseCar = cb.btn("Vælg bil", knapWidth, knapHeight);
-		btnChooseCar.setOnAction(e -> {
-			StageChooseCar stCC = new StageChooseCar();
-			stCC.init(new Stage(), stage);
-			
-		});
-		hbBil.setAlignment(Pos.CENTER);
-		hbBil.getChildren().addAll(lbBil, tfBil, btnChooseCar);
-		
-		HBox hbUdbetaling = new HBox();
-		Label lbUdbetaling = cl.lb("Udbetaling:", textsize);
-		TextField tfUdbetaling = ctf.tf("");
-		hbUdbetaling.setAlignment(Pos.CENTER);
-		hbUdbetaling.getChildren().addAll(lbUdbetaling, tfUdbetaling);
-		
-		HBox hbLoebetid = new HBox();
-		Label lbLoebetid = cl.lb("Løbetid:", textsize);
-		TextField tfLoebetid = ctf.tf("");
-		hbLoebetid.setAlignment(Pos.CENTER);
-		hbLoebetid.getChildren().addAll(lbLoebetid, tfLoebetid);
-		
-		// Knap funktioner
-		btnTilbage.setOnAction(e -> {
-			SceneHovedmenu scHM = new SceneHovedmenu();
-			scHM.init(stage);
-		});
 		btnFindCustomer.setOnAction(e -> {
 			if(tfCprNumber.getLength()!=10) {
 				customerError.setText("Ugyldigt CPR-Nummer");
@@ -147,11 +68,83 @@ public class SceneCreateOffer {
 			findCustomer(tfCprNumber.getText());
 			}
 		});
+		makeHbox(lbCprNumber, tfCprNumber, btnFindCustomer);
+	
+		// ERRORBOX FOR CPRNUMBER
+		customerError = new Label();
+		customerError.setAlignment(Pos.CENTER);
+		vBoxCenter.getChildren().add(customerError);
+		
+		// CREDITRATING
+		Label lbCreditRating = cl.lb("Kundens Kreditvurdering:", textsize);
+		tfCreditrating = ctf.tf("");
+		makeHbox(lbCreditRating, tfCreditrating);
+				
+		// PHONENUMBER
+		Label lbPhoneNumber = cl.lb("Telefonnummer:", textsize);
+		tfPhoneNumber = ctf.tf("");
+		makeHbox(lbPhoneNumber, tfPhoneNumber);
+		
+		// FIRSTNAME
+		Label lbFirstName = cl.lb("Fornavn(e)", textsize);
+		tfFirstName = ctf.tf("");
+		makeHbox(lbFirstName, tfFirstName);
+		
+		// LASTNAME
+		Label lbLastName = cl.lb("Efternavn", textsize);
+		tfLastName = ctf.tf("");
+		makeHbox(lbLastName, tfLastName);
+		
+		// EMAIL
+		Label lbEMail = cl.lb("eMail:", textsize);
+		tfEMail = ctf.tf("");
+		makeHbox(lbEMail, tfEMail);
+		
+		// CITY
+		Label lbCity = cl.lb("By:", textsize);
+		tfCity = ctf.tf("");
+		makeHbox(lbCity, tfCity);
+		
+		// ZIPCODE
+		Label lbZipCode = cl.lb("Postnummer:", textsize);
+		tfZipCode = ctf.tf("");
+		makeHbox(lbZipCode, tfZipCode);
+		
+		// ADDRESS
+		Label lbAddress = cl.lb("Adresse:", textsize);
+		tfAddress = ctf.tf("");
+		makeHbox(lbAddress, tfAddress);
+		
+		// CAR
+		Label lbCar = cl.lb("Bil:", textsize);
+		TextField tfCarModel = ctf.tf("");	
+		TextField tfCarPrice = ctf.tf("");
+		Button btnChooseCar = cb.btn("Vælg bil", knapWidth, knapHeight);
+		btnChooseCar.setOnAction(e -> {
+			StageChooseCar stCC = new StageChooseCar();
+			stCC.init(new Stage(), stage, offer, tfCarModel, tfCarPrice);
+			
+		});
+		makeHbox(lbCar, tfCarModel, tfCarPrice, btnChooseCar);
+		
+		// DOWNPAYMENT
+		Label lbDownpayment = cl.lb("Udbetaling:", textsize);
+		TextField tfDownpayment = ctf.tf("");
+		makeHbox(lbDownpayment, tfDownpayment);
+		
+		// NUMBER OF TERMS
+		Label lbNumOfTerms = cl.lb("Løbetid:", textsize);
+		TextField tfNumOfTerms = ctf.tf("");
+		makeHbox(lbNumOfTerms, tfNumOfTerms);
+		
+		// BUTTONS
+		Button btnBack = cb.btn("Tilbage", knapWidth, knapHeight);
 
-		// Tilføj tl VBox
-		vBoxCenter.getChildren().addAll(lbTitel,hbCPRNummer,customerError,hbCreditRating,hbTelefon,hbFornavn,hbEfternavn,
-				hbEmail,hbCity,hbPostnummer,hbAddress,hbBil,hbUdbetaling,hbLoebetid,btnTilbage);
-
+		btnBack.setOnAction(e -> {
+			SceneHovedmenu scHM = new SceneHovedmenu();
+			scHM.init(stage);
+		});
+		vBoxCenter.getChildren().addAll(btnBack);
 		//TESTING PURPOSES
 		tfCprNumber.setText("0123456789");
 		
@@ -211,5 +204,15 @@ public class SceneCreateOffer {
 			break;
 		}
 		return creditRate;	
+	}
+	private HBox makeHbox(Node...nodes) {
+		HBox tempHBox = new HBox();
+		tempHBox.setPadding(insets);
+		for(Node node: nodes) {
+			tempHBox.getChildren().add(node);
+		}
+		tempHBox.setAlignment(Pos.CENTER);
+		vBoxCenter.getChildren().add(tempHBox);
+		return tempHBox;
 	}
 }

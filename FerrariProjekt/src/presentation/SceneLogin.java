@@ -41,7 +41,7 @@ public class SceneLogin {
 		Button btnLogin = cb.btn("Login", stage.getWidth() / 20, stage.getHeight() / 20);
 		btnLogin.setOnAction(e -> {
 			if (tfUsername.getText().isEmpty() || tfPassword.getText().isEmpty()) {
-				errorMessage(new IncorrectInputException("Username or Password not entered"));
+				errorMessage(new IncorrectInputException("Brugernavn eller adgangskode ikke udfyldt"));
 			} else {
 				login();
 			}
