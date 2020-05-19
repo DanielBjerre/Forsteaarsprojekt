@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.ArrayList;
+
 import entities.Offer;
 import entities.Term;
 
@@ -8,10 +10,11 @@ public class CalculateLoan {
 	Double monthlyRate;
 	Double payment;
 	Double totalPayment;
-	double numOfTerms = offer.getNumOfTermsDouble();
+	double numOfTerms;
 
 	public CalculateLoan(Offer offer) {
 		this.offer = offer;
+		this.numOfTerms = offer.getNumOfTermsDouble();
 		calculateRate();
 		calculateTermRate();
 		calculatePayment();
@@ -68,6 +71,7 @@ public class CalculateLoan {
 	
 	private void calculateTerms() {
 		double previousBalance = offer.getLoanValueDouble();
+		this.offer.setPeriods(new ArrayList<Term>());
 		for( int i = 1; i <= numOfTerms; i++) {	
 			double interest = previousBalance*monthlyRate;
 			double principal = payment-interest;

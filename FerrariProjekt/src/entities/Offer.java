@@ -13,7 +13,8 @@ public class Offer {
     private String downPayment;
     private String rate;
     private String loanValue;
-    private ArrayList<Term> periods;
+	private ArrayList<Term> periods;
+
 	public String getOfferID() {
 		return offerID;
 	}
