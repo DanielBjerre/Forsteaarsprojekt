@@ -24,7 +24,7 @@ public class ReadEmployee {
 						e.setEmployeeID(rs.getString("employeeID"));
 						e.setFirstName(rs.getString("firstName"));
 						e.setLastName(rs.getString("lastName"));
-						e.setLimit(rs.getString("limit"));
+						e.setLimit(rs.getDouble("limit"));
 						e.setTitle(rs.getString("title"));
 						return e;
 					}

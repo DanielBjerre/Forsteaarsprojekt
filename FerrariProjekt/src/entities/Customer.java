@@ -12,7 +12,7 @@ public class Customer {
     private String address;
     private String zipCode;
     private String city;
-    private boolean badStanding;
+    private boolean badStanding = false;
     private boolean exists;
     private Rating creditRating;
 	public String getCustomerID() {

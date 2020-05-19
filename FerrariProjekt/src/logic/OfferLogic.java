@@ -15,9 +15,6 @@ public class OfferLogic {
     public void offerCreate(Offer offer)  {
     	// SET EMPLOYEE ON OFFER
     	offer.setOfferEmployee(ActiveEmployee.getInstance().getEmployee());
-    	if (!offer.getOfferCustomer().isExists()) {
-    		new CustomerController().createCustomer(offer);
-    	}
     	new CreateOffer(offer);
     }
     /**

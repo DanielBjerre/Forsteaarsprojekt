@@ -11,7 +11,7 @@ public class CreateCustomer {
 	public CreateCustomer(Offer offer) {
 		try (Connection con = new dbConnection().newConnection()) {
 			String sql = "INSERT INTO Customer" + "(phoneNumber, cprNumber, firstName, lastName, "
-					+ "eMail, address, zipCode, city) " + "values (?,?,?,?,?,?,?,?);";
+					+ "eMail, address, zipCode, city, badStanding) " + "values (?,?,?,?,?,?,?,?,?);";
 			PreparedStatement stmt = con.prepareStatement(sql, new String[] { "" });
 			stmt.setString(1, offer.getOfferCustomer().getPhoneNumber());
 			stmt.setString(2, offer.getOfferCustomer().getCprNumber());
@@ -21,6 +21,7 @@ public class CreateCustomer {
 			stmt.setString(6, offer.getOfferCustomer().getAddress());
 			stmt.setString(7, offer.getOfferCustomer().getZipCode());
 			stmt.setString(8, offer.getOfferCustomer().getCity());
+			stmt.setBoolean(9, offer.getOfferCustomer().isBadStanding());
 			stmt.executeUpdate();
 			try (ResultSet rs = stmt.getGeneratedKeys()) {
 				if (rs.next()) {
