@@ -199,7 +199,7 @@ public class SceneCreateOffer {
 		// BUTTONS BELOW TABLEVIEW
 		Button btnCreateOffer = cb.btn("Opret Tilbud", knapWidth, knapHeight);
 		btnCreateOffer.setOnAction(e -> {
-			new OfferLogic(offer);
+		new OfferLogic().offerCreate(offer);
 		});
 		
 		VboxRight.getChildren().addAll(tvTerm, btnCreateOffer);
@@ -218,17 +218,19 @@ public class SceneCreateOffer {
 		try {
 			CustomerController kl = new CustomerController();
 			offer.setOfferCustomer(kl.findCustomer(cprNumber));
+			offer.getOfferCustomer().setExists(true);
 			tfPhoneNumber.setText(offer.getOfferCustomer().getPhoneNumber());
 			tfFirstName.setText(offer.getOfferCustomer().getFirstName());
 			tfLastName.setText(offer.getOfferCustomer().getLastName());
 			tfCity.setText(offer.getOfferCustomer().getCity());
 			tfZipCode.setText(offer.getOfferCustomer().getZipCode());
 			tfEMail.setText(offer.getOfferCustomer().geteMail());
-			tfAddress.setText(offer.getOfferCustomer().getAdress());
-			System.out.println(offer.getOfferCustomer().isBadStanding());
+			tfAddress.setText(offer.getOfferCustomer().getAddress());
 		} catch (CustomException e) {
 			offer.setOfferCustomer(new Customer());
+			offer.getOfferCustomer().setExists(false);
 			customerError.setText(e.getMessage());
+			clearInfo();
 		} finally {
 			ac.findRating(cprNumber, this::fillRating);
 		}
@@ -286,5 +288,14 @@ public class SceneCreateOffer {
 		ObservableList<Term> olTerm = FXCollections.observableList(offer.getPeriods());
 		tvTerm.setItems(olTerm);
 	}
-	
+	private void fillCustomer() {
+		offer.getOfferCustomer().setCprNumber(tfCprNumber.getText());
+		offer.getOfferCustomer().setPhoneNumber(tfPhoneNumber.getText());
+		offer.getOfferCustomer().setFirstName(tfFirstName.getText());
+		offer.getOfferCustomer().setLastName(tfLastName.getText());
+		offer.getOfferCustomer().seteMail(tfEMail.getText());
+		offer.getOfferCustomer().setAddress(tfAddress.getText());
+		offer.getOfferCustomer().setZipCode(tfZipCode.getText());
+		offer.getOfferCustomer().setCity(tfCity.getText());
+	}
 }

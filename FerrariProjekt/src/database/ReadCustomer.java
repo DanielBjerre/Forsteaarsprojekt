@@ -24,7 +24,7 @@ public class ReadCustomer {
 					c.setFirstName(rs.getString("firstName"));
 					c.setLastName(rs.getString("lastName"));
 					c.seteMail(rs.getString("eMail"));
-					c.setAdress(rs.getString("adress"));
+					c.setAddress(rs.getString("address"));
 					c.setZipCode(rs.getString("zipCode"));
 					c.setCity(rs.getString("city"));
 					c.setBadStanding(rs.getBoolean("badStanding"));
@@ -32,8 +32,10 @@ public class ReadCustomer {
 				}
 
 			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		throw new CustomException("Kunde findes ikke i databasen");
 	}

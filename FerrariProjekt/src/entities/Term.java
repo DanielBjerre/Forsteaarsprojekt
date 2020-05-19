@@ -1,7 +1,7 @@
 package entities;
 
 public class Term {
-	private String termNumber;
+	private int termNumber;
 	private String previousBalance;
 	private String payment;
 	private String interest;
@@ -38,10 +38,10 @@ public class Term {
 	public void setPayment(String payment) {
 		this.payment = payment;
 	}
-	public String getTermNumber() {
+	public int getTermNumber() {
 		return termNumber;
 	}
-	public void setTermNumber(String termNumber) {
+	public void setTermNumber(int termNumber) {
 		this.termNumber = termNumber;
 	}
 }

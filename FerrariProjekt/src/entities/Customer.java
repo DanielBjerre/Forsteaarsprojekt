@@ -9,10 +9,11 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String eMail;
-    private String adress;
+    private String address;
     private String zipCode;
     private String city;
     private boolean badStanding;
+    private boolean exists;
     private Rating creditRating;
 	public String getCustomerID() {
 		return customerID;
@@ -32,8 +33,8 @@ public class Customer {
 	public String geteMail() {
 		return eMail;
 	}
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
 	public String getCity() {
 		return city;
@@ -56,8 +57,8 @@ public class Customer {
 	public void seteMail(String eMail) {
 		this.eMail = eMail;
 	}
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public void setCity(String city) {
 		this.city = city;
@@ -80,5 +81,11 @@ public class Customer {
 	}
 	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
+	}
+	public boolean isExists() {
+		return exists;
+	}
+	public void setExists(boolean exists) {
+		this.exists = exists;
 	}
 }

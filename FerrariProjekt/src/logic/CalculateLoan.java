@@ -84,7 +84,7 @@ public class CalculateLoan {
 			double newBalance = previousBalance - principal;
 		
 			Term t = new Term();
-			t.setTermNumber(TOS(i));
+			t.setTermNumber(i);
 			t.setPreviousBalance(TOS(previousBalance));
 			t.setInterest(TOS(interest));
 			t.setPayment(TOS(termPayment));		
