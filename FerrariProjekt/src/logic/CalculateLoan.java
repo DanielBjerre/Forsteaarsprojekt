@@ -22,13 +22,13 @@ public class CalculateLoan {
 		System.out.println("Rate: " + offer.getRate());
 		System.out.println("Monthly Rate: " + monthlyRate);
 		System.out.println("Payment: " + payment);
-		for(Term term : offer.getPeriods()) {
-			System.out.print(term.getTermNumber()+"  ");
-			System.out.print(term.getPreviousBalance()+"  ");
-			System.out.print(term.getPayment()+"  ");
-			System.out.print(term.getInterest()+"  ");
-			System.out.print(term.getPrincipal()+"  ");
-			System.out.print(term.getNewBalance()+"  ");
+		for (Term term : offer.getPeriods()) {
+			System.out.print(term.getTermNumber() + "  ");
+			System.out.print(term.getPreviousBalance() + "  ");
+			System.out.print(term.getPayment() + "  ");
+			System.out.print(term.getInterest() + "  ");
+			System.out.print(term.getPrincipal() + "  ");
+			System.out.print(term.getNewBalance() + "  ");
 			System.out.println();
 		}
 
@@ -68,26 +68,34 @@ public class CalculateLoan {
 		payment = (offer.getLoanValueDouble()) * (monthlyRate / lower);
 		totalPayment = numOfTerms * payment;
 	}
-	
+
 	private void calculateTerms() {
 		double previousBalance = offer.getLoanValueDouble();
 		this.offer.setPeriods(new ArrayList<Term>());
-		for( int i = 1; i <= numOfTerms; i++) {	
-			double interest = previousBalance*monthlyRate;
-			double principal = payment-interest;
-			double newBalance = previousBalance-principal;
+		for (int i = 1; i <= numOfTerms; i++) {
+			double interest = previousBalance * monthlyRate;
+			double termPayment;
+			if(i != numOfTerms) {
+				 termPayment = payment;
+			} else {
+				termPayment = previousBalance+interest;		
+			}
+			double principal = termPayment - interest;
+			double newBalance = previousBalance - principal;
+		
 			Term t = new Term();
 			t.setTermNumber(TOS(i));
 			t.setPreviousBalance(TOS(previousBalance));
-			t.setPayment(TOS(payment));
 			t.setInterest(TOS(interest));
+			t.setPayment(TOS(termPayment));		
 			t.setPrincipal(TOS(principal));
 			t.setNewBalance(TOS(newBalance));
 			offer.getPeriods().add(t);
 			previousBalance = newBalance;
-		}		
+		}
 	}
+
 	private String TOS(double value) {
-		return Double.toString(value);			
+		return Double.toString(value);
 	}
 }

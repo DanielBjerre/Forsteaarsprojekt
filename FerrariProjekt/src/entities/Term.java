@@ -3,10 +3,10 @@ package entities;
 public class Term {
 	private String termNumber;
 	private String previousBalance;
-	private String newBalance;
+	private String payment;
 	private String interest;
 	private String principal;
-	private String payment;
+	private String newBalance;
 	
 	public String getPreviousBalance() {
 		return previousBalance;

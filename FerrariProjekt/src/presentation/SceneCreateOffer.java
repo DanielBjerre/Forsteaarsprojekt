@@ -8,15 +8,21 @@ import entities.Car;
 import entities.Customer;
 import entities.Employee;
 import entities.Offer;
+import entities.Term;
 import exception.CustomException;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -24,6 +30,7 @@ import javafx.stage.Stage;
 import logic.APIController;
 import logic.CalculateLoan;
 import logic.CustomerController;
+import logic.OfferLogic;
 
 public class SceneCreateOffer {
 	Stage stage;
@@ -34,10 +41,11 @@ public class SceneCreateOffer {
 	TextField tfPhoneNumber, tfCprNumber, tfCreditrating, tfFirstName, tfLastName, tfEMail, tfCity, tfZipCode,
 			tfAddress, tfDownpayment, tfNumOfTerms;
 	Label customerError;
-	VBox vBoxCenter;
+	VBox vBoxLeft, VboxRight;
 	Insets insets = new Insets(15, 15, 15, 15);
 	Button btnFindCustomer;
 	APIController ac = new APIController();
+	TableView<Term> tvTerm;
 
 	public void init(Stage stage) {
 		this.stage = stage;
@@ -47,18 +55,18 @@ public class SceneCreateOffer {
 		
 		// Get daily rate when opening page
 		ac.findDailyRate(offer);
-
+		
 		// Setup
 		BorderPane root = new BorderPane();
 		root.setPadding(insets);
-		vBoxCenter = new VBox(20);
-		root.setCenter(vBoxCenter);
-		vBoxCenter.setAlignment(Pos.TOP_CENTER);
+		vBoxLeft = new VBox(20);
+		root.setLeft(vBoxLeft);
+		vBoxLeft.setAlignment(Pos.TOP_CENTER);
 
 		// STAGE TITLE
 		Label lbTitle = cl.lb("Opret Tilbud", 50);
 		lbTitle.setPrefHeight(stage.getHeight() / 20);
-		vBoxCenter.getChildren().add(lbTitle);
+		vBoxLeft.getChildren().add(lbTitle);
 
 		// CPR NUMBER
 		tfCprNumber = ctf.tf("");
@@ -78,7 +86,7 @@ public class SceneCreateOffer {
 		// ERRORBOX FOR CPRNUMBER
 		customerError = new Label();
 		customerError.setAlignment(Pos.CENTER);
-		vBoxCenter.getChildren().add(customerError);
+		vBoxLeft.getChildren().add(customerError);
 
 		// CREDITRATING
 		Label lbCreditRating = cl.lb("Kundens Kreditvurdering:", textsize);
@@ -150,6 +158,7 @@ public class SceneCreateOffer {
 			Double loanValue = offer.getOfferCar().getPriceDouble()-offer.getDownPaymentDouble();
 			offer.setLoanValue(loanValue.toString());
 			new CalculateLoan(offer);
+			populateTableView();
 		});
 		Button btnBack = cb.btn("Tilbage", knapWidth, knapHeight);
 
@@ -157,15 +166,51 @@ public class SceneCreateOffer {
 			SceneHovedmenu scHM = new SceneHovedmenu();
 			scHM.init(stage);
 		});
-		vBoxCenter.getChildren().addAll(btnBack, btnCalculate);
+		vBoxLeft.getChildren().addAll(btnBack, btnCalculate);
 		// TESTING PURPOSES
 		tfCprNumber.setText("0123456789");
 		tfDownpayment.setText("100000");
 		tfNumOfTerms.setText("24");
-
+		
+		//RIGHT SIDE
+		VboxRight = new VBox(20);
+		root.setRight(VboxRight);
+		
+		// CREATE TABLEVIEW
+		tvTerm = new TableView<Term>();
+		TableColumn<Term, String> clmTermNumber = new TableColumn<>("Termin nr:");
+		TableColumn<Term, String> clmPreviousBalance = new TableColumn<>("Primo Restgæld");
+		TableColumn<Term, String> clmPayment = new TableColumn<>("Ydelse");
+		TableColumn<Term, String> clmInterest = new TableColumn<>("Rente");
+		TableColumn<Term, String> clmPrincipal = new TableColumn<>("Afdrag");
+		TableColumn<Term, String> clmNewBalance = new TableColumn<>("Ultimo Restgæld");
+		
+		// ADD COLUMNS TO TABLEVIEW
+		tvTerm.getColumns().addAll(clmTermNumber, clmPreviousBalance, clmPayment, clmInterest, clmPrincipal, clmNewBalance);
+		
+		// ADD VALUES TO COLUMNS
+		clmTermNumber.setCellValueFactory(new PropertyValueFactory<Term, String>("termNumber"));
+		clmPreviousBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("previousBalance"));
+		clmPayment.setCellValueFactory(new PropertyValueFactory<Term, String>("payment"));
+		clmInterest.setCellValueFactory(new PropertyValueFactory<Term, String>("interest"));
+		clmPrincipal.setCellValueFactory(new PropertyValueFactory<Term, String>("principal"));
+		clmNewBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("newBalance"));
+		
+		// BUTTONS BELOW TABLEVIEW
+		Button btnCreateOffer = cb.btn("Opret Tilbud", knapWidth, knapHeight);
+		btnCreateOffer.setOnAction(e -> {
+			new OfferLogic(offer);
+		});
+		
+		VboxRight.getChildren().addAll(tvTerm, btnCreateOffer);
+		
+		
+		
+		
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
 
+		
 	}
 
 	private void findCustomer(String cprNumber) {
@@ -233,7 +278,13 @@ public class SceneCreateOffer {
 			tempHBox.getChildren().add(node);
 		}
 		tempHBox.setAlignment(Pos.CENTER);
-		vBoxCenter.getChildren().add(tempHBox);
+		vBoxLeft.getChildren().add(tempHBox);
 		return tempHBox;
 	}
+	
+	private void populateTableView() {
+		ObservableList<Term> olTerm = FXCollections.observableList(offer.getPeriods());
+		tvTerm.setItems(olTerm);
+	}
+	
 }
