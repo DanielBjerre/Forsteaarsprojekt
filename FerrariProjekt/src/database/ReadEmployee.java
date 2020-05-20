@@ -36,4 +36,5 @@ public class ReadEmployee {
 	}
 		throw new CustomException("Brugernavn eller adgangskode forkert");
 	}
+
 }

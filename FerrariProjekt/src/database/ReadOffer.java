@@ -18,9 +18,11 @@ public class ReadOffer {
 			
 			try (ResultSet rs = stmt.executeQuery()) {
 				if(rs.next()) {
-					throw new CustomException("Kunden har allerede et tilbud på den valgte bil");
+					throw new CustomException("Kunden har allerede et tilbud pï¿½ den valgte bil");
 				}
 				
+			}catch (SQLException e) {
+				e.printStackTrace();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

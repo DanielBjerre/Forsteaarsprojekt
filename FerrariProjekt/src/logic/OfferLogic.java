@@ -1,7 +1,13 @@
 package logic;
 
+import java.util.ArrayList;
+
 import database.CreateOffer;
+import database.ReadCar;
+import database.ReadCustomer;
+import database.ReadEmployee;
 import database.ReadOffer;
+import database.ReadOfferComplete;
 import entities.Offer;
 import exception.CustomException;
 
@@ -29,5 +35,10 @@ public class OfferLogic {
     		throw e;
     	}
     	
-    }
+	}
+	
+	public ArrayList<Offer> completeOfferList(){
+		return new ReadOfferComplete().readOfferComplete();
+	}
+
 }
