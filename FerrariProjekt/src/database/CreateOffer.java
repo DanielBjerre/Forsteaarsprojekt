@@ -13,8 +13,7 @@ public class CreateOffer {
 	public CreateOffer(Offer offer) {
 		try (Connection con = new dbConnection().newConnection()) {
 			String sql = "INSERT INTO Offer" + "(customerID, employeeID, carID, customerAccept, "
-					+ "managerAccept, rate, downpayment, numOfTerms, loanValue) values (?,?,?,?,?,?,?,?,?);";
-//            		+ "SELECT SCOPE_IDENTITY() AS [identityID];";
+					+ "managerAccept, rate, downpayment, numOfTerms, loanValue) " + "values (?,?,?,?,?,?,?,?,?);";
 			PreparedStatement stmt = con.prepareStatement(sql, new String[] { "" });
 			stmt.setString(1, offer.getOfferCustomer().getCustomerID());
 			stmt.setString(2, offer.getOfferEmployee().getEmployeeID());
@@ -26,15 +25,17 @@ public class CreateOffer {
 			stmt.setString(8, offer.getNumOfTerms());
 			stmt.setString(9, offer.getLoanValue());
 			stmt.executeUpdate();
-			ResultSet rs = stmt.getGeneratedKeys();
-			if (rs.next()) {
-				offerID = rs.getInt(1);
+			try (ResultSet rs = stmt.getGeneratedKeys()) {
+				if (rs.next()) {
+					offerID = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
-		// ADD TERMS FROM THE OFFER TO DATABASE
+		// Add terms from the offer to the database
 		new CreateTerm(offerID, offer);
 	}
 }

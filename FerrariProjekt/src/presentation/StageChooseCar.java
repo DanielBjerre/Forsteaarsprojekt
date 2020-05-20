@@ -3,6 +3,7 @@ package presentation;
 import create.CreateButton;
 import entities.Car;
 import entities.Offer;
+import exception.CustomException;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.CarLogic;
+import logic.OfferLogic;
 
 public class StageChooseCar {
 	Stage stage;
@@ -30,8 +32,6 @@ public class StageChooseCar {
 	
 	public void init(Stage stage, Stage baseStage, Offer offer, TextField tfCarModel, TextField tfCarPrice) {
 		this.stage = stage;
-		double buttonHeight = baseStage.getHeight()/20;
-		double buttonWidth = baseStage.getWidth()/15;
 
 		// Setup BorderPane
 		Insets insets = new Insets(5, 5, 5, 5);
@@ -88,17 +88,22 @@ public class StageChooseCar {
 		
 		// Buttons below tableview
 		HBox hBoxButtons = new HBox(20);
-		Button btnClose = cb.btn("Luk", buttonWidth, buttonHeight);
+		Button btnClose = cb.btn("Luk");
 		btnClose.setOnAction(e -> {
 			stage.close();	
 		});
-		Button btnChoose = cb.btn("Vælg bil", buttonWidth, buttonHeight);
+		Button btnChoose = cb.btn("Vælg bil");
 		btnChoose.setOnAction(e -> {
 			if(tvCar.getSelectionModel().getSelectedItem() != null) {
+				try {
 			offer.setOfferCar(tvCar.getSelectionModel().getSelectedItem());
+			new OfferLogic().validateCar(offer);
 			tfCarModel.setText(tvCar.getSelectionModel().getSelectedItem().getModel());
 			tfCarPrice.setText(tvCar.getSelectionModel().getSelectedItem().getPrice());
 			stage.close();
+			} catch (CustomException e2) {
+				System.out.println(e2.getMessage());
+			}
 			}
 		});
 		hBoxButtons.getChildren().addAll(btnClose, btnChoose);

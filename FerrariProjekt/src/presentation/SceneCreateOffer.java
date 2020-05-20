@@ -1,12 +1,11 @@
 package presentation;
 
 import FFL.Rating;
+import create.Constants;
 import create.CreateButton;
 import create.CreateLabel;
 import create.CreateTextField;
-import entities.Car;
 import entities.Customer;
-import entities.Employee;
 import entities.Offer;
 import entities.Term;
 import exception.CustomException;
@@ -49,13 +48,11 @@ public class SceneCreateOffer {
 
 	public void init(Stage stage) {
 		this.stage = stage;
-		double knapWidth = stage.getWidth() / 4;
-		double knapHeight = stage.getHeight() / 20;
-		double textsize = stage.getHeight() / 40;
-		
+		double textsize = Constants.textSize;
+
 		// Get daily rate when opening page
 		ac.findDailyRate(offer);
-		
+
 		// Setup
 		BorderPane root = new BorderPane();
 		root.setPadding(insets);
@@ -132,7 +129,7 @@ public class SceneCreateOffer {
 		Label lbCar = cl.lb("Bil:", textsize);
 		TextField tfCarModel = ctf.tf("");
 		TextField tfCarPrice = ctf.tf("");
-		Button btnChooseCar = cb.btn("Vælg bil", knapWidth, knapHeight);
+		Button btnChooseCar = cb.btn("Vælg bil");
 		btnChooseCar.setOnAction(e -> {
 			StageChooseCar stCC = new StageChooseCar();
 			stCC.init(new Stage(), stage, offer, tfCarModel, tfCarPrice);
@@ -151,31 +148,32 @@ public class SceneCreateOffer {
 		makeHbox(lbNumOfTerms, tfNumOfTerms);
 
 		// BUTTONS
-		Button btnCalculate = cb.btn("Udregn", knapWidth, knapHeight);
+		Button btnCalculate = cb.btn("Udregn");
 		btnCalculate.setOnAction(e -> {
 			offer.setNumOfTerms(tfNumOfTerms.getText());
 			offer.setDownPayment(tfDownpayment.getText());
-			Double loanValue = offer.getOfferCar().getPriceDouble()-offer.getDownPaymentDouble();
+			Double loanValue = offer.getOfferCar().getPriceDouble() - offer.getDownPaymentDouble();
 			offer.setLoanValue(loanValue.toString());
 			new CalculateLoan(offer);
 			populateTableView();
 		});
-		Button btnBack = cb.btn("Tilbage", knapWidth, knapHeight);
+		Button btnBack = cb.btn("Tilbage");
 
 		btnBack.setOnAction(e -> {
-			SceneHovedmenu scHM = new SceneHovedmenu();
+			SceneMainMenu scHM = new SceneMainMenu();
 			scHM.init(stage);
 		});
 		vBoxLeft.getChildren().addAll(btnBack, btnCalculate);
+
 		// TESTING PURPOSES
 		tfCprNumber.setText("0123456789");
 		tfDownpayment.setText("100000");
 		tfNumOfTerms.setText("24");
-		
-		//RIGHT SIDE
+
+		// RIGHT SIDE
 		VboxRight = new VBox(20);
 		root.setRight(VboxRight);
-		
+
 		// CREATE TABLEVIEW
 		tvTerm = new TableView<Term>();
 		TableColumn<Term, String> clmTermNumber = new TableColumn<>("Termin nr:");
@@ -184,10 +182,11 @@ public class SceneCreateOffer {
 		TableColumn<Term, String> clmInterest = new TableColumn<>("Rente");
 		TableColumn<Term, String> clmPrincipal = new TableColumn<>("Afdrag");
 		TableColumn<Term, String> clmNewBalance = new TableColumn<>("Ultimo Restgæld");
-		
+
 		// ADD COLUMNS TO TABLEVIEW
-		tvTerm.getColumns().addAll(clmTermNumber, clmPreviousBalance, clmPayment, clmInterest, clmPrincipal, clmNewBalance);
-		
+		tvTerm.getColumns().addAll(clmTermNumber, clmPreviousBalance, clmPayment, clmInterest, clmPrincipal,
+				clmNewBalance);
+
 		// ADD VALUES TO COLUMNS
 		clmTermNumber.setCellValueFactory(new PropertyValueFactory<Term, String>("termNumber"));
 		clmPreviousBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("previousBalance"));
@@ -195,46 +194,61 @@ public class SceneCreateOffer {
 		clmInterest.setCellValueFactory(new PropertyValueFactory<Term, String>("interest"));
 		clmPrincipal.setCellValueFactory(new PropertyValueFactory<Term, String>("principal"));
 		clmNewBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("newBalance"));
-		
+
 		// BUTTONS BELOW TABLEVIEW
-		Button btnCreateOffer = cb.btn("Opret Tilbud", knapWidth, knapHeight);
+		Button btnCreateOffer = cb.btn("Opret Tilbud");
 		btnCreateOffer.setOnAction(e -> {
-			new OfferLogic(offer);
+			if (!offer.getOfferCustomer().isExists()) {
+				fillCustomer();
+				new CustomerController().createCustomer(offer);
+			}
+			new OfferLogic().offerCreate(offer);
 		});
-		
+
 		VboxRight.getChildren().addAll(tvTerm, btnCreateOffer);
-		
-		
-		
-		
+
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
 
-		
 	}
+	// Help methods
 
+	/**
+	 * Searches for customer in Database If customer exists, fills information in
+	 * textboxes and sets the customer entity on the offer If customer doesn't
+	 * exist, creates an empty customer entity and sets the empty customer entity on
+	 * the offer Finally, puts the cprNumber through the API and gets the
+	 * creditrating
+	 * 
+	 * @param cprNumber
+	 */
 	private void findCustomer(String cprNumber) {
 		customerError.setText("");
 		try {
 			CustomerController kl = new CustomerController();
 			offer.setOfferCustomer(kl.findCustomer(cprNumber));
+			offer.getOfferCustomer().setExists(true);
 			tfPhoneNumber.setText(offer.getOfferCustomer().getPhoneNumber());
 			tfFirstName.setText(offer.getOfferCustomer().getFirstName());
 			tfLastName.setText(offer.getOfferCustomer().getLastName());
 			tfCity.setText(offer.getOfferCustomer().getCity());
 			tfZipCode.setText(offer.getOfferCustomer().getZipCode());
 			tfEMail.setText(offer.getOfferCustomer().geteMail());
-			tfAddress.setText(offer.getOfferCustomer().getAdress());
-			System.out.println(offer.getOfferCustomer().isBadStanding());
+			tfAddress.setText(offer.getOfferCustomer().getAddress());
 		} catch (CustomException e) {
 			offer.setOfferCustomer(new Customer());
+			offer.getOfferCustomer().setExists(false);
 			customerError.setText(e.getMessage());
+			clearInfo();
 		} finally {
 			ac.findRating(cprNumber, this::fillRating);
 		}
 
 	}
-	
+
+	/**
+	 * Method that clears customer information textfields
+	 */
 	private void clearInfo() {
 		tfPhoneNumber.setText("");
 		tfCreditrating.setText("");
@@ -244,9 +258,13 @@ public class SceneCreateOffer {
 		tfZipCode.setText("");
 		tfEMail.setText("");
 		tfAddress.setText("");
-
 	}
 
+	/**
+	 * Method that sets the creditrating in the textfield
+	 * 
+	 * @param creditRate
+	 */
 	private void fillRating(Rating creditRate) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -272,6 +290,12 @@ public class SceneCreateOffer {
 		});
 	}
 
+	/**
+	 * Help method to create hboxes
+	 * 
+	 * @param nodes
+	 * @return HBox with all the nodes added in order
+	 */
 	private HBox makeHbox(Node... nodes) {
 		HBox tempHBox = new HBox();
 		for (Node node : nodes) {
@@ -281,10 +305,23 @@ public class SceneCreateOffer {
 		vBoxLeft.getChildren().add(tempHBox);
 		return tempHBox;
 	}
-	
+
 	private void populateTableView() {
 		ObservableList<Term> olTerm = FXCollections.observableList(offer.getPeriods());
 		tvTerm.setItems(olTerm);
 	}
-	
+
+	/**
+	 * Fills the empty customer entity with the information from the textfields
+	 */
+	private void fillCustomer() {
+		offer.getOfferCustomer().setCprNumber(tfCprNumber.getText());
+		offer.getOfferCustomer().setPhoneNumber(tfPhoneNumber.getText());
+		offer.getOfferCustomer().setFirstName(tfFirstName.getText());
+		offer.getOfferCustomer().setLastName(tfLastName.getText());
+		offer.getOfferCustomer().seteMail(tfEMail.getText());
+		offer.getOfferCustomer().setAddress(tfAddress.getText());
+		offer.getOfferCustomer().setZipCode(tfZipCode.getText());
+		offer.getOfferCustomer().setCity(tfCity.getText());
+	}
 }

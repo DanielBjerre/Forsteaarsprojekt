@@ -4,7 +4,7 @@ public class Employee {
     private String employeeID;
     private String firstName;
     private String lastName;
-    private String Limit;
+    private double Limit;
     private String title;
 
 	public String getEmployeeID() {
@@ -16,7 +16,7 @@ public class Employee {
 	public String getLastName() {
 		return lastName;
 	}
-	public String getLimit() {
+	public double getLimit() {
 		return Limit;
 	}
 	public String getTitle() {
@@ -31,7 +31,7 @@ public class Employee {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public void setLimit(String Limit) {
+	public void setLimit(double Limit) {
 		this.Limit = Limit;
 	}
 	public void setTitle(String title) {
