@@ -1,5 +1,7 @@
 package presentation;
 
+import java.io.FileNotFoundException;
+
 import create.Constants;
 import create.CreateButton;
 import create.CreateLabel;
@@ -38,7 +40,11 @@ public class SceneMainMenu {
 		Button btnLookUp = cb.btn("Se tilbud");
 		btnLookUp.setOnAction(e -> {
 			SceneLookUpOffer scLUO = new SceneLookUpOffer();
-			scLUO.init(stage);
+			try {
+				scLUO.init(stage);
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
 		});
 		Button btnLuk = cb.btn("Luk");
 

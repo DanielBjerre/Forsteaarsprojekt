@@ -1,5 +1,8 @@
 package presentation;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import create.Constants;
 import create.CreateButton;
 import create.CreateTextField;
@@ -8,6 +11,7 @@ import entities.Customer;
 import entities.Employee;
 import entities.Offer;
 import entities.Term;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,15 +23,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import logic.CalculateLoan;
-import logic.CustomerController;
-import logic.OfferLogic;
 
-public class SceneLookUpOffer {
+
+public class SceneLookUpOffer {	
 	TextField tfSearch;
 	Stage stage;
 	VBox vBoxLeft, VboxRight;
@@ -37,7 +41,10 @@ public class SceneLookUpOffer {
 	CreateButton cb = new CreateButton();
 	CreateTextField ctf = new CreateTextField();
 
-	public void init(Stage stage) {
+	public void init(Stage stage) throws FileNotFoundException {
+		final Image imageTrue = new Image("file:trueImage.png");
+		final Image imageFalse = new Image("file:falseImage.png", 100, 100, false, false);
+
 		this.stage = stage;
 
 		// Setup
@@ -60,6 +67,16 @@ public class SceneLookUpOffer {
 		cbSearch.getItems().add("Sælger");
 		cbSearch.getItems().add("Kunde");
 		cbSearch.getItems().add("Bil");
+		ImageView iv = new ImageView(imageTrue);
+		ImageView iv2 = new ImageView(imageFalse);
+
+		iv.setFitHeight(20);
+		iv.setFitWidth(20);
+		iv2.setFitHeight(20);
+		iv2.setFitWidth(20);
+		
+		
+		
 
 		tfSearch = ctf.tf();
 		tfSearch.setPromptText("Vælg søgekriterie");
@@ -76,14 +93,14 @@ public class SceneLookUpOffer {
 			}
 		});
 		Button btnSearch = cb.btn("Søg");
-		hbSearch.getChildren().addAll(cbSearch, tfSearch, btnSearch);
+		hbSearch.getChildren().addAll(cbSearch, tfSearch, btnSearch,iv, iv2);
 		vBoxLeft.getChildren().add(hbSearch);
 		
 		// TABLEVIEW OF ORDERS
 		tvOffer = new TableView<Offer>();
-		TableColumn<Offer, Customer> clmCustomer = new TableColumn<>("Kunde");
-		TableColumn<Offer, Car> clmCar = new TableColumn<>("Bil");
-		TableColumn<Offer, Employee> clmEmployee = new TableColumn<>("Sælger");
+		TableColumn<Offer, String> clmCustomer = new TableColumn<>("Kunde");
+		TableColumn<Offer, String> clmCar = new TableColumn<>("Bil");
+		TableColumn<Offer, String> clmEmployee = new TableColumn<>("Sælger");
 		TableColumn<Offer, String> clmLoanValue = new TableColumn<>("Hovedstol");
 		TableColumn<Offer, String> clmNumOfTerms = new TableColumn<>("Løbetid");
 		TableColumn<Offer, String> clmCustomerAccept = new TableColumn<>("Accepteret");
@@ -92,9 +109,15 @@ public class SceneLookUpOffer {
 		// ADD COLUMNS TO TABLEVIEW
 		tvOffer.getColumns().addAll(clmCustomer,clmCar,clmEmployee,clmLoanValue,clmNumOfTerms,clmCustomerAccept,clmManagerAccept);
 
-		clmCustomer.setCellValueFactory(new PropertyValueFactory<Offer, Customer>("customerID"));
-		clmCar.setCellValueFactory(new PropertyValueFactory<Offer, Car>("serialNumber"));
-		clmEmployee.setCellValueFactory(new PropertyValueFactory<Offer, Employee>("employeeID"));
+		clmCustomer.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getOfferCustomer().getCprNumber());
+		});
+		clmCar.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getOfferCar().getSerialNumber());
+		});
+		clmEmployee.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getOfferEmployee().getEmployeeID());
+		});
 		clmLoanValue.setCellValueFactory(new PropertyValueFactory<Offer, String>("loanValue"));
 		clmCustomerAccept.setCellValueFactory(new PropertyValueFactory<Offer, String>("customerAccept"));
 		clmManagerAccept.setCellValueFactory(new PropertyValueFactory<Offer, String>("managerAccept"));
@@ -129,5 +152,5 @@ public class SceneLookUpOffer {
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
 
-	}
-}
+	} 
+} 
