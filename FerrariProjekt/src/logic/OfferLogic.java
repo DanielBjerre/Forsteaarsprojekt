@@ -7,6 +7,7 @@ import database.ReadCar;
 import database.ReadCustomer;
 import database.ReadEmployee;
 import database.ReadOffer;
+import database.ReadOfferComplete;
 import entities.Offer;
 import exception.CustomException;
 
@@ -37,17 +38,11 @@ public class OfferLogic {
 	}
 	
 	public ArrayList<Offer> completeOfferList(){
-		ArrayList<Offer> offerList = new ReadOffer().fullOfferList();
+		ArrayList<Offer> offerList = new ReadOfferComplete().readOfferComplete();
 		for (Offer offer : offerList) {
 			fillCompleteOffer(offer);
 		}
 		return offerList;
 	}
 
-	private void fillCompleteOffer(Offer target)
-	{
-		new ReadEmployee().readEmployee(target.getOfferEmployee());
-		new ReadCustomer().readCustomer(target.getOfferCustomer());
-		new ReadCar().readCar(target.getOfferCar());
-	}
 }
