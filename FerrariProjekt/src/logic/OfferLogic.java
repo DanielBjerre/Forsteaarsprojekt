@@ -38,11 +38,7 @@ public class OfferLogic {
 	}
 	
 	public ArrayList<Offer> completeOfferList(){
-		ArrayList<Offer> offerList = new ReadOfferComplete().readOfferComplete();
-		for (Offer offer : offerList) {
-			fillCompleteOffer(offer);
-		}
-		return offerList;
+		return new ReadOfferComplete().readOfferComplete();
 	}
 
 }
