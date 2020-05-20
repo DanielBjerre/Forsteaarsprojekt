@@ -1,6 +1,11 @@
 package logic;
 
+import java.util.ArrayList;
+
 import database.CreateOffer;
+import database.ReadCar;
+import database.ReadCustomer;
+import database.ReadEmployee;
 import database.ReadOffer;
 import entities.Offer;
 import exception.CustomException;
@@ -29,5 +34,20 @@ public class OfferLogic {
     		throw e;
     	}
     	
-    }
+	}
+	
+	public ArrayList<Offer> completeOfferList(){
+		ArrayList<Offer> offerList = new ReadOffer().fullOfferList();
+		for (Offer offer : offerList) {
+			fillCompleteOffer(offer);
+		}
+		return offerList;
+	}
+
+	private void fillCompleteOffer(Offer target)
+	{
+		new ReadEmployee().readEmployee(target.getOfferEmployee());
+		new ReadCustomer().readCustomer(target.getOfferCustomer());
+		new ReadCar().readCar(target.getOfferCar());
+	}
 }

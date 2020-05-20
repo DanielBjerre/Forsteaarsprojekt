@@ -40,4 +40,35 @@ public class ReadCustomer {
 		throw new CustomException("Kunde findes ikke i databasen");
 	}
 
+	public void readCustomer(Customer taget) {
+		try (Connection con = new dbConnection().newConnection()) {
+			String sql = "SELECT * FROM Customer WHERE customerID = ?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, taget.getCustomerID());
+
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					taget.setCustomerID(rs.getString("customerID"));
+					taget.setPhoneNumber(rs.getString("phoneNumber"));
+					taget.setCprNumber(rs.getString("cprNumber"));
+					taget.setFirstName(rs.getString("firstName"));
+					taget.setLastName(rs.getString("lastName"));
+					taget.seteMail(rs.getString("eMail"));
+					taget.setAddress(rs.getString("address"));
+					taget.setZipCode(rs.getString("zipCode"));
+					taget.setCity(rs.getString("city"));
+					taget.setBadStanding(rs.getBoolean("badStanding"));
+				} else {
+					throw new CustomException("Kunde findes ikke i databasen");
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 }
