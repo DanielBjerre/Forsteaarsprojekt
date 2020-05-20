@@ -1,5 +1,6 @@
 package presentation;
 
+import create.Constants;
 import create.CreateButton;
 import create.CreateLabel;
 import javafx.geometry.Insets;
@@ -13,19 +14,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.ActiveEmployee;
 
-public class SceneHovedmenu {
+public class SceneMainMenu {
 	Stage stage;
 	CreateLabel cl = new CreateLabel();
 	CreateButton cb = new CreateButton();
 
 	public void init(Stage stage) {
 		this.stage = stage;
-
-		double knapWidth = stage.getWidth()/4;
-		double knapHeight = stage.getHeight()/20;
-		double textsize = stage.getHeight()/40;
-
-		// Opsætning
+		
+		// SETUP
 		Insets insets = new Insets(5, 5, 5, 5);
 		BorderPane root = new BorderPane();
 		root.setPadding(insets);
@@ -36,9 +33,14 @@ public class SceneHovedmenu {
 		tfEmployee.setText(ActiveEmployee.getInstance().getEmployee().getFirstName());
 
 		// Lav knapper og labels
-		Label lbTitel = cl.lb("Ferrari Financing", textsize*2);
-		Button btnOpretTilbud = cb.btn("Opret Tilbud", knapWidth, knapHeight);
-		Button btnLuk = cb.btn("Luk", knapWidth, knapHeight);
+		Label lbTitel = cl.lb("Ferrari Financing", Constants.textSize*2);
+		Button btnOpretTilbud = cb.btn("Opret Tilbud");
+		Button btnLookUp = cb.btn("Se tilbud");
+		btnLookUp.setOnAction(e -> {
+			SceneLookUpOffer scLUO = new SceneLookUpOffer();
+			scLUO.init(stage);
+		});
+		Button btnLuk = cb.btn("Luk");
 
 		// Knap funktioner
 		btnOpretTilbud.setOnAction(e -> {
@@ -51,7 +53,7 @@ public class SceneHovedmenu {
 		});
 
 		// Tilføj tl VBox
-		vBoxCenter.getChildren().addAll(lbTitel,btnOpretTilbud,btnLuk,tfEmployee);
+		vBoxCenter.getChildren().addAll(lbTitel,btnOpretTilbud,btnLookUp,btnLuk,tfEmployee);
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);

@@ -8,6 +8,7 @@ public class CreateLabel {
 	// Lav label med 1 parameter (TEKST)
 	public Label lb(String text) {
 		Label lb = new Label(text);
+		lb.setPrefSize(Constants.stageHeight/15, Constants.stageWidth/20);
 		return lb;
 	}
 

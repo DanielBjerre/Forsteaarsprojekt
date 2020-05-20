@@ -32,8 +32,6 @@ public class StageChooseCar {
 	
 	public void init(Stage stage, Stage baseStage, Offer offer, TextField tfCarModel, TextField tfCarPrice) {
 		this.stage = stage;
-		double buttonHeight = baseStage.getHeight()/20;
-		double buttonWidth = baseStage.getWidth()/15;
 
 		// Setup BorderPane
 		Insets insets = new Insets(5, 5, 5, 5);
@@ -90,11 +88,11 @@ public class StageChooseCar {
 		
 		// Buttons below tableview
 		HBox hBoxButtons = new HBox(20);
-		Button btnClose = cb.btn("Luk", buttonWidth, buttonHeight);
+		Button btnClose = cb.btn("Luk");
 		btnClose.setOnAction(e -> {
 			stage.close();	
 		});
-		Button btnChoose = cb.btn("Vælg bil", buttonWidth, buttonHeight);
+		Button btnChoose = cb.btn("Vælg bil");
 		btnChoose.setOnAction(e -> {
 			if(tvCar.getSelectionModel().getSelectedItem() != null) {
 				try {

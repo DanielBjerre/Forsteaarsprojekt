@@ -38,7 +38,7 @@ public class SceneLogin {
 		tfPassword = new TextField();
 		tfPassword.setPromptText("Password");
 		tfError = new TextField();
-		Button btnLogin = cb.btn("Login", stage.getWidth() / 20, stage.getHeight() / 20);
+		Button btnLogin = cb.btn("Login");
 		btnLogin.setOnAction(e -> {
 			if (tfUsername.getText().isEmpty() || tfPassword.getText().isEmpty()) {
 				errorMessage(new IncorrectInputException("Brugernavn eller adgangskode ikke udfyldt"));
@@ -46,7 +46,7 @@ public class SceneLogin {
 				login();
 			}
 		});
-		Button btnClose = cb.btn("Luk", stage.getWidth()/20,  stage.getHeight()/20);
+		Button btnClose = cb.btn("Luk");
 		btnClose.setOnAction(e -> {
 			stage.close();
 		});
@@ -67,7 +67,7 @@ public class SceneLogin {
 		try {
 			Login login = new Login();
 			login.login(tfUsername.getText(), tfPassword.getText());
-			SceneHovedmenu scHM = new SceneHovedmenu();
+			SceneMainMenu scHM = new SceneMainMenu();
 			scHM.init(stage);
 		} catch (Exception e) {
 			errorMessage(e);

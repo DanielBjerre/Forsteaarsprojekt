@@ -1,12 +1,11 @@
 package presentation;
 
 import FFL.Rating;
+import create.Constants;
 import create.CreateButton;
 import create.CreateLabel;
 import create.CreateTextField;
-import entities.Car;
 import entities.Customer;
-import entities.Employee;
 import entities.Offer;
 import entities.Term;
 import exception.CustomException;
@@ -49,9 +48,7 @@ public class SceneCreateOffer {
 
 	public void init(Stage stage) {
 		this.stage = stage;
-		double knapWidth = stage.getWidth() / 4;
-		double knapHeight = stage.getHeight() / 20;
-		double textsize = stage.getHeight() / 40;
+		double textsize = Constants.textSize;
 
 		// Get daily rate when opening page
 		ac.findDailyRate(offer);
@@ -132,7 +129,7 @@ public class SceneCreateOffer {
 		Label lbCar = cl.lb("Bil:", textsize);
 		TextField tfCarModel = ctf.tf("");
 		TextField tfCarPrice = ctf.tf("");
-		Button btnChooseCar = cb.btn("Vælg bil", knapWidth, knapHeight);
+		Button btnChooseCar = cb.btn("Vælg bil");
 		btnChooseCar.setOnAction(e -> {
 			StageChooseCar stCC = new StageChooseCar();
 			stCC.init(new Stage(), stage, offer, tfCarModel, tfCarPrice);
@@ -151,7 +148,7 @@ public class SceneCreateOffer {
 		makeHbox(lbNumOfTerms, tfNumOfTerms);
 
 		// BUTTONS
-		Button btnCalculate = cb.btn("Udregn", knapWidth, knapHeight);
+		Button btnCalculate = cb.btn("Udregn");
 		btnCalculate.setOnAction(e -> {
 			offer.setNumOfTerms(tfNumOfTerms.getText());
 			offer.setDownPayment(tfDownpayment.getText());
@@ -160,15 +157,14 @@ public class SceneCreateOffer {
 			new CalculateLoan(offer);
 			populateTableView();
 		});
-		Button btnBack = cb.btn("Tilbage", knapWidth, knapHeight);
+		Button btnBack = cb.btn("Tilbage");
 
 		btnBack.setOnAction(e -> {
-			SceneHovedmenu scHM = new SceneHovedmenu();
+			SceneMainMenu scHM = new SceneMainMenu();
 			scHM.init(stage);
 		});
 		vBoxLeft.getChildren().addAll(btnBack, btnCalculate);
-		
-		
+
 		// TESTING PURPOSES
 		tfCprNumber.setText("0123456789");
 		tfDownpayment.setText("100000");
@@ -200,7 +196,7 @@ public class SceneCreateOffer {
 		clmNewBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("newBalance"));
 
 		// BUTTONS BELOW TABLEVIEW
-		Button btnCreateOffer = cb.btn("Opret Tilbud", knapWidth, knapHeight);
+		Button btnCreateOffer = cb.btn("Opret Tilbud");
 		btnCreateOffer.setOnAction(e -> {
 			if (!offer.getOfferCustomer().isExists()) {
 				fillCustomer();
@@ -216,12 +212,13 @@ public class SceneCreateOffer {
 
 	}
 	// Help methods
-	
+
 	/**
-	 * Searches for customer in Database
-	 * If customer exists, fills information in textboxes and sets the customer entity on the offer
-	 * If customer doesn't exist, creates an empty customer entity and sets the empty customer entity on the offer
-	 * Finally, puts the cprNumber through the API and gets the creditrating 
+	 * Searches for customer in Database If customer exists, fills information in
+	 * textboxes and sets the customer entity on the offer If customer doesn't
+	 * exist, creates an empty customer entity and sets the empty customer entity on
+	 * the offer Finally, puts the cprNumber through the API and gets the
+	 * creditrating
 	 * 
 	 * @param cprNumber
 	 */
@@ -248,6 +245,7 @@ public class SceneCreateOffer {
 		}
 
 	}
+
 	/**
 	 * Method that clears customer information textfields
 	 */
@@ -264,6 +262,7 @@ public class SceneCreateOffer {
 
 	/**
 	 * Method that sets the creditrating in the textfield
+	 * 
 	 * @param creditRate
 	 */
 	private void fillRating(Rating creditRate) {
@@ -290,9 +289,11 @@ public class SceneCreateOffer {
 			}
 		});
 	}
+
 	/**
 	 * Help method to create hboxes
-	 * @param nodes 
+	 * 
+	 * @param nodes
 	 * @return HBox with all the nodes added in order
 	 */
 	private HBox makeHbox(Node... nodes) {

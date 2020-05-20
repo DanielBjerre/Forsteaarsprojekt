@@ -13,13 +13,13 @@ public class OfferLogic {
 	 * Creates database entry for customer if customer doesn't already exist
 	 */
     public void offerCreate(Offer offer)  {
-    	// SET EMPLOYEE ON OFFER
+    	// Set active employee on the offer
     	offer.setOfferEmployee(ActiveEmployee.getInstance().getEmployee());
     	new CreateOffer(offer);
     }
     /**
-     * METHOD CHECKS IF CUSTOMER ALREADY HAS AN OFFER FOR CHOSEN CAR
-     * THROWS EXCEPTION IF THAT IS TRUE
+     * Method checks if customer already has an offer for the chosen car
+     * Throws exception if that is true
      */
     public void validateCar(Offer offer) {
     	try {

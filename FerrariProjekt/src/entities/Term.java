@@ -44,4 +44,7 @@ public class Term {
 	public void setTermNumber(int termNumber) {
 		this.termNumber = termNumber;
 	}
+	public double getPaymentDouble() {
+		return Double.parseDouble(payment);
+	}
 }

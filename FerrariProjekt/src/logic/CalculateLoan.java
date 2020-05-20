@@ -19,26 +19,13 @@ public class CalculateLoan {
 		calculateTermRate();
 		calculatePayment();
 		calculateTerms();
-		System.out.println("Rate: " + offer.getRate());
-		System.out.println("Monthly Rate: " + monthlyRate);
-		System.out.println("Payment: " + payment);
-		for (Term term : offer.getPeriods()) {
-			System.out.print(term.getTermNumber() + "  ");
-			System.out.print(term.getPreviousBalance() + "  ");
-			System.out.print(term.getPayment() + "  ");
-			System.out.print(term.getInterest() + "  ");
-			System.out.print(term.getPrincipal() + "  ");
-			System.out.print(term.getNewBalance() + "  ");
-			System.out.println();
-		}
-
 	}
 
 	private void calculateRate() {
 		Double rate = offer.getRateDouble();
-		if (offer.getDownPaymentDouble() < (offer.getOfferCar().getPriceDouble() / 2))
-			;
-		rate += 1;
+		if (offer.getDownPaymentDouble() < (offer.getOfferCar().getPriceDouble() / 2)) {
+			rate += 1;
+		}
 		switch (offer.getOfferCustomer().getCreditRating()) {
 		case A:
 			rate += 1;
@@ -75,19 +62,19 @@ public class CalculateLoan {
 		for (int i = 1; i <= numOfTerms; i++) {
 			double interest = previousBalance * monthlyRate;
 			double termPayment;
-			if(i != numOfTerms) {
-				 termPayment = payment;
+			if (i != numOfTerms) {
+				termPayment = payment;
 			} else {
-				termPayment = previousBalance+interest;		
+				termPayment = previousBalance + interest;
 			}
 			double principal = termPayment - interest;
 			double newBalance = previousBalance - principal;
-		
+
 			Term t = new Term();
 			t.setTermNumber(i);
 			t.setPreviousBalance(TOS(previousBalance));
 			t.setInterest(TOS(interest));
-			t.setPayment(TOS(termPayment));		
+			t.setPayment(TOS(termPayment));
 			t.setPrincipal(TOS(principal));
 			t.setNewBalance(TOS(newBalance));
 			offer.getPeriods().add(t);
