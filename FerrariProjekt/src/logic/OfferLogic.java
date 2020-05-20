@@ -1,11 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
-
 import database.CreateOffer;
-import database.ReadCar;
-import database.ReadCustomer;
-import database.ReadEmployee;
 import database.ReadOffer;
 import database.ReadOfferComplete;
 import entities.Offer;

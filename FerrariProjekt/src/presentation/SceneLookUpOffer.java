@@ -11,14 +11,20 @@ import entities.Customer;
 import entities.Employee;
 import entities.Offer;
 import entities.Term;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Cell;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -29,6 +35,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import logic.OfferLogic;
 
 
 public class SceneLookUpOffer {	
@@ -42,8 +50,8 @@ public class SceneLookUpOffer {
 	CreateTextField ctf = new CreateTextField();
 
 	public void init(Stage stage) throws FileNotFoundException {
-		final Image imageTrue = new Image("file:trueImage.png");
-		final Image imageFalse = new Image("file:falseImage.png", 100, 100, false, false);
+//		final Image imageTrue = new Image("file:trueImage.png");
+//		final Image imageFalse = new Image("file:falseImage.png", 100, 100, false, false);
 
 		this.stage = stage;
 
@@ -66,17 +74,7 @@ public class SceneLookUpOffer {
 		cbSearch.setPrefSize(Constants.stageWidth/10, Constants.stageHeight/20);
 		cbSearch.getItems().add("Sælger");
 		cbSearch.getItems().add("Kunde");
-		cbSearch.getItems().add("Bil");
-		ImageView iv = new ImageView(imageTrue);
-		ImageView iv2 = new ImageView(imageFalse);
-
-		iv.setFitHeight(20);
-		iv.setFitWidth(20);
-		iv2.setFitHeight(20);
-		iv2.setFitWidth(20);
-		
-		
-		
+		cbSearch.getItems().add("Bil");	
 
 		tfSearch = ctf.tf();
 		tfSearch.setPromptText("Vælg søgekriterie");
@@ -93,7 +91,7 @@ public class SceneLookUpOffer {
 			}
 		});
 		Button btnSearch = cb.btn("Søg");
-		hbSearch.getChildren().addAll(cbSearch, tfSearch, btnSearch,iv, iv2);
+		hbSearch.getChildren().addAll(cbSearch, tfSearch, btnSearch);
 		vBoxLeft.getChildren().add(hbSearch);
 		
 		// TABLEVIEW OF ORDERS
@@ -103,12 +101,13 @@ public class SceneLookUpOffer {
 		TableColumn<Offer, String> clmEmployee = new TableColumn<>("Sælger");
 		TableColumn<Offer, String> clmLoanValue = new TableColumn<>("Hovedstol");
 		TableColumn<Offer, String> clmNumOfTerms = new TableColumn<>("Løbetid");
-		TableColumn<Offer, String> clmCustomerAccept = new TableColumn<>("Accepteret");
-		TableColumn<Offer, String> clmManagerAccept = new TableColumn<>("Godkendt");
+		TableColumn<Offer, ImageView> clmCustomerAccept = new TableColumn<>("Accepteret");
+		TableColumn<Offer, Image> clmManagerAccept = new TableColumn<>("Godkendt");
 		
 		// ADD COLUMNS TO TABLEVIEW
 		tvOffer.getColumns().addAll(clmCustomer,clmCar,clmEmployee,clmLoanValue,clmNumOfTerms,clmCustomerAccept,clmManagerAccept);
 
+		// Add values to columns
 		clmCustomer.setCellValueFactory(cellData -> {
 			return new ReadOnlyStringWrapper(cellData.getValue().getOfferCustomer().getCprNumber());
 		});
@@ -118,10 +117,24 @@ public class SceneLookUpOffer {
 		clmEmployee.setCellValueFactory(cellData -> {
 			return new ReadOnlyStringWrapper(cellData.getValue().getOfferEmployee().getEmployeeID());
 		});
+		clmNumOfTerms.setCellValueFactory(new PropertyValueFactory<Offer, String>("numOfTerms"));
 		clmLoanValue.setCellValueFactory(new PropertyValueFactory<Offer, String>("loanValue"));
-		clmCustomerAccept.setCellValueFactory(new PropertyValueFactory<Offer, String>("customerAccept"));
-		clmManagerAccept.setCellValueFactory(new PropertyValueFactory<Offer, String>("managerAccept"));
+		clmCustomerAccept.setCellValueFactory(new PropertyValueFactory<Offer, ImageView> ("ivTrue"));
 
+	 
+		
+		
+		
+		
+		
+		
+//		clmManagerAccept.setCellValueFactory(new PropertyValueFactory<Offer, String>("managerAccept"));
+
+		// Add items to tableview
+		ObservableList<Offer> olOffer = FXCollections.observableList(new OfferLogic().completeOfferList());
+		tvOffer.setItems(olOffer);
+		vBoxLeft.getChildren().add(tvOffer);
+		
 		// RIGHT SIDE
 		VboxRight = new VBox(20);
 		root.setRight(VboxRight);

@@ -2,6 +2,9 @@ package entities;
 
 import java.util.ArrayList;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Offer {
     private String offerID;
     private Employee offerEmployee;
@@ -14,6 +17,9 @@ public class Offer {
     private String rate;
     private String loanValue;
 	private ArrayList<Term> periods;
+	final Image imageTrue = new Image("file:trueImage.png");
+	final ImageView ivTrue = new ImageView(imageTrue);
+
 
 	public String getOfferID() {
 		return offerID;
@@ -92,5 +98,13 @@ public class Offer {
 	}
 	public double getLoanValueDouble() {
 		return Double.parseDouble(loanValue);
+	}
+	public Image getImageTrue() {
+		return imageTrue;
+	}
+	public ImageView getIvTrue() {
+		ivTrue.setFitHeight(20);
+		ivTrue.setFitWidth(20);
+		return ivTrue;
 	}
 }
