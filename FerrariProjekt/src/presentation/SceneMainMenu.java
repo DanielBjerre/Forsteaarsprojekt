@@ -1,7 +1,5 @@
 package presentation;
 
-import java.io.FileNotFoundException;
-
 import create.Constants;
 import create.CreateButton;
 import create.CreateLabel;
@@ -23,7 +21,7 @@ public class SceneMainMenu {
 
 	public void init(Stage stage) {
 		this.stage = stage;
-		
+
 		// SETUP
 		Insets insets = new Insets(5, 5, 5, 5);
 		BorderPane root = new BorderPane();
@@ -35,16 +33,12 @@ public class SceneMainMenu {
 		tfEmployee.setText(ActiveEmployee.getInstance().getEmployee().getFirstName());
 
 		// Lav knapper og labels
-		Label lbTitel = cl.lb("Ferrari Financing", Constants.textSize*2);
+		Label lbTitel = cl.lb("Ferrari Financing", Constants.textSize * 2);
 		Button btnOpretTilbud = cb.btn("Opret Tilbud");
 		Button btnLookUp = cb.btn("Se tilbud");
 		btnLookUp.setOnAction(e -> {
 			SceneLookUpOffer scLUO = new SceneLookUpOffer();
-			try {
-				scLUO.init(stage);
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-			}
+			scLUO.init(stage);
 		});
 		Button btnLuk = cb.btn("Luk");
 
@@ -53,13 +47,13 @@ public class SceneMainMenu {
 			SceneCreateOffer scOT = new SceneCreateOffer();
 			scOT.init(stage);
 		});
-		
+
 		btnLuk.setOnAction(e -> {
 			stage.close();
 		});
 
 		// Tilføj tl VBox
-		vBoxCenter.getChildren().addAll(lbTitel,btnOpretTilbud,btnLookUp,btnLuk,tfEmployee);
+		vBoxCenter.getChildren().addAll(lbTitel, btnOpretTilbud, btnLookUp, btnLuk, tfEmployee);
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);

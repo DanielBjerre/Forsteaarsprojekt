@@ -65,15 +65,7 @@ public class StageChooseCar {
 		
 		// Add values to columns
 		  clmCondition.setCellValueFactory(cellData -> {
-	            boolean condition = cellData.getValue().isUsed();
-	            String conditionAsString;
-	            if(condition == true) {
-	                conditionAsString = "Brugt";
-	            }
-	            else {
-	                conditionAsString = "Ny";
-	            }
-	         return new ReadOnlyStringWrapper(conditionAsString);
+	         return new ReadOnlyStringWrapper(cellData.getValue().isUsed() ? "Brugt" : "Ny");
 	        });
 		clmSerialNumber.setCellValueFactory(new PropertyValueFactory<Car, String>("serialNumber"));
 		clmModel.setCellValueFactory(new PropertyValueFactory<Car, String>("model"));
