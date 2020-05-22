@@ -194,7 +194,7 @@ public class SceneCreateOffer {
 		clmInterest.setCellValueFactory(new PropertyValueFactory<Term, String>("interest"));
 		clmPrincipal.setCellValueFactory(new PropertyValueFactory<Term, String>("principal"));
 		clmNewBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("newBalance"));
-
+		
 		// BUTTONS BELOW TABLEVIEW
 		Button btnCreateOffer = cb.btn("Opret Tilbud");
 		btnCreateOffer.setOnAction(e -> {
