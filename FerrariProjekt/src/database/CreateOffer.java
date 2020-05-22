@@ -22,7 +22,7 @@ public class CreateOffer {
 			stmt.setBoolean(5, offer.isManagerAccept());
 			stmt.setString(6, offer.getRate());
 			stmt.setString(7, offer.getDownPayment());
-			stmt.setString(8, offer.getNumOfTerms());
+			stmt.setInt(8, offer.getNumOfTerms());
 			stmt.setString(9, offer.getLoanValue());
 			stmt.executeUpdate();
 			try (ResultSet rs = stmt.getGeneratedKeys()) {

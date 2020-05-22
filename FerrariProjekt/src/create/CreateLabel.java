@@ -2,13 +2,19 @@ package create;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 
 public class CreateLabel {
 
+	public Label lb() {
+		Label lb = new Label();
+		lb.setFont(new Font("Arial", Constants.textSize*0.8));
+		return lb;
+	}
 	// Lav label med 1 parameter (TEKST)
 	public Label lb(String text) {
 		Label lb = new Label(text);
-		lb.setPrefSize(Constants.stageHeight/15, Constants.stageWidth/20);
+		lb.setFont(new Font("Arial", Constants.textSize*0.9));
 		return lb;
 	}
 

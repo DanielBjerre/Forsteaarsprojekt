@@ -21,7 +21,7 @@ public class SceneMainMenu {
 
 	public void init(Stage stage) {
 		this.stage = stage;
-
+				
 		// SETUP
 		Insets insets = new Insets(5, 5, 5, 5);
 		BorderPane root = new BorderPane();

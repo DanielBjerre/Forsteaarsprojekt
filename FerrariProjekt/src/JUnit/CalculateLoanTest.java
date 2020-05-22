@@ -2,9 +2,6 @@ package JUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,13 +21,13 @@ class CalculateLoanTest {
 		car = new Car();
 		car.setPrice("1000000");
 			
-		offerAOver = createOffer(car, "400000", "600000", "40", Rating.A);
-		offerAUnder = createOffer(car, "600000", "400000", "20", Rating.A);
-		offerBOver = createOffer(car, "400000", "600000", "40", Rating.B);
-		offerBUnder = createOffer(car, "600000", "400000", "20", Rating.B);
-		offerCOver = createOffer(car, "400000", "600000", "40", Rating.C);
-		offerCUnder = createOffer(car, "600000", "400000", "20", Rating.C);
-		offerMiddle = createOffer(car, "500000", "500000", "36", Rating.A);
+		offerAOver = createOffer(car, "400000", "600000", 40, Rating.A);
+		offerAUnder = createOffer(car, "600000", "400000", 20, Rating.A);
+		offerBOver = createOffer(car, "400000", "600000", 40, Rating.B);
+		offerBUnder = createOffer(car, "600000", "400000", 20, Rating.B);
+		offerCOver = createOffer(car, "400000", "600000", 40, Rating.C);
+		offerCUnder = createOffer(car, "600000", "400000", 20, Rating.C);
+		offerMiddle = createOffer(car, "500000", "500000", 36, Rating.A);
 	}
 	@Test
 	void testLoan() {
@@ -70,13 +67,13 @@ class CalculateLoanTest {
 		assertEquals("0.0", offerMiddle.getPeriods().get(offerMiddle.getPeriods().size()-1).getNewBalance());
 	
 	}
-	private Offer createOffer(Car car, String loanValue, String downPayment, String numOfTerms, Rating rating ) {
+	private Offer createOffer(Car car, String loanValue, String downPayment, int numOfTerms, Rating rating ) {
 		Offer o = new Offer();
 		o.setOfferCustomer(new Customer());
 		o.setOfferCar(car);
 		o.setLoanValue(loanValue);
 		o.setDownPayment(downPayment);
-		o.setRate("5");
+		o.setBankRate(5);
 		o.setNumOfTerms(numOfTerms);
 		o.getOfferCustomer().setCreditRating(rating);
 		return o;
