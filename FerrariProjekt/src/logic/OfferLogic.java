@@ -3,15 +3,14 @@ package logic;
 import java.util.ArrayList;
 
 import database.CreateOffer;
-import database.ReadCar;
-import database.ReadCustomer;
-import database.ReadEmployee;
 import database.ReadOffer;
 import database.ReadOfferComplete;
 import entities.Offer;
 import exception.CustomException;
 
 public class OfferLogic {
+	private ArrayList<Offer> completeList;
+	
 	/**
 	 * Method to create offer
 	 * Sets current ActiveEmployee to the Offer
@@ -36,9 +35,17 @@ public class OfferLogic {
     	}
     	
 	}
-	
+	/**
+	 * @return Returns a complete list of all the offers in the database
+	 */
 	public ArrayList<Offer> completeOfferList(){
-		return new ReadOfferComplete().readOfferComplete();
+		completeList = new ReadOfferComplete().readOfferComplete();
+		return completeList;
 	}
+	public ArrayList<Offer> getCompleteList() {
+		return completeList;
+	}
+	
+	
 
 }

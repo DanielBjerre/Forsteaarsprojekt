@@ -25,7 +25,7 @@ public class APIController {
 			@Override
 			public void run() {
 				InterestRate ir = InterestRate.i();
-				offer.setRate(Double.toString(ir.todaysRate()));
+				offer.setBankRate((ir.todaysRate()));
 			}
 		};
 		new Thread(runner).start();

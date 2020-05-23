@@ -29,7 +29,7 @@ public class StageChooseCar {
 	Stage stage;
 	CreateButton cb = new CreateButton();
 	CarLogic cl = new CarLogic();
-	
+
 	public void init(Stage stage, Stage baseStage, Offer offer, TextField tfCarModel, TextField tfCarPrice) {
 		this.stage = stage;
 
@@ -41,7 +41,7 @@ public class StageChooseCar {
 		root.setCenter(vBoxCenter);
 		vBoxCenter.setAlignment(Pos.TOP_CENTER);
 		root.setStyle("-fx-border-color: black ;-fx-border-width: 5 ;");
-		
+
 		// Comboboxes for filtering cars
 		HBox hBoxChoice = new HBox();
 		ComboBox cbUsed = new ComboBox();
@@ -50,7 +50,7 @@ public class StageChooseCar {
 
 		// Create tableview
 		TableView<Car> tvCar = new TableView<Car>();
-		
+
 		// Create tableview columns
 		TableColumn<Car, String> clmCondition = new TableColumn<>("Stand");
 		TableColumn<Car, String> clmSerialNumber = new TableColumn<>("Serienummer");
@@ -59,61 +59,57 @@ public class StageChooseCar {
 		TableColumn<Car, String> clmColor = new TableColumn<>("Farve");
 		TableColumn<Car, String> clmMileage = new TableColumn<>("Kilometer");
 		TableColumn<Car, String> clmPrice = new TableColumn<>("Pris");
-		
+
 		// Add columns to tableview
-		tvCar.getColumns().addAll(clmCondition, clmSerialNumber, clmModel, clmModelYear, clmColor, clmMileage, clmPrice);
-		
+		tvCar.getColumns().addAll(clmCondition, clmSerialNumber, clmModel, clmModelYear, clmColor, clmMileage,
+				clmPrice);
+
 		// Add values to columns
-		  clmCondition.setCellValueFactory(cellData -> {
-	         return new ReadOnlyStringWrapper(cellData.getValue().isUsed() ? "Brugt" : "Ny");
-	        });
+		clmCondition.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().isUsed() ? "Brugt" : "Ny");
+		});
 		clmSerialNumber.setCellValueFactory(new PropertyValueFactory<Car, String>("serialNumber"));
 		clmModel.setCellValueFactory(new PropertyValueFactory<Car, String>("model"));
 		clmModelYear.setCellValueFactory(new PropertyValueFactory<Car, String>("modelYear"));
 		clmColor.setCellValueFactory(new PropertyValueFactory<Car, String>("color"));
 		clmMileage.setCellValueFactory(new PropertyValueFactory<Car, String>("mileage"));
 		clmPrice.setCellValueFactory(new PropertyValueFactory<Car, String>("price"));
-				
+
 		// Add items to tableview
 		ObservableList<Car> olCar = FXCollections.observableList(cl.getOriginalList());
 		tvCar.setItems(olCar);
-		
+
 		// Buttons below tableview
 		HBox hBoxButtons = new HBox(20);
 		Button btnClose = cb.btn("Luk");
 		btnClose.setOnAction(e -> {
-			stage.close();	
+			stage.close();
 		});
 		Button btnChoose = cb.btn("Vælg bil");
 		btnChoose.setOnAction(e -> {
-			if(tvCar.getSelectionModel().getSelectedItem() != null) {
+			if (tvCar.getSelectionModel().getSelectedItem() != null) {
 				try {
-			offer.setOfferCar(tvCar.getSelectionModel().getSelectedItem());
-			new OfferLogic().validateCar(offer);
-			tfCarModel.setText(tvCar.getSelectionModel().getSelectedItem().getModel());
-			tfCarPrice.setText(tvCar.getSelectionModel().getSelectedItem().getPrice());
-			stage.close();
-			} catch (CustomException e2) {
-				System.out.println(e2.getMessage());
-			}
+					offer.setOfferCar(tvCar.getSelectionModel().getSelectedItem());
+					new OfferLogic().validateCar(offer);
+					tfCarModel.setText(tvCar.getSelectionModel().getSelectedItem().getModel());
+					tfCarPrice.setText(tvCar.getSelectionModel().getSelectedItem().getPrice());
+					stage.close();
+				} catch (CustomException e2) {
+					System.out.println(e2.getMessage());
+				}
 			}
 		});
 		hBoxButtons.getChildren().addAll(btnClose, btnChoose);
 		hBoxButtons.setAlignment(Pos.CENTER);
-		
-		
+
 		vBoxCenter.getChildren().addAll(hBoxChoice, tvCar, hBoxButtons);
-		
-		Scene scene = new Scene (root, baseStage.getWidth()/1.5, baseStage.getHeight()/1.5);
+
+		Scene scene = new Scene(root, baseStage.getWidth() / 1.5, baseStage.getHeight() / 1.5);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.initStyle(StageStyle.UNDECORATED);
-		
+
 		stage.setScene(scene);
 		stage.show();
 	}
-	
-	
-	
-	
-}
 
+}

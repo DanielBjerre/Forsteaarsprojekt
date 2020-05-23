@@ -1,7 +1,6 @@
 package entities;
 
 import java.util.ArrayList;
-
 public class Offer {
     private String offerID;
     private Employee offerEmployee;
@@ -9,9 +8,10 @@ public class Offer {
     private Car offerCar;
     private boolean customerAccept;
     private boolean managerAccept;
-    private String numOfTerms;
+    private int numOfTerms;
     private String downPayment;
     private String rate;
+    private double bankRate;
     private String loanValue;
 	private ArrayList<Term> periods;
 
@@ -51,10 +51,10 @@ public class Offer {
 	public void setManagerAccept(boolean managerAccept) {
 		this.managerAccept = managerAccept;
 	}
-	public String getNumOfTerms() {
+	public int getNumOfTerms() {
 		return numOfTerms;
 	}
-	public void setNumOfTerms(String numOfTerms) {
+	public void setNumOfTerms(int numOfTerms) {
 		this.numOfTerms = numOfTerms;
 	}
 	public String getDownPayment() {
@@ -78,9 +78,9 @@ public class Offer {
 	public double getDownPaymentDouble() {
 		return Double.parseDouble(downPayment);
 	}
-	public double getNumOfTermsDouble() {
-		return Double.parseDouble(numOfTerms);
-	}
+//	public double getNumOfTermsDouble() {
+//		return Double.parseDouble(numOfTerms);
+//	}
 	public double getRateDouble() {
 		return Double.parseDouble(rate);
 	}
@@ -92,5 +92,11 @@ public class Offer {
 	}
 	public double getLoanValueDouble() {
 		return Double.parseDouble(loanValue);
+	}
+	public double getBankRate() {
+		return bankRate;
+	}
+	public void setBankRate(double bankRate) {
+		this.bankRate = bankRate;
 	}
 }

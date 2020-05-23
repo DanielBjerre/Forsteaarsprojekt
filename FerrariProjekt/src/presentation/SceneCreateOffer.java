@@ -45,7 +45,7 @@ public class SceneCreateOffer {
 	Button btnFindCustomer;
 	APIController ac = new APIController();
 	TableView<Term> tvTerm;
-
+	
 	public void init(Stage stage) {
 		this.stage = stage;
 		double textsize = Constants.textSize;
@@ -150,7 +150,7 @@ public class SceneCreateOffer {
 		// BUTTONS
 		Button btnCalculate = cb.btn("Udregn");
 		btnCalculate.setOnAction(e -> {
-			offer.setNumOfTerms(tfNumOfTerms.getText());
+			offer.setNumOfTerms(Integer.parseInt(tfNumOfTerms.getText()));
 			offer.setDownPayment(tfDownpayment.getText());
 			Double loanValue = offer.getOfferCar().getPriceDouble() - offer.getDownPaymentDouble();
 			offer.setLoanValue(loanValue.toString());

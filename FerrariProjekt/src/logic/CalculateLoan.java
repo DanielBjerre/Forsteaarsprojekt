@@ -10,19 +10,20 @@ public class CalculateLoan {
 	Double monthlyRate;
 	Double payment;
 	Double totalPayment;
-	double numOfTerms;
+	int numOfTerms;
 
 	public CalculateLoan(Offer offer) {
 		this.offer = offer;
-		this.numOfTerms = offer.getNumOfTermsDouble();
+		this.numOfTerms = offer.getNumOfTerms();
 		calculateRate();
 		calculateTermRate();
 		calculatePayment();
 		calculateTerms();
+		
 	}
 
 	private void calculateRate() {
-		Double rate = offer.getRateDouble();
+		Double rate = offer.getBankRate();
 		if (offer.getDownPaymentDouble() < (offer.getOfferCar().getPriceDouble() / 2)) {
 			rate += 1;
 		}
@@ -39,7 +40,7 @@ public class CalculateLoan {
 		case D:
 			break;
 		}
-		if (offer.getNumOfTermsDouble() > 36) {
+		if (offer.getNumOfTerms() > 36) {
 			rate += 1;
 		}
 		offer.setRate(rate.toString());

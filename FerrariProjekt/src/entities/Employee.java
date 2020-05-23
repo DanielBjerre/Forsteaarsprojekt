@@ -1,5 +1,8 @@
 package entities;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Employee {
     private String employeeID;
     private String firstName;
@@ -36,6 +39,9 @@ public class Employee {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public SimpleStringProperty getEmployeeIDProperty() {
+		return new SimpleStringProperty(employeeID);
 	}
 }
 

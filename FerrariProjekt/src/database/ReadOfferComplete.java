@@ -60,7 +60,7 @@ public class ReadOfferComplete {
 
                     o.setCustomerAccept(rs.getBoolean("customerAccept"));
                     o.setManagerAccept(rs.getBoolean("managerAccept"));
-                    o.setNumOfTerms(rs.getString("numOfTerms"));
+                    o.setNumOfTerms(rs.getInt("numOfTerms"));
                     o.setDownPayment(rs.getString("downPayment"));
                     o.setRate(rs.getString("rate"));
                     o.setLoanValue(rs.getString("loanvalue"));
