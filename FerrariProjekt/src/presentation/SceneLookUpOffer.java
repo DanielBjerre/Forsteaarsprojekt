@@ -76,12 +76,17 @@ public class SceneLookUpOffer {
 		HBox hBoxButtons1 = new HBox();
 		Button btnAllOffers = cb.btn("Se alle ordrer", 4, 1);
 		btnAllOffers.setOnAction(e -> {
-			clear();
-			populateTableView(offerLogic.getCompleteList());
+			//ORG
+			//clear();
+			//populateTableView(offerLogic.getCompleteList());
+
+			//EVT NEW?
+			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), "", ""));
 		});
 		Button btnReadyToProcess = cb.btn("Ordrer godkendt og accepteret", 4, 1);
 		btnReadyToProcess.setOnAction(e -> {
 			// ORDRER HVOR ALT ER ACCEPTERET
+			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), "C-and-M-Accept", ""));
 		});
 		hBoxButtons1.getChildren().addAll(btnAllOffers, btnReadyToProcess);
 		hBoxButtons1.setAlignment(Pos.CENTER);
@@ -342,12 +347,14 @@ public class SceneLookUpOffer {
 			// OPDATER BOOLEAN VALUE I DATABASE
 			tvOffer.getSelectionModel().getSelectedItem().setCustomerAccept(true);
 			new OfferLogic().offerUpdate(tvOffer.getSelectionModel().getSelectedItem());
+			tvOffer.refresh();
 		});
 		Button btnDeclineCustomer = cb.btn("Ikke Accepteret", 3, 1);
 		btnDeclineCustomer.setOnAction(e -> {
 			// OPDATER BOOLEAN VALUE I DATABSE
 			tvOffer.getSelectionModel().getSelectedItem().setCustomerAccept(false);
 			new OfferLogic().offerUpdate(tvOffer.getSelectionModel().getSelectedItem());
+			tvOffer.refresh();
 		});
 		hBoxConfirmCustomer.getChildren().addAll(lbAcceptCustomer, btnAcceptCustomer, btnDeclineCustomer);
 		hBoxConfirmCustomer.setAlignment(Pos.CENTER);
@@ -363,12 +370,14 @@ public class SceneLookUpOffer {
 			// OPDATER BOOLEAN VALUE I DATABASE
 			tvOffer.getSelectionModel().getSelectedItem().setManagerAccept(true);
 			new OfferLogic().offerUpdate(tvOffer.getSelectionModel().getSelectedItem());
+			tvOffer.refresh();
 		});
 		Button btnDeclineManager = cb.btn("Afsl�", 3 ,1);
 		btnDeclineManager.setOnAction(e -> {
 			// OPDATER BOOLEAN VALUE I DATABSE
 			tvOffer.getSelectionModel().getSelectedItem().setManagerAccept(false);
 			new OfferLogic().offerUpdate(tvOffer.getSelectionModel().getSelectedItem());
+			tvOffer.refresh();
 		});
 		hBoxConfirmManager.getChildren().addAll(lbAcceptManager, btnAcceptManager, btnDeclineManager);
 		hBoxConfirmManager.setAlignment(Pos.CENTER);
