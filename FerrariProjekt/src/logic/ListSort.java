@@ -9,7 +9,7 @@ public class ListSort {
 		ArrayList<Offer> tempList = new ArrayList<Offer>();
 		for (Offer offer : arrayList) {
 			switch (criteria) {
-			case "Sælger":
+			case "Sï¿½lger":
 				if (offer.getOfferEmployee().getEmployeeID().equals(value)) {
 					tempList.add(offer);
 				}
