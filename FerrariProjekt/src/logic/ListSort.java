@@ -15,7 +15,7 @@ public class ListSort {
 				}
 				break;
 			case "Kunde":
-				if (offer.getOfferCustomer().getCustomerID().equals(value)) {
+				if (offer.getOfferCustomer().getCprNumber().equals(value)) {
 					tempList.add(offer);
 				}
 				break;

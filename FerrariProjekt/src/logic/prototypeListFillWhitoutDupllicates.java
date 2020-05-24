@@ -23,8 +23,6 @@ public class prototypeListFillWhitoutDupllicates {
             fillList(modelYear, item.getModelYear());
             fillList(color, item.getColor());
         }
-
-        String test = "";
     }
 
     private void fillList(ArrayList<String> taget, String value)

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import database.CreateOffer;
 import database.ReadOffer;
 import database.ReadOfferComplete;
+import database.UpdateOffer;
 import entities.Offer;
 import exception.CustomException;
 
@@ -44,6 +45,11 @@ public class OfferLogic {
 	}
 	public ArrayList<Offer> getCompleteList() {
 		return completeList;
+	}
+
+	public void offerUpdate(Offer offer)
+	{
+		new UpdateOffer(offer);
 	}
 	
 	
