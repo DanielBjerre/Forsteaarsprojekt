@@ -14,7 +14,7 @@ public class Main extends Application {
 		primaryStage.setMaximized(true);
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.show();
-		SceneLogin sl = new SceneLogin();
-		sl.init(primaryStage);		
+		SceneLogin scLogin = new SceneLogin();
+		scLogin.init(primaryStage);		
 	}
 }

@@ -25,10 +25,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.ListSort;
 import logic.OfferLogic;
+import styles.JavaFXStyles;
 
 public class SceneLookUpOffer {
 	TextField tfSearch;
@@ -53,23 +53,54 @@ public class SceneLookUpOffer {
 		int spacing = 15;
 		BorderPane root = new BorderPane();
 		root.setPadding(insets);
+		root.setStyle(JavaFXStyles.backgroundStyle1);	
 		vBoxLeft = new VBox(20);
-		vBoxLeft.setAlignment(Pos.TOP_CENTER);
 		vBoxLeft.setPrefWidth(stage.getWidth()/2);
+		vBoxLeft.setStyle(JavaFXStyles.backgroundStyle2);
+		vBoxLeft.setPadding(insets);
+		vBoxLeft.setMaxHeight(stage.getHeight()/2);
+		vBoxLeft.setAlignment(Pos.CENTER);
+
 		vBoxRight = new VBox(20);
-		vBoxRight.setAlignment(Pos.TOP_CENTER);
+		vBoxRight.setAlignment(Pos.CENTER);
 		vBoxRight.setPrefWidth(stage.getWidth()/2);	
+		vBoxRight.setStyle(JavaFXStyles.backgroundStyle2);
+		vBoxRight.setPadding(insets);
 		hBoxCenter = new HBox(20);
-		hBoxCenter.setAlignment(Pos.TOP_CENTER);
+		hBoxCenter.setAlignment(Pos.CENTER);
 		hBoxCenter.getChildren().addAll(vBoxLeft, vBoxRight);
 		
 		root.setCenter(hBoxCenter);
 	
 		// LEFT SIDE
+		HBox hBoxButtons1 = new HBox();
 		Button btnAllOffers = cb.btn("Se alle ordrer", 4, 1);
-		Button btnMissingCustomer = cb.btn("Order der mangler kundeaccept", 4, 1);
-		Button btnMissingManager = cb.btn("Order der mangler godkendelse", 4, 1);
-		vBoxLeft.getChildren().addAll(btnAllOffers, btnMissingCustomer, btnMissingManager);
+		btnAllOffers.setOnAction(e -> {
+			clear();
+			populateTableView(offerLogic.getCompleteList());
+		});
+		Button btnReadyToProcess = cb.btn("Ordrer godkendt og accepteret", 4, 1);
+		btnReadyToProcess.setOnAction(e -> {
+			// ORDRER HVOR ALT ER ACCEPTERET
+		});
+		hBoxButtons1.getChildren().addAll(btnAllOffers, btnReadyToProcess);
+		hBoxButtons1.setAlignment(Pos.CENTER);
+		hBoxButtons1.setSpacing(30);
+
+		HBox hBoxButtons2 = new HBox();
+		Button btnMissingCustomer = cb.btn("Ordrer der mangler kundeaccept", 4, 1);
+		btnMissingCustomer.setOnAction(e -> {
+			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), "CustomerAccept", ""));
+		});
+		Button btnMissingManager = cb.btn("Ordrer der mangler godkendelse", 4, 1);
+		btnMissingManager.setOnAction(e -> {
+			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), "ManagerAccept", ""));
+		});
+		hBoxButtons2.getChildren().addAll(btnMissingCustomer, btnMissingManager);
+		hBoxButtons2.setAlignment(Pos.CENTER);
+		hBoxButtons2.setSpacing(30);
+
+		vBoxLeft.getChildren().addAll(hBoxButtons1, hBoxButtons2);
 
 		// SEARCH
 		HBox hbSearch = new HBox();
@@ -80,6 +111,7 @@ public class SceneLookUpOffer {
 		cbSearch.getItems().add("Bil");
 
 		tfSearch = ctf.tf();
+		tfSearch.setMinWidth(stage.getWidth()*0.20);
 		tfSearch.setPromptText("Vælg søgekriterie");
 
 		cbSearch.getSelectionModel().selectedItemProperty().addListener(c -> {
@@ -99,8 +131,10 @@ public class SceneLookUpOffer {
 			} else
 				tfSearch.setPromptText("Vælg søgekriterie");
 		});
-		Button btnSearch = cb.btn("Søg");
+		Button btnSearch = cb.btn("Søg", 2, 1);
 		hbSearch.getChildren().addAll(cbSearch, tfSearch, btnSearch);
+		hbSearch.setSpacing(20);
+		hbSearch.setAlignment(Pos.CENTER);
 		vBoxLeft.getChildren().add(hbSearch);
 
 		// TABLEVIEW OF ORDERS
@@ -138,6 +172,7 @@ public class SceneLookUpOffer {
 
 		// ADD TABLEVIEW TO VBOX
 		vBoxLeft.getChildren().add(tvOffer);
+		vBoxLeft.setAlignment(Pos.CENTER);
 
 		// ADD LIST TO TABLEVIEW
 		populateTableView(offerLogic.completeOfferList());
@@ -264,11 +299,21 @@ public class SceneLookUpOffer {
 
 		// ADD VALUES TO COLUMNS
 		clmTermNumber.setCellValueFactory(new PropertyValueFactory<Term, String>("termNumber"));
-		clmPreviousBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("previousBalance"));
-		clmPayment.setCellValueFactory(new PropertyValueFactory<Term, String>("payment"));
-		clmInterest.setCellValueFactory(new PropertyValueFactory<Term, String>("interest"));
-		clmPrincipal.setCellValueFactory(new PropertyValueFactory<Term, String>("principal"));
-		clmNewBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("newBalance"));
+		clmPreviousBalance.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getPreviousBalance()+" kr");
+		});
+		clmPayment.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getPayment()+" kr");
+		});
+		clmInterest.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getInterest()+" kr");
+		});
+		clmPrincipal.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getPrincipal()+" kr");
+		});
+		clmNewBalance.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(cellData.getValue().getNewBalance()+" kr");
+		});
 
 		// BtnSearch function
 		btnSearch.setOnAction(e -> {
@@ -276,19 +321,40 @@ public class SceneLookUpOffer {
 			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), cbSearch.getSelectionModel().getSelectedItem(),
 					tfSearch.getText()));
 		});
-		btnAllOffers.setOnAction(e -> {
-			clear();
-			populateTableView(offerLogic.getCompleteList());
-		});
-		btnMissingCustomer.setOnAction(e -> {
-			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), "CustomerAccept", ""));
-		});
-		btnMissingManager.setOnAction(e -> {
-			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), "ManagerAccept", ""));
-		});
-
 		vBoxRight.getChildren().add(tvTerm);
 		
+		HBox hBoxConfirmCustomer = new HBox();
+		hBoxConfirmCustomer.setSpacing(20);
+		Label lbAcceptCustomer = cl.lb("Kunde: ");
+		lbAcceptCustomer.setMinWidth(stage.getWidth()/10);
+		Button btnAcceptCustomer = cb.btn("Accepteret", 3, 1);
+		btnAcceptCustomer.setOnAction(e -> {
+			// OPDATER BOOLEAN VALUE I DATABASE
+		});
+		Button btnDeclineCustomer = cb.btn("Ikke Accepteret", 3, 1);
+		btnDeclineCustomer.setOnAction(e -> {
+			// OPDATER BOOLEAN VALUE I DATABSE
+		});
+		hBoxConfirmCustomer.getChildren().addAll(lbAcceptCustomer, btnAcceptCustomer, btnDeclineCustomer);
+		hBoxConfirmCustomer.setAlignment(Pos.CENTER);
+		vBoxRight.getChildren().add(hBoxConfirmCustomer);
+		
+		HBox hBoxConfirmManager = new HBox();
+		hBoxConfirmManager.setSpacing(20);
+		Label lbAcceptManager = cl.lb("Salgschef: ");
+		lbAcceptManager.setMinWidth(stage.getWidth()/10);
+
+		Button btnAcceptManager = cb.btn("Godkend", 3, 1);
+		btnAcceptManager.setOnAction(e -> {
+			// OPDATER BOOLEAN VALUE I DATABASE
+		});
+		Button btnDeclineManager = cb.btn("Afslå", 3 ,1);
+		btnDeclineManager.setOnAction(e -> {
+			// OPDATER BOOLEAN VALUE I DATABSE
+		});
+		hBoxConfirmManager.getChildren().addAll(lbAcceptManager, btnAcceptManager, btnDeclineManager);
+		hBoxConfirmManager.setAlignment(Pos.CENTER);
+		vBoxRight.getChildren().add(hBoxConfirmManager);
 		
 		// LISTENER TO CHANGE RIGHTSIDE BASED ON SELECTION LEFT SIDE
 		tvOffer.getSelectionModel().selectedItemProperty().addListener(c -> {

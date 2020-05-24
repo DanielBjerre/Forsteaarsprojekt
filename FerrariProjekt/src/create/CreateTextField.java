@@ -1,14 +1,14 @@
 package create;
 
 import javafx.scene.control.TextField;
+import styles.JavaFXStyles;
 
 public class CreateTextField {
 	
 	public TextField tf() {
 		TextField tf = new TextField();
-		tf.setPrefSize(Constants.stageWidth/5, Constants.stageHeight/15);
-		String style = "-fx-font-size: " + Constants.textSize + "px;";
-		tf.setStyle(style);
+		tf.setPrefSize(Constants.stageWidth/10, Constants.stageHeight/25);
+		tf.setStyle(JavaFXStyles.fieldStyle1);
 		return tf;
 	}
 	// Lav TextField med 1 parameter (TEKST)
