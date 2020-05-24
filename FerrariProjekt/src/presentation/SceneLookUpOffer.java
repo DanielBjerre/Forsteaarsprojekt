@@ -176,6 +176,15 @@ public class SceneLookUpOffer {
 
 		// ADD LIST TO TABLEVIEW
 		populateTableView(offerLogic.completeOfferList());
+		
+		// BACK BUTTON
+		Button btnBack = cb.btn("Tilbage", 3, 1);
+		btnBack.setOnAction(e-> {
+			SceneMainMenu scMainMenu = new SceneMainMenu();
+			scMainMenu.init(stage);
+		});
+		btnBack.setAlignment(Pos.CENTER);
+		vBoxLeft.getChildren().add(btnBack);
 
 		// RIGHT SIDE
 		HBox hBoxTitle = new HBox(10);
