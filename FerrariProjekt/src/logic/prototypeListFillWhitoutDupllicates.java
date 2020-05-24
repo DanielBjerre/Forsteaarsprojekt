@@ -10,12 +10,8 @@ public class prototypeListFillWhitoutDupllicates {
     ArrayList<String> model = new ArrayList<>();
     ArrayList<String> modelYear = new ArrayList<>();
     ArrayList<String> color = new ArrayList<>();
-    public static void main(String[] args) {
-        prototypeListFillWhitoutDupllicates pfwd = new prototypeListFillWhitoutDupllicates();
-        pfwd.run();    
-    }
 
-    public void run()
+    public void run(ArrayList<Car> arrayList)
     {
         ArrayList<Car> car = new ReadCar().findCars();
         for (Car item : car) {
@@ -28,6 +24,18 @@ public class prototypeListFillWhitoutDupllicates {
     private void fillList(ArrayList<String> taget, String value)
     {
         if (!taget.contains(value)) { taget.add(value); }
+    }
+
+    public ArrayList<String> getModel() {
+        return model;
+    }
+
+    public ArrayList<String> getModelYear() {
+        return modelYear;
+    }
+
+    public ArrayList<String> getColor() {
+        return color;
     }
 
 }
