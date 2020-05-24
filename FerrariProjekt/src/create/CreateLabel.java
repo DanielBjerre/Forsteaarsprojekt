@@ -3,18 +3,19 @@ package create;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import styles.JavaFXStyles;
 
 public class CreateLabel {
 
 	public Label lb() {
 		Label lb = new Label();
-		lb.setFont(new Font("Arial", Constants.textSize*0.8));
+		lb.setStyle(JavaFXStyles.labelStyle1);
 		return lb;
 	}
 	// Lav label med 1 parameter (TEKST)
 	public Label lb(String text) {
 		Label lb = new Label(text);
-		lb.setFont(new Font("Arial", Constants.textSize*0.9));
+		lb.setStyle(JavaFXStyles.labelStyle1);
 		return lb;
 	}
 

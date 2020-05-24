@@ -3,16 +3,14 @@ package presentation;
 import create.Constants;
 import create.CreateButton;
 import create.CreateLabel;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import logic.ActiveEmployee;
+import styles.JavaFXStyles;
 
 public class SceneMainMenu {
 	Stage stage;
@@ -23,37 +21,46 @@ public class SceneMainMenu {
 		this.stage = stage;
 				
 		// SETUP
-		Insets insets = new Insets(5, 5, 5, 5);
 		BorderPane root = new BorderPane();
-		root.setPadding(insets);
-		VBox vBoxCenter = new VBox(20);
+		VBox vBoxCenter = new VBox(30);
 		root.setCenter(vBoxCenter);
-		vBoxCenter.setAlignment(Pos.TOP_CENTER);
-		TextField tfEmployee = new TextField();
-		tfEmployee.setText(ActiveEmployee.getInstance().getEmployee().getFirstName());
+		root.setStyle(JavaFXStyles.backgroundStyle1);
+		vBoxCenter.setAlignment(Pos.CENTER);
+		vBoxCenter.setMaxSize(stage.getWidth()/3, stage.getHeight()*0.6);
+		vBoxCenter.setStyle(JavaFXStyles.backgroundStyle2);
 
-		// Lav knapper og labels
-		Label lbTitel = cl.lb("Ferrari Financing", Constants.textSize * 2);
-		Button btnOpretTilbud = cb.btn("Opret Tilbud");
-		Button btnLookUp = cb.btn("Se tilbud");
+		// Buttons and Labels
+		Label lbTitle = cl.lb("Ferrari Financing", Constants.textSize * 2);
+		
+		// Create offer button
+		Button btnCreateOffer = cb.btn("Opret Tilbud", 6, 2);
+		btnCreateOffer.setOnAction(e -> {
+			SceneCreateOffer scOT = new SceneCreateOffer();
+			scOT.init(stage);
+		});
+		
+		// Look up offers button
+		Button btnLookUp = cb.btn("Se tilbud", 6, 2);
 		btnLookUp.setOnAction(e -> {
 			SceneLookUpOffer scLUO = new SceneLookUpOffer();
 			scLUO.init(stage);
 		});
-		Button btnLuk = cb.btn("Luk");
-
-		// Knap funktioner
-		btnOpretTilbud.setOnAction(e -> {
-			SceneCreateOffer scOT = new SceneCreateOffer();
-			scOT.init(stage);
+		
+		// Log off button
+		Button btnLogOff = cb.btn("Log af", 6, 2);
+		btnLogOff.setOnAction(e -> {
+			SceneLogin scLogin = new SceneLogin();
+			scLogin.init(stage);
 		});
-
-		btnLuk.setOnAction(e -> {
+		
+		// Close program button
+		Button btnClose = cb.btn("Luk", 6, 2);
+		btnClose.setOnAction(e -> {
 			stage.close();
 		});
-
-		// Tilføj tl VBox
-		vBoxCenter.getChildren().addAll(lbTitel, btnOpretTilbud, btnLookUp, btnLuk, tfEmployee);
+	
+		// Add to center vBox
+		vBoxCenter.getChildren().addAll(lbTitle, btnCreateOffer, btnLookUp,btnLogOff, btnClose);
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
