@@ -119,6 +119,8 @@ public class StageChooseCar {
 					new OfferLogic().validateCar(offer);
 					tfCarModel.setText(tvCar.getSelectionModel().getSelectedItem().getModel());
 					tfCarPrice.setText(tvCar.getSelectionModel().getSelectedItem().getPrice());
+					new OfferLogic().checkOverOrUnderLimit(offer);
+					
 					stage.close();
 				} catch (CustomException e2) {
 					lbError.setText(e2.getMessage());

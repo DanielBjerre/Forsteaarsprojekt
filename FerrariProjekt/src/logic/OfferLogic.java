@@ -19,8 +19,6 @@ public class OfferLogic {
 	 * Creates database entry for customer if customer doesn't already exist
 	 */
     public void offerCreate(Offer offer)  {
-    	// Set active employee on the offer
-    	offer.setOfferEmployee(ActiveEmployee.getInstance().getEmployee());
     	new CreateOffer(offer);
     }
     /**
@@ -51,7 +49,20 @@ public class OfferLogic {
 	{
 		new UpdateOffer(offer);
 	}
-	
+
+	public void checkOverOrUnderLimit(Offer offer)
+	{
+		if(offer.getOfferEmployee().getTitle().equals("Manager"))
+		{
+			offer.setManagerAccept(true);
+		} else {
+			double dLimit = offer.getOfferEmployee().getLimit();
+			double dCarPrize = offer.getOfferCar().getPriceDouble();
+			if(dLimit>dCarPrize) {
+				offer.setManagerAccept(true);
+			}
+		}
+	}
 	
 
 }
