@@ -22,6 +22,7 @@ public class CreateLabel {
 	// Lav label med 2 parametre (TEKST og TEKSTSIZE)
 	public Label lb(String text, double textsize) {
 		Label lb = new Label(text);
+		lb.setStyle(JavaFXStyles.labelStyle1);
 		String style = "-fx-font-size: " + textsize + "px;";
 		lb.setStyle(style);
 		return lb;

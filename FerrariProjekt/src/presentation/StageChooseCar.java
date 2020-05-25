@@ -2,7 +2,9 @@ package presentation;
 
 import java.util.ArrayList;
 
+import create.Constants;
 import create.CreateButton;
+import create.CreateLabel;
 import entities.Car;
 import entities.Offer;
 import exception.CustomException;
@@ -14,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,10 +31,12 @@ import logic.CarLogic;
 import logic.ListSort;
 import logic.OfferLogic;
 import logic.prototypeListFillWhitoutDupllicates;
+import styles.JavaFXStyles;
 
 public class StageChooseCar {
 	Stage stage;
 	CreateButton cb = new CreateButton();
+	CreateLabel clabel = new CreateLabel();
 	CarLogic cl = new CarLogic();
 	ListSort ls = new ListSort();
 	TableView<Car> tvCar;
@@ -40,20 +45,26 @@ public class StageChooseCar {
 		this.stage = stage;
 
 		// Setup BorderPane
-		Insets insets = new Insets(5, 5, 5, 5);
+		Insets insets = new Insets(20, 100, 20, 100);
 		BorderPane root = new BorderPane();
-		root.setPadding(insets);
 		VBox vBoxCenter = new VBox(20);
 		root.setCenter(vBoxCenter);
 		vBoxCenter.setAlignment(Pos.TOP_CENTER);
-		root.setStyle("-fx-border-color: black ;-fx-border-width: 5 ;");
+		vBoxCenter.setPadding(insets);
+		root.setStyle(JavaFXStyles.backgroundStyle1);
 
 		// Comboboxes for filtering cars
 		HBox hBoxChoice = new HBox();
 		ComboBox<String> cbUsed = new ComboBox<String>();
+		cbUsed.setPrefSize(Constants.stageWidth / 10, Constants.stageHeight / 25);
+		cbUsed.setStyle(JavaFXStyles.ComboBoxStyle1);
 		ComboBox<String> cbModel = new ComboBox<String>();
+		cbModel.setPrefSize(Constants.stageWidth / 5, Constants.stageHeight / 25);
+		cbModel.setStyle(JavaFXStyles.ComboBoxStyle1);
 		hBoxChoice.getChildren().addAll(cbUsed, cbModel);
-
+		hBoxChoice.setAlignment(Pos.CENTER);
+		hBoxChoice.setSpacing(50);
+		
 		// Create tableview
 		TableView<Car> tvCar = new TableView<Car>();
 		this.tvCar = tvCar;
@@ -103,16 +114,18 @@ public class StageChooseCar {
 			populateTableView(ls.sortCar(cl.getOriginalList(),cbUsed.getSelectionModel().getSelectedItem(),cbModel.getSelectionModel().getSelectedItem()));
 		});
 
-
+		// Error label
+		Label lbError = clabel.lb();
+		
 
 
 		// Buttons below tableview
 		HBox hBoxButtons = new HBox(20);
-		Button btnClose = cb.btn("Luk");
+		Button btnClose = cb.btn("Luk", 3, 1);
 		btnClose.setOnAction(e -> {
 			stage.close();
 		});
-		Button btnChoose = cb.btn("V�lg bil");
+		Button btnChoose = cb.btn("V�lg bil", 3, 1);
 		btnChoose.setOnAction(e -> {
 			if (tvCar.getSelectionModel().getSelectedItem() != null) {
 				try {
@@ -122,14 +135,14 @@ public class StageChooseCar {
 					tfCarPrice.setText(tvCar.getSelectionModel().getSelectedItem().getPrice());
 					stage.close();
 				} catch (CustomException e2) {
-					System.out.println(e2.getMessage());
+					lbError.setText(e2.getMessage());
 				}
 			}
 		});
 		hBoxButtons.getChildren().addAll(btnClose, btnChoose);
 		hBoxButtons.setAlignment(Pos.CENTER);
 
-		vBoxCenter.getChildren().addAll(hBoxChoice, tvCar, hBoxButtons);
+		vBoxCenter.getChildren().addAll(hBoxChoice, tvCar,lbError, hBoxButtons);
 
 		Scene scene = new Scene(root, baseStage.getWidth() / 1.5, baseStage.getHeight() / 1.5);
 		stage.initModality(Modality.APPLICATION_MODAL);
