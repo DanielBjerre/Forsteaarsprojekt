@@ -11,6 +11,7 @@ import entities.Customer;
 import entities.Offer;
 import entities.Term;
 import exception.CustomException;
+import exception.IncorrectInputException;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -206,6 +207,11 @@ public class SceneCreateOffer {
 		tfNumOfTerms.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbNumOfTerms, tfNumOfTerms);
 
+		// ERROR LABEL
+		Label errorMessage = cl.lb();
+		errorMessage.setAlignment(Pos.CENTER);
+		vBoxLeft.getChildren().add(errorMessage);
+		
 		// BUTTONS
 		btnCalculate = cb.btn("Udregn", 5,1);
 		Button btnBack = cb.btn("Tilbage", 5, 1);
@@ -393,6 +399,17 @@ public class SceneCreateOffer {
 		btnReset();
 		
 		btnCalculate.setOnAction(e -> {
+			errorMessage.setText("");
+			double terms = Double.parseDouble(tfNumOfTerms.getText());
+			double price = Double.parseDouble(tfCarPrice.getText());
+			double downpayment = Double.parseDouble(tfDownpayment.getText());
+			try {
+			if (price < downpayment) {
+				throw new IncorrectInputException("Udbetaling kan ikke være højere end pris");
+			}
+			if(terms > 84) {
+				throw new IncorrectInputException("Løbetid kan ikke være højere end 84");
+			}
 			offer.setNumOfTerms(Integer.parseInt(tfNumOfTerms.getText()));
 			offer.setDownPayment(tfDownpayment.getText());
 			Double loanValue = offer.getOfferCar().getPriceDouble() - offer.getDownPaymentDouble();
@@ -419,6 +436,9 @@ public class SceneCreateOffer {
 			lbLoanValueValue.setText(offer.getLoanValue());
 			lbRateValue.setText(String.format("%.2f",Double.parseDouble(offer.getRate())));
 			lbNumOfTermsValue.setText(Integer.toString(offer.getNumOfTerms()));
+			} catch (IncorrectInputException e2) {
+				errorMessage.setText(e2.getMessage());
+			}
 		});
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
