@@ -393,6 +393,8 @@ public class SceneCreateOffer {
 				new CustomerController().createCustomer(offer);
 			}
 			new OfferLogic().offerCreate(offer);
+			StagePopUp stPP = new StagePopUp();
+			stPP.init(new Stage(), "Ordre oprettet", stage);
 		});
 		vBoxRight.getChildren().addAll(tvTerm, btnCreateOffer);
 		tfKundeIsNotHandel(false);
@@ -570,7 +572,7 @@ public class SceneCreateOffer {
 	}
 
 	private void tfKundeIsNotHandel(boolean state)
-	{
+	{	
 		tfPhoneNumber.setEditable(state);
 		tfFirstName.setEditable(state);
 		tfLastName.setEditable(state);
