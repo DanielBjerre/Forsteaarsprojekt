@@ -85,6 +85,22 @@ public class StageChooseCar {
 		tvCar.getColumns().addAll(clmCondition, clmSerialNumber, clmModel, clmModelYear, clmColor, clmMileage,
 				clmPrice);
 
+		// COLUMNS WIDTH AND ALIGNTMENT
+		clmCondition.prefWidthProperty().bind(tvCar.widthProperty().multiply(0.15));
+		clmCondition.setStyle("-fx-alignment: CENTER");
+		clmSerialNumber.prefWidthProperty().bind(tvCar.widthProperty().multiply(0.14));
+		clmSerialNumber.setStyle("-fx-alignment: CENTER");
+		clmModel.prefWidthProperty().bind(tvCar.widthProperty().multiply(0.14));
+		clmModel.setStyle("-fx-alignment: CENTER");
+		clmModelYear.prefWidthProperty().bind(tvCar.widthProperty().multiply(0.14));
+		clmModelYear.setStyle("-fx-alignment: CENTER");
+		clmColor.prefWidthProperty().bind(tvCar.widthProperty().multiply(0.14));
+		clmColor.setStyle("-fx-alignment: CENTER");
+		clmMileage.prefWidthProperty().bind(tvCar.widthProperty().multiply(0.14));
+		clmMileage.setStyle("-fx-alignment: CENTER");
+		clmPrice.prefWidthProperty().bind(tvCar.widthProperty().multiply(0.14));
+		clmPrice.setStyle("-fx-alignment: CENTER");
+		
 		// Add values to columns
 		clmCondition.setCellValueFactory(cellData -> {
 			return new ReadOnlyStringWrapper(cellData.getValue().isUsed() ? "Brugt" : "Ny");

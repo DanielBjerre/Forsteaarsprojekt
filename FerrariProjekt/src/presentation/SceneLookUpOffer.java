@@ -26,8 +26,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.ActiveEmployee;
 import logic.ListSort;
 import logic.OfferLogic;
+import logic.PrintCSV;
 import styles.JavaFXStyles;
 
 public class SceneLookUpOffer {
@@ -143,6 +145,7 @@ public class SceneLookUpOffer {
 
 		// TABLEVIEW OF ORDERS
 		tvOffer = new TableView<Offer>();
+		tvOffer.setMinHeight(stage.getHeight()*0.3);
 		tvOffer.setPlaceholder(new Label("Ingen tilbud fundet"));
 		TableColumn<Offer, String> clmCustomer = new TableColumn<>("Kunde");
 		TableColumn<Offer, String> clmCar = new TableColumn<>("Bil");
@@ -155,7 +158,23 @@ public class SceneLookUpOffer {
 		// ADD COLUMNS TO TABLEVIEW
 		tvOffer.getColumns().addAll(clmCustomer, clmCar, clmEmployee, clmLoanValue, clmNumOfTerms, clmCustomerAccept,
 				clmManagerAccept);
-
+		
+		// COLUMN WIDTH AND ALIGNMENT
+		clmCustomer.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.15));
+		clmCustomer.setStyle("-fx-alignment: CENTER");
+		clmCar.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
+		clmCar.setStyle("-fx-alignment: CENTER");
+		clmEmployee.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
+		clmEmployee.setStyle("-fx-alignment: CENTER");
+		clmLoanValue.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
+		clmLoanValue.setStyle("-fx-alignment: CENTER");
+		clmNumOfTerms.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
+		clmNumOfTerms.setStyle("-fx-alignment: CENTER");
+		clmCustomerAccept.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
+		clmCustomerAccept.setStyle("-fx-alignment: CENTER");
+		clmManagerAccept.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
+		clmManagerAccept.setStyle("-fx-alignment: CENTER");
+		
 		// ADD VALUES TO COLUMNS
 		clmCustomer.setCellValueFactory(cellData -> {
 			return new ReadOnlyStringWrapper(cellData.getValue().getOfferCustomer().getCprNumber());
@@ -189,6 +208,11 @@ public class SceneLookUpOffer {
 			scMainMenu.init(stage);
 		});
 		btnBack.setAlignment(Pos.CENTER);
+		Button btnPrintCSV = cb.btn("Print til CSV-Fil", 3, 1);
+		btnPrintCSV.setOnAction(e -> {
+			new PrintCSV(tvOffer.getSelectionModel().getSelectedItem());
+		});
+		vBoxLeft.getChildren().add(btnPrintCSV);
 		vBoxLeft.getChildren().add(btnBack);
 
 		// RIGHT SIDE
@@ -408,7 +432,9 @@ public class SceneLookUpOffer {
 		});
 		hBoxConfirmManager.getChildren().addAll(lbAcceptManager, btnAcceptManager, btnDeclineManager);
 		hBoxConfirmManager.setAlignment(Pos.CENTER);
+		if(ActiveEmployee.getInstance().getEmployee().getTitle().equals("Manager")) {
 		vBoxRight.getChildren().add(hBoxConfirmManager);
+		}
 
 		// LISTENER TO CHANGE RIGHTSIDE BASED ON SELECTION LEFT SIDE
 		tvOffer.getSelectionModel().selectedItemProperty().addListener(c -> {
@@ -427,14 +453,13 @@ public class SceneLookUpOffer {
 				lbCarModelYearValue.setText(o.getOfferCar().getModelYear());
 				lbCarSerialNumberValue.setText(o.getOfferCar().getSerialNumber());
 
-				lbEmployeeNameValue
-						.setText(o.getOfferEmployee().getFirstName() + " " + o.getOfferEmployee().getLastName());
+				lbEmployeeNameValue.setText(o.getOfferEmployee().getFirstName() + " " + o.getOfferEmployee().getLastName());
 
 				lbPriceValue.setText(o.getOfferCar().getPrice());
 				lbDownPaymentValue.setText(o.getDownPayment());
 				lbLoanValueValue.setText(o.getLoanValue());
-				lbRateValue.setText(o.getRate());
-				lbNumOfTermsValue.setText(Integer.toString(o.getNumOfTerms()));
+				lbRateValue.setText(o.getRate()+" %");
+				lbNumOfTermsValue.setText(Integer.toString(o.getNumOfTerms())+" måneder");
 				tvTerm.setItems(FXCollections.observableArrayList(o.getPeriods()));
 				btnAcceptCustomer.setDisable(false);
 				btnAcceptManager.setDisable(false);
