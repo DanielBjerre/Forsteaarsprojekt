@@ -211,6 +211,7 @@ public class SceneLookUpOffer {
 		Button btnPrintCSV = cb.btn("Print til CSV-Fil", 3, 1);
 		btnPrintCSV.setOnAction(e -> {
 			new PrintCSV(tvOffer.getSelectionModel().getSelectedItem());
+			
 		});
 		vBoxLeft.getChildren().add(btnPrintCSV);
 		vBoxLeft.getChildren().add(btnBack);
