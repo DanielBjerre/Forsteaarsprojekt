@@ -354,9 +354,12 @@ public class SceneLookUpOffer {
 
 		// BtnSearch function
 		btnSearch.setOnAction(e -> {
-			tvOffer.getItems().clear();
-			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), cbSearch.getSelectionModel().getSelectedItem(),
-					tfSearch.getText()));
+			if(cbSearch.getSelectionModel().getSelectedIndex() != -1 && !tfSearch.getText().trim().isEmpty())
+			{
+				tvOffer.getItems().clear();
+				populateTableView(ls.sortOffer(offerLogic.getCompleteList(), cbSearch.getSelectionModel().getSelectedItem(),
+				tfSearch.getText()));
+			}
 		});
 		vBoxRight.getChildren().add(tvTerm);
 		
@@ -365,6 +368,7 @@ public class SceneLookUpOffer {
 		Label lbAcceptCustomer = cl.lb("Kunde: ");
 		lbAcceptCustomer.setMinWidth(stage.getWidth()/10);
 		Button btnAcceptCustomer = cb.btn("Accepteret", 3, 1);
+		btnAcceptCustomer.setDisable(true);
 		btnAcceptCustomer.setOnAction(e -> {
 			// OPDATER BOOLEAN VALUE I DATABASE
 			tvOffer.getSelectionModel().getSelectedItem().setCustomerAccept(true);
@@ -372,6 +376,7 @@ public class SceneLookUpOffer {
 			tvOffer.refresh();
 		});
 		Button btnDeclineCustomer = cb.btn("Ikke Accepteret", 3, 1);
+		btnDeclineCustomer.setDisable(true);
 		btnDeclineCustomer.setOnAction(e -> {
 			// OPDATER BOOLEAN VALUE I DATABSE
 			tvOffer.getSelectionModel().getSelectedItem().setCustomerAccept(false);
@@ -388,6 +393,7 @@ public class SceneLookUpOffer {
 		lbAcceptManager.setMinWidth(stage.getWidth()/10);
 
 		Button btnAcceptManager = cb.btn("Godkend", 3, 1);
+		btnAcceptManager.setDisable(true);
 		btnAcceptManager.setOnAction(e -> {
 			// OPDATER BOOLEAN VALUE I DATABASE
 			tvOffer.getSelectionModel().getSelectedItem().setManagerAccept(true);
@@ -395,6 +401,7 @@ public class SceneLookUpOffer {
 			tvOffer.refresh();
 		});
 		Button btnDeclineManager = cb.btn("Afsl�", 3 ,1);
+		btnDeclineManager.setDisable(true);
 		btnDeclineManager.setOnAction(e -> {
 			// OPDATER BOOLEAN VALUE I DATABSE
 			tvOffer.getSelectionModel().getSelectedItem().setManagerAccept(false);
@@ -407,27 +414,33 @@ public class SceneLookUpOffer {
 		
 		// LISTENER TO CHANGE RIGHTSIDE BASED ON SELECTION LEFT SIDE
 		tvOffer.getSelectionModel().selectedItemProperty().addListener(c -> {
-			Offer o = tvOffer.getSelectionModel().getSelectedItem();
-			lbTitleValue.setText(o.getOfferID());
-			lbCustomerNameValue.setText(o.getOfferCustomer().getFirstName()+o.getOfferCustomer().getLastName());
-			lbCustomerPhoneValue.setText(o.getOfferCustomer().getPhoneNumber());
-			lbCustomerCprNumberValue.setText(o.getOfferCustomer().getCprNumber());
-			lbCustomerEMailValue.setText(o.getOfferCustomer().geteMail());
-			lbCustomerAddressValue.setText(o.getOfferCustomer().getAddress()+o.getOfferCustomer().getZipCode()+o.getOfferCustomer().getCity());
-			
-			lbCarModelValue.setText(o.getOfferCar().getModel());
-			lbCarMileageValue.setText(o.getOfferCar().getMileage());
-			lbCarModelYearValue.setText(o.getOfferCar().getModelYear());
-			lbCarSerialNumberValue.setText(o.getOfferCar().getSerialNumber());
-			
-			lbEmployeeNameValue.setText(o.getOfferEmployee().getFirstName()+ " " + o.getOfferEmployee().getLastName());
-			
-			lbPriceValue.setText(o.getOfferCar().getPrice());
-			lbDownPaymentValue.setText(o.getDownPayment());
-			lbLoanValueValue.setText(o.getLoanValue());
-			lbRateValue.setText(o.getRate());
-			lbNumOfTermsValue.setText(Integer.toString(o.getNumOfTerms()));
-			tvTerm.setItems(FXCollections.observableArrayList(o.getPeriods()));
+
+				Offer o = tvOffer.getSelectionModel().getSelectedItem();
+				lbTitleValue.setText(o.getOfferID());
+				lbCustomerNameValue.setText(o.getOfferCustomer().getFirstName()+o.getOfferCustomer().getLastName());
+				lbCustomerPhoneValue.setText(o.getOfferCustomer().getPhoneNumber());
+				lbCustomerCprNumberValue.setText(o.getOfferCustomer().getCprNumber());
+				lbCustomerEMailValue.setText(o.getOfferCustomer().geteMail());
+				lbCustomerAddressValue.setText(o.getOfferCustomer().getAddress()+o.getOfferCustomer().getZipCode()+o.getOfferCustomer().getCity());
+				
+				lbCarModelValue.setText(o.getOfferCar().getModel());
+				lbCarMileageValue.setText(o.getOfferCar().getMileage());
+				lbCarModelYearValue.setText(o.getOfferCar().getModelYear());
+				lbCarSerialNumberValue.setText(o.getOfferCar().getSerialNumber());
+				
+				lbEmployeeNameValue.setText(o.getOfferEmployee().getFirstName()+ " " + o.getOfferEmployee().getLastName());
+				
+				lbPriceValue.setText(o.getOfferCar().getPrice());
+				lbDownPaymentValue.setText(o.getDownPayment());
+				lbLoanValueValue.setText(o.getLoanValue());
+				lbRateValue.setText(o.getRate());
+				lbNumOfTermsValue.setText(Integer.toString(o.getNumOfTerms()));
+				tvTerm.setItems(FXCollections.observableArrayList(o.getPeriods()));
+				btnAcceptCustomer.setDisable(false);
+				btnAcceptManager.setDisable(false);
+				btnDeclineCustomer.setDisable(false);
+				btnDeclineManager.setDisable(false);
+
 		});
 		
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
