@@ -76,11 +76,7 @@ public class SceneLookUpOffer {
 		HBox hBoxButtons1 = new HBox();
 		Button btnAllOffers = cb.btn("Se alle ordrer", 4, 1);
 		btnAllOffers.setOnAction(e -> {
-			//ORG
-			//clear();
-			//populateTableView(offerLogic.getCompleteList());
-
-			//EVT NEW?
+			clear();
 			populateTableView(ls.sortOffer(offerLogic.getCompleteList(), "", ""));
 		});
 		Button btnReadyToProcess = cb.btn("Ordrer godkendt og accepteret", 4, 1);
