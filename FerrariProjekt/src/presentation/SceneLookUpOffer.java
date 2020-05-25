@@ -36,6 +36,8 @@ public class SceneLookUpOffer {
 	VBox vBoxLeft, vBoxRight;
 	HBox hBoxCenter;
 	Insets insets = new Insets(15, 15, 15, 15);
+	Insets insets2 = new Insets(5, 5, 5, 5);
+
 	TableView<Term> tvTerm;
 	TableView<Offer> tvOffer;
 	CreateButton cb = new CreateButton();
@@ -50,7 +52,7 @@ public class SceneLookUpOffer {
 		this.stage = stage;
 		
 		// Setup
-		int spacing = 15;
+		int spacing = 5;
 		BorderPane root = new BorderPane();
 		root.setPadding(insets);
 		root.setStyle(JavaFXStyles.backgroundStyle1);	
@@ -106,7 +108,8 @@ public class SceneLookUpOffer {
 		// SEARCH
 		HBox hbSearch = new HBox();
 		cbSearch = new ComboBox<>();
-		cbSearch.setPrefSize(Constants.stageWidth / 10, Constants.stageHeight / 20);
+		cbSearch.setStyle(JavaFXStyles.ComboBoxStyle1);
+		cbSearch.setPrefSize(Constants.stageWidth / 10, Constants.stageHeight / 25);
 		cbSearch.getItems().add("S�lger");
 		cbSearch.getItems().add("Kunde");
 		cbSearch.getItems().add("Bil");
@@ -201,108 +204,131 @@ public class SceneLookUpOffer {
 		HBox hBoxCustomer = new HBox();
 		
 		VBox vBoxCustomer1 = new VBox(spacing);
-		vBoxCustomer1.setPrefWidth(stage.getWidth()*0.1);
-		Label lbCustomerName = cl.lb("Navn:");
-		Label lbCustomerPhone = cl.lb("Telefonnummer:");
-		Label lbCustomerAddress = cl.lb("Addresse");
+		vBoxCustomer1.setPrefWidth(stage.getWidth()*0.10);
+		Label lbCustomerName = cl.lb("Navn:", Constants.textSize*0.75);
+		Label lbCustomerPhone = cl.lb("Telefonnummer:", Constants.textSize*0.75);
+		Label lbCustomerAddress = cl.lb("Addresse:", Constants.textSize*0.75);
 		vBoxCustomer1.getChildren().addAll(lbCustomerName,lbCustomerPhone, lbCustomerAddress);
 		
 		VBox vBoxCustomer2 = new VBox(spacing);
 		vBoxCustomer2.setPrefWidth(stage.getWidth()*0.2);
-		Label lbCustomerNameValue = cl.lb();
-		Label lbCustomerPhoneValue = cl.lb();
-		Label lbCustomerAddressValue = cl.lb();
+		Label lbCustomerNameValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCustomerPhoneValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCustomerAddressValue = cl.lb("", Constants.textSize*0.75);
 		vBoxCustomer2.getChildren().addAll(lbCustomerNameValue, lbCustomerPhoneValue, lbCustomerAddressValue);
 		
 		VBox vBoxCustomer3 = new VBox(spacing);
 		vBoxCustomer3.setPrefWidth(stage.getWidth()*0.1);
-		Label lbCustomerCprNumber = cl.lb("CPR-Nummer:");
-		Label lbCustomerEMail = cl.lb("eMail:");
+		Label lbCustomerCprNumber = cl.lb("CPR-Nummer:", Constants.textSize*0.75);
+		Label lbCustomerEMail = cl.lb("eMail:", Constants.textSize*0.75);
 		vBoxCustomer3.getChildren().addAll(lbCustomerCprNumber, lbCustomerEMail);
 		
 		VBox vBoxCustomer4 = new VBox(spacing);
 		vBoxCustomer4.setPrefWidth(stage.getWidth()*0.15);
-		Label lbCustomerCprNumberValue = cl.lb();
-		Label lbCustomerEMailValue = cl.lb();
+		Label lbCustomerCprNumberValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCustomerEMailValue = cl.lb("", Constants.textSize*0.75);
 		vBoxCustomer4.getChildren().addAll(lbCustomerCprNumberValue, lbCustomerEMailValue);
 		
 		hBoxCustomer.getChildren().addAll(vBoxCustomer1,vBoxCustomer2,vBoxCustomer3,vBoxCustomer4);
+		hBoxCustomer.setStyle(JavaFXStyles.HBoxStyle);
+		hBoxCustomer.setPadding(insets2);
 		vBoxRight.getChildren().add(hBoxCustomer);
 				
 		Label lbCar = cl.lb("Bil");
 		vBoxRight.getChildren().add(lbCar);
 		
-		HBox hBoxCar = new HBox();
+		HBox hBoxCar = new HBox(spacing);
 		VBox vBoxCar1 = new VBox();
 		vBoxCar1.setPrefWidth(stage.getWidth()*0.1);
-		Label lbCarModel = cl.lb("Model");
-		Label lbCarMileage = cl.lb("Kilometer");
+		Label lbCarModel = cl.lb("Model:", Constants.textSize*0.75);
+		Label lbCarMileage = cl.lb("Kilometer:", Constants.textSize*0.75);
 		vBoxCar1.getChildren().addAll(lbCarModel, lbCarMileage);
 		
 		VBox vBoxCar2 = new VBox(spacing); 
 		vBoxCar2.setPrefWidth(stage.getWidth()*0.2);
-		Label lbCarModelValue = cl.lb();
-		Label lbCarMileageValue = cl.lb();
+		Label lbCarModelValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCarMileageValue = cl.lb("", Constants.textSize*0.75);
 		vBoxCar2.getChildren().addAll(lbCarModelValue, lbCarMileageValue);
 		
 		VBox vBoxCar3 = new VBox(spacing);
 		vBoxCar3.setPrefWidth(stage.getWidth()*0.1);
-		Label lbCarModelYear = cl.lb("�rgang");
-		Label lbCarSerialNumber = cl.lb("Serienummer");
+		Label lbCarModelYear = cl.lb("�rgang:", Constants.textSize*0.75);
+		Label lbCarSerialNumber = cl.lb("Serienummer:", Constants.textSize*0.75);
 		vBoxCar3.getChildren().addAll(lbCarModelYear, lbCarSerialNumber);
 		
 		VBox vBoxCar4 = new VBox(spacing);
 		vBoxCar4.setPrefWidth(stage.getWidth()*0.15);	
-		Label lbCarModelYearValue = cl.lb();
-		Label lbCarSerialNumberValue = cl.lb();
+		Label lbCarModelYearValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCarSerialNumberValue = cl.lb("", Constants.textSize*0.75);
 		vBoxCar4.getChildren().addAll(lbCarModelYearValue, lbCarSerialNumberValue);
 		
 		hBoxCar.getChildren().addAll(vBoxCar1,vBoxCar2,vBoxCar3,vBoxCar4);
+		hBoxCar.setStyle(JavaFXStyles.HBoxStyle);
+		hBoxCar.setPadding(insets2);
 		vBoxRight.getChildren().add(hBoxCar);
 		
-		HBox hBoxEmployee = new HBox();
-		Label lbEmployeeName = cl.lb("S�lger");
-		Label lbEmployeeNameValue = cl.lb();
+		HBox hBoxEmployee = new HBox(30);
+		Label lbEmployeeName = cl.lb("S�lger:", Constants.textSize*0.75);
+		Label lbEmployeeNameValue = cl.lb("", Constants.textSize*0.75);
 		hBoxEmployee.getChildren().addAll(lbEmployeeName,lbEmployeeNameValue);
+		hBoxEmployee.setPadding(insets2);
 		vBoxRight.getChildren().add(hBoxEmployee);
 		
 		HBox hBoxInfo = new HBox();
 		VBox vBoxInfo1 = new VBox(spacing);
 		vBoxInfo1.setPrefWidth(stage.getWidth()*0.1);
-		Label lbPrice = cl.lb("Pris");
-		Label lbDownPayment = cl.lb("Udbetaling");
-		Label lbLoanValue = cl.lb("L�nebel�b");
+		Label lbPrice = cl.lb("Pris:", Constants.textSize*0.75);
+		Label lbDownPayment = cl.lb("Udbetaling:", Constants.textSize*0.75);
+		Label lbLoanValue = cl.lb("L�nebel�b:", Constants.textSize*0.75);
 		vBoxInfo1.getChildren().addAll(lbPrice, lbDownPayment, lbLoanValue);
 		
 		VBox vBoxInfo2 = new VBox(spacing);
 		vBoxInfo2.setPrefWidth(stage.getWidth()*0.2);
-		Label lbPriceValue = cl.lb();
-		Label lbDownPaymentValue = cl.lb();
-		Label lbLoanValueValue = cl.lb();
+		Label lbPriceValue = cl.lb("", Constants.textSize*0.75);
+		Label lbDownPaymentValue = cl.lb("", Constants.textSize*0.75);
+		Label lbLoanValueValue = cl.lb("", Constants.textSize*0.75);
 		vBoxInfo2.getChildren().addAll(lbPriceValue, lbDownPaymentValue, lbLoanValueValue);
 		
 		VBox vBoxInfo3 = new VBox(spacing);
 		vBoxInfo3.setPrefWidth(stage.getWidth()*0.1);
-		Label lbRate = cl.lb("Rente:");
-		Label lbNumOfTerms = cl.lb("L�betid");
+		Label lbRate = cl.lb("Rente:", Constants.textSize*0.75);
+		Label lbNumOfTerms = cl.lb("L�betid:", Constants.textSize*0.75);
 		vBoxInfo3.getChildren().addAll(lbRate, lbNumOfTerms);
 		
 		VBox vBoxInfo4 = new VBox(spacing);
 		vBoxInfo4.setPrefWidth(stage.getWidth()*0.15);
-		Label lbRateValue = cl.lb();
-		Label lbNumOfTermsValue = cl.lb();
+		Label lbRateValue = cl.lb("", Constants.textSize*0.75);
+		Label lbNumOfTermsValue = cl.lb("", Constants.textSize*0.75);
 		vBoxInfo4.getChildren().addAll(lbRateValue, lbNumOfTermsValue);
 		hBoxInfo.getChildren().addAll(vBoxInfo1,vBoxInfo2,vBoxInfo3,vBoxInfo4);
+		hBoxInfo.setStyle(JavaFXStyles.HBoxStyle);
+		hBoxInfo.setPadding(insets2);
 		vBoxRight.getChildren().add(hBoxInfo);
 		
 		// CREATE TABLEVIEW
 		tvTerm = new TableView<Term>();
+		
 		TableColumn<Term, String> clmTermNumber = new TableColumn<>("Termin nr:");
 		TableColumn<Term, String> clmPreviousBalance = new TableColumn<>("Primo Restg�ld");
 		TableColumn<Term, String> clmPayment = new TableColumn<>("Ydelse");
 		TableColumn<Term, String> clmInterest = new TableColumn<>("Rente");
 		TableColumn<Term, String> clmPrincipal = new TableColumn<>("Afdrag");
 		TableColumn<Term, String> clmNewBalance = new TableColumn<>("Ultimo Restg�ld");
+		
+		// COLUMN WIDTH & ALIGNMENT
+        clmTermNumber.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.11));
+		clmTermNumber.setStyle("-fx-alignment: CENTER");
+        clmPreviousBalance.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.17));
+        clmPreviousBalance.setStyle("-fx-alignment: CENTER");
+        clmPayment.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.17));
+        clmPayment.setStyle("-fx-alignment: CENTER");
+        clmInterest.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.17));
+        clmInterest.setStyle("-fx-alignment: CENTER");
+        clmPrincipal.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.17));
+        clmPrincipal.setStyle("-fx-alignment: CENTER");
+        clmNewBalance.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.18));
+        clmNewBalance.setStyle("-fx-alignment: CENTER");
+
 
 		// ADD COLUMNS TO TABLEVIEW
 		tvTerm.getColumns().addAll(clmTermNumber, clmPreviousBalance, clmPayment, clmInterest, clmPrincipal,

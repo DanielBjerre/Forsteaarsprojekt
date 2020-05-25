@@ -40,10 +40,12 @@ public class JavaFXStyles {
 	public static String fieldStyle1 = "-fx-background-color: #F2F2F2;"
 			+ "-fx-font-size: " + create.Constants.textSize*0.75 + ";"
 			+ "-fx-text-fill: #111111;";
+//			+ "-fx-opacity: 1;";
 	
 	// Label Styles
 	public static String labelStyle1 = "-fx-font-size: " + create.Constants.textSize + ";"
 			+ "-fx-text-fill: #111111;";
+			
 	
 	public static String labelStyleError = "-fx-font-size: " + create.Constants.textSize*0.6 + ";"
 			+ "-fx-text-fill: #111111;";
@@ -54,8 +56,18 @@ public class JavaFXStyles {
 			+ "-fx-text-stroke-width: 2 ;";
 	
 	// TableView Styles
-//	public static String tableviewStyle1 = "-fx"
+	public static String tableviewStyle1 = "-fx-alignment: CENTER;";
+
 	
+	// HBox Styles
+	public static String HBoxStyle = "-fx-border-style: none none solid solid;" 
+			+ "-fx-border-width: 2;"
+			+ "-fx-border-color: black;";
+	
+	// Combobox Styles
+	public static String ComboBoxStyle1 = "-fx-border-width: 2;"
+			+ "-fx-font-size: " + create.Constants.textSize + ";"
+			+ "-fx-border-color: black;";
 	
 	}
 
