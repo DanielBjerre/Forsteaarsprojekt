@@ -1,7 +1,5 @@
 package presentation;
 
-import com.sun.glass.ui.Pixels.Format;
-
 import FFL.Rating;
 import create.Constants;
 import create.CreateButton;

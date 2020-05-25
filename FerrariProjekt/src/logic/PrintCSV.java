@@ -4,11 +4,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import entities.Offer;
+import entities.Term;
 
 public class PrintCSV {
+    Offer offer;
     public PrintCSV(Offer offer) {
-        try {
-            FileWriter csvWrite = new FileWriter("offer" + offer.getOfferID() + ".csv");
+        this.offer = offer;
+        csvOffer();
+        csvTerm();
+    }
+
+    private void csvOffer() {
+
+        try (FileWriter csvWrite = new FileWriter("offer" + offer.getOfferID() + ".csv");) {
+
             csvWrite.append("offerID");
             csvWrite.append(",");
             csvWrite.append("customerAccept");
@@ -124,7 +133,7 @@ public class PrintCSV {
             csvWrite.append(",");
             csvWrite.append(b2s(offer.getOfferCustomer().isExists()));
             csvWrite.append(",");
-            csvWrite.append(offer.getOfferCustomer().getCreditRating().toString());
+            csvWrite.append("N/A");
             csvWrite.append(",");
             csvWrite.append(offer.getOfferCar().getSerialNumber());
             csvWrite.append(",");
@@ -142,14 +151,51 @@ public class PrintCSV {
             csvWrite.append(",");
             csvWrite.append(b2s(offer.getOfferCar().isSold()));
             csvWrite.append("\n");
+            csvWrite.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    private String b2s(boolean indput)
+    private void csvTerm()
     {
-        return indput ? "True" : "False"; 
+        try (FileWriter csvWrite = new FileWriter("Terms-Offer" + offer.getOfferID() + ".csv");) {
+
+            csvWrite.append("termNumber");
+            csvWrite.append(",");
+            csvWrite.append("previousBalance");
+            csvWrite.append(",");
+            csvWrite.append("payment");
+            csvWrite.append(",");
+            csvWrite.append("interest");
+            csvWrite.append(",");
+            csvWrite.append("principal");
+            csvWrite.append(",");
+            csvWrite.append("newBalance");
+            csvWrite.append("\n");
+
+            for (Term term : offer.getPeriods()) {
+                csvWrite.append(Integer.toString(term.getTermNumber()));
+                csvWrite.append(",");
+                csvWrite.append(term.getPreviousBalance());
+                csvWrite.append(",");
+                csvWrite.append(term.getPayment());
+                csvWrite.append(",");
+                csvWrite.append(term.getInterest());
+                csvWrite.append(",");
+                csvWrite.append(term.getPrincipal());
+                csvWrite.append(",");
+                csvWrite.append(term.getNewBalance());
+                csvWrite.append("\n");
+            }
+
+            csvWrite.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String b2s(boolean indput) {
+        return indput ? "True" : "False";
     }
 }
