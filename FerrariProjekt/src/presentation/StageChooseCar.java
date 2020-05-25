@@ -2,7 +2,6 @@ package presentation;
 
 import java.util.ArrayList;
 
-import create.Constants;
 import create.CreateButton;
 import create.CreateLabel;
 import entities.Car;
@@ -15,7 +14,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,7 +28,6 @@ import javafx.stage.StageStyle;
 import logic.CarLogic;
 import logic.ListSort;
 import logic.OfferLogic;
-import logic.prototypeListFillWhitoutDupllicates;
 import styles.JavaFXStyles;
 
 public class StageChooseCar {
@@ -55,15 +52,21 @@ public class StageChooseCar {
 
 		// Comboboxes for filtering cars
 		HBox hBoxChoice = new HBox();
-		ComboBox<String> cbUsed = new ComboBox<String>();
-		cbUsed.setPrefSize(Constants.stageWidth / 10, Constants.stageHeight / 25);
-		cbUsed.setStyle(JavaFXStyles.ComboBoxStyle1);
-		ComboBox<String> cbModel = new ComboBox<String>();
-		cbModel.setPrefSize(Constants.stageWidth / 5, Constants.stageHeight / 25);
-		cbModel.setStyle(JavaFXStyles.ComboBoxStyle1);
-		hBoxChoice.getChildren().addAll(cbUsed, cbModel);
+		Button btnAllCars = cb.btn("Alle biler", 2, 1);
+		btnAllCars.setOnAction(e -> {
+			populateTableView(cl.getOriginalList());
+		});
+		Button btnNewCars = cb.btn("Nye biler", 2, 1);
+		btnNewCars.setOnAction(e -> {
+			populateTableView(ls.sortCar(cl.getOriginalList(),false));
+		});
+		Button btnUsedCars = cb.btn("Brugte biler", 2, 1);
+		btnUsedCars.setOnAction(e -> {
+			populateTableView(ls.sortCar(cl.getOriginalList(),true));
+		});
+		hBoxChoice.getChildren().addAll(btnAllCars, btnNewCars, btnUsedCars);
+		hBoxChoice.setSpacing(20);
 		hBoxChoice.setAlignment(Pos.CENTER);
-		hBoxChoice.setSpacing(50);
 		
 		// Create tableview
 		TableView<Car> tvCar = new TableView<Car>();
@@ -96,23 +99,6 @@ public class StageChooseCar {
 		// Add items to tableview
 		populateTableView(cl.getOriginalList());
 
-		//SK
-		prototypeListFillWhitoutDupllicates plfwd = new prototypeListFillWhitoutDupllicates();
-		
-		plfwd.run(cl.getOriginalList());
-		for (String item : plfwd.getModel()) {
-			cbModel.getItems().add(item);
-		}
-		cbUsed.getItems().add("Ny");
-		cbUsed.getItems().add("Brugt");
-
-		cbModel.getSelectionModel().selectedItemProperty().addListener(c -> {
-			populateTableView(ls.sortCar(cl.getOriginalList(),cbUsed.getSelectionModel().getSelectedItem(),cbModel.getSelectionModel().getSelectedItem()));
-		});
-
-		cbUsed.getSelectionModel().selectedItemProperty().addListener(c -> {
-			populateTableView(ls.sortCar(cl.getOriginalList(),cbUsed.getSelectionModel().getSelectedItem(),cbModel.getSelectionModel().getSelectedItem()));
-		});
 
 		// Error label
 		Label lbError = clabel.lb();
