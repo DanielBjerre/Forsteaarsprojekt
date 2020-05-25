@@ -1,5 +1,7 @@
 package presentation;
 
+import java.util.ArrayList;
+
 import create.CreateButton;
 import entities.Car;
 import entities.Offer;
@@ -23,12 +25,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.CarLogic;
+import logic.ListSort;
 import logic.OfferLogic;
+import logic.prototypeListFillWhitoutDupllicates;
 
 public class StageChooseCar {
 	Stage stage;
 	CreateButton cb = new CreateButton();
 	CarLogic cl = new CarLogic();
+	ListSort ls = new ListSort();
+	TableView<Car> tvCar;
 
 	public void init(Stage stage, Stage baseStage, Offer offer, TextField tfCarModel, TextField tfCarPrice) {
 		this.stage = stage;
@@ -44,18 +50,19 @@ public class StageChooseCar {
 
 		// Comboboxes for filtering cars
 		HBox hBoxChoice = new HBox();
-		ComboBox cbUsed = new ComboBox();
-		ComboBox cbModel = new ComboBox();
+		ComboBox<String> cbUsed = new ComboBox<String>();
+		ComboBox<String> cbModel = new ComboBox<String>();
 		hBoxChoice.getChildren().addAll(cbUsed, cbModel);
 
 		// Create tableview
 		TableView<Car> tvCar = new TableView<Car>();
+		this.tvCar = tvCar;
 
 		// Create tableview columns
 		TableColumn<Car, String> clmCondition = new TableColumn<>("Stand");
 		TableColumn<Car, String> clmSerialNumber = new TableColumn<>("Serienummer");
 		TableColumn<Car, String> clmModel = new TableColumn<>("Model");
-		TableColumn<Car, String> clmModelYear = new TableColumn<>("Årgang");
+		TableColumn<Car, String> clmModelYear = new TableColumn<>("ï¿½rgang");
 		TableColumn<Car, String> clmColor = new TableColumn<>("Farve");
 		TableColumn<Car, String> clmMileage = new TableColumn<>("Kilometer");
 		TableColumn<Car, String> clmPrice = new TableColumn<>("Pris");
@@ -76,8 +83,28 @@ public class StageChooseCar {
 		clmPrice.setCellValueFactory(new PropertyValueFactory<Car, String>("price"));
 
 		// Add items to tableview
-		ObservableList<Car> olCar = FXCollections.observableList(cl.getOriginalList());
-		tvCar.setItems(olCar);
+		populateTableView(cl.getOriginalList());
+
+		//SK
+		prototypeListFillWhitoutDupllicates plfwd = new prototypeListFillWhitoutDupllicates();
+		
+		plfwd.run(cl.getOriginalList());
+		for (String item : plfwd.getModel()) {
+			cbModel.getItems().add(item);
+		}
+		cbUsed.getItems().add("Ny");
+		cbUsed.getItems().add("Brugt");
+
+		cbModel.getSelectionModel().selectedItemProperty().addListener(c -> {
+			populateTableView(ls.sortCar(cl.getOriginalList(),cbUsed.getSelectionModel().getSelectedItem(),cbModel.getSelectionModel().getSelectedItem()));
+		});
+
+		cbUsed.getSelectionModel().selectedItemProperty().addListener(c -> {
+			populateTableView(ls.sortCar(cl.getOriginalList(),cbUsed.getSelectionModel().getSelectedItem(),cbModel.getSelectionModel().getSelectedItem()));
+		});
+
+
+
 
 		// Buttons below tableview
 		HBox hBoxButtons = new HBox(20);
@@ -85,7 +112,7 @@ public class StageChooseCar {
 		btnClose.setOnAction(e -> {
 			stage.close();
 		});
-		Button btnChoose = cb.btn("Vælg bil");
+		Button btnChoose = cb.btn("Vï¿½lg bil");
 		btnChoose.setOnAction(e -> {
 			if (tvCar.getSelectionModel().getSelectedItem() != null) {
 				try {
@@ -110,6 +137,11 @@ public class StageChooseCar {
 
 		stage.setScene(scene);
 		stage.show();
+	}
+
+	private void populateTableView(ArrayList<Car> arrayList) {
+		ObservableList<Car> olCar = FXCollections.observableArrayList(arrayList);
+		tvCar.setItems(olCar);
 	}
 
 }
