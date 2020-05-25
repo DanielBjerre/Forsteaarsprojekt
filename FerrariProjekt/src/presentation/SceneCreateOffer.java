@@ -1,5 +1,7 @@
 package presentation;
 
+import com.sun.glass.ui.Pixels.Format;
+
 import FFL.Rating;
 import create.Constants;
 import create.CreateButton;
@@ -10,6 +12,7 @@ import entities.Offer;
 import entities.Term;
 import exception.CustomException;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -27,9 +30,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.APIController;
+import logic.ActiveEmployee;
 import logic.CalculateLoan;
 import logic.CustomerController;
 import logic.OfferLogic;
+import styles.JavaFXStyles;
 
 public class SceneCreateOffer {
 	Stage stage;
@@ -40,35 +45,56 @@ public class SceneCreateOffer {
 	TextField tfPhoneNumber, tfCprNumber, tfCreditrating, tfFirstName, tfLastName, tfEMail, tfCity, tfZipCode,
 			tfAddress, tfDownpayment, tfNumOfTerms;
 	Label customerError;
-	VBox vBoxLeft, VboxRight;
-	Insets insets = new Insets(15, 15, 15, 15);
+	VBox vBoxLeft, vBoxRight;
+	HBox hBoxCenter;
+	Insets insets = new Insets(5, 15, 5, 15);
+	Insets insets2 = new Insets(5, 5, 5, 5);
 	Button btnFindCustomer, btnChooseCar, btnCalculate, btnCreateOffer;
 	APIController ac = new APIController();
 	TableView<Term> tvTerm;
 	
 	public void init(Stage stage) {
+		offer.setOfferEmployee(ActiveEmployee.getInstance().getEmployee());
+		double spacing = 10;
 		this.stage = stage;
 		double textsize = Constants.textSize;
-
+		double width = 0.15;
 		// Get daily rate when opening page
 		ac.findDailyRate(offer);
 
 		// Setup
 		BorderPane root = new BorderPane();
 		root.setPadding(insets);
-		vBoxLeft = new VBox(20);
-		root.setLeft(vBoxLeft);
-		vBoxLeft.setAlignment(Pos.TOP_CENTER);
+		root.setStyle(JavaFXStyles.backgroundStyle1);	
+		vBoxLeft = new VBox(7);
+		vBoxLeft.setPrefWidth(stage.getWidth()/2);
+		vBoxLeft.setStyle(JavaFXStyles.backgroundStyle2);
+		vBoxLeft.setPadding(insets);
+		vBoxLeft.setMaxHeight(stage.getHeight()/2);
+		vBoxLeft.setAlignment(Pos.CENTER);
 
+		vBoxRight = new VBox(20);
+		vBoxRight.setAlignment(Pos.CENTER);
+		vBoxRight.setPrefWidth(stage.getWidth()/2);	
+		vBoxRight.setStyle(JavaFXStyles.backgroundStyle2);
+		vBoxRight.setPadding(insets);
+		hBoxCenter = new HBox(20);
+		hBoxCenter.setAlignment(Pos.CENTER);
+		hBoxCenter.getChildren().addAll(vBoxLeft, vBoxRight);
+
+		root.setCenter(hBoxCenter);
+		
 		// STAGE TITLE
 		Label lbTitle = cl.lb("Opret Tilbud", 50);
 		lbTitle.setPrefHeight(stage.getHeight() / 20);
 		vBoxLeft.getChildren().add(lbTitle);
 
 		// CPR NUMBER
-		tfCprNumber = ctf.tf("");
+		tfCprNumber = ctf.tf();
+		tfCprNumber.setMinWidth(stage.getWidth()*0.06);
 		Label lbCprNumber = cl.lb("CPR Nummer:", textsize);
-		this.btnFindCustomer = new Button("Sï¿½g");
+		lbCprNumber.setMinWidth(stage.getWidth()*0.1);
+		btnFindCustomer = cb.btn("Søg", 1, 1);
 		btnFindCustomer.setOnAction(e -> {
 			if (tfCprNumber.getLength() != 10) {
 				customerError.setText("Ugyldigt CPR-Nummer");
@@ -81,57 +107,78 @@ public class SceneCreateOffer {
 		makeHbox(lbCprNumber, tfCprNumber, btnFindCustomer);
 
 		// ERRORBOX FOR CPRNUMBER
-		customerError = new Label();
+		customerError = cl.lb();
 		customerError.setAlignment(Pos.CENTER);
 		vBoxLeft.getChildren().add(customerError);
 
 		// CREDITRATING
 		Label lbCreditRating = cl.lb("Kundens Kreditvurdering:", textsize);
-		tfCreditrating = ctf.tf("");
+		lbCreditRating.setMinWidth(stage.getWidth()*width);
+		tfCreditrating = ctf.tf();
+		tfCreditrating.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbCreditRating, tfCreditrating);
 
 		// PHONENUMBER
 		Label lbPhoneNumber = cl.lb("Telefonnummer:", textsize);
-		tfPhoneNumber = ctf.tf("");
+		lbPhoneNumber.setMinWidth(stage.getWidth()*width);
+		tfPhoneNumber = ctf.tf();
+		tfPhoneNumber.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbPhoneNumber, tfPhoneNumber);
 
 		// FIRSTNAME
 		Label lbFirstName = cl.lb("Fornavn(e)", textsize);
-		tfFirstName = ctf.tf("");
+		lbFirstName.setMinWidth(stage.getWidth()*width);
+		tfFirstName = ctf.tf();
+		tfFirstName.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbFirstName, tfFirstName);
 
 		// LASTNAME
 		Label lbLastName = cl.lb("Efternavn", textsize);
-		tfLastName = ctf.tf("");
+		lbLastName.setMinWidth(stage.getWidth()*width);
+		tfLastName = ctf.tf();
+		tfLastName.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbLastName, tfLastName);
 
 		// EMAIL
 		Label lbEMail = cl.lb("eMail:", textsize);
-		tfEMail = ctf.tf("");
+		lbEMail.setMinWidth(stage.getWidth()*width);
+		tfEMail = ctf.tf();
+		tfEMail.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbEMail, tfEMail);
 
 		// CITY
 		Label lbCity = cl.lb("By:", textsize);
-		tfCity = ctf.tf("");
+		lbCity.setMinWidth(stage.getWidth()*width);
+		tfCity = ctf.tf();
+		tfCity.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbCity, tfCity);
 
 		// ZIPCODE
 		Label lbZipCode = cl.lb("Postnummer:", textsize);
-		tfZipCode = ctf.tf("");
+		lbZipCode.setMinWidth(stage.getWidth()*width);
+		tfZipCode = ctf.tf();
+		tfZipCode.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbZipCode, tfZipCode);
 
 		// ADDRESS
 		Label lbAddress = cl.lb("Adresse:", textsize);
-		tfAddress = ctf.tf("");
+		lbAddress.setMinWidth(stage.getWidth()*width);
+		tfAddress = ctf.tf();
+		tfAddress.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbAddress, tfAddress);
 
 		// CAR
 		Label lbCar = cl.lb("Bil:", textsize);
-		TextField tfCarModel = ctf.tf("");
-		TextField tfCarPrice = ctf.tf("");
+		lbCar.setMinWidth(stage.getWidth()*width);
+		TextField tfCarModel = ctf.tf();
+		tfCarModel.setMinWidth(stage.getWidth()*width);
+		tfCarModel.setPromptText("Bilmodel");
+		TextField tfCarPrice = ctf.tf();
+		tfCarPrice.setMinWidth(stage.getWidth()*width);
+		tfCarPrice.setPromptText("Bilens pris");
 		tfCarModel.setEditable(false);
 		tfCarPrice.setEditable(false);
-		this.btnChooseCar = cb.btn("Vï¿½lg bil");
+		btnChooseCar = cb.btn("Vælg bil", 4, 1);
 
 		tfCarPrice.textProperty().addListener(c-> {
 			btnCalculate.setDisable(false);
@@ -142,36 +189,32 @@ public class SceneCreateOffer {
 			stCC.init(new Stage(), stage, offer, tfCarModel, tfCarPrice);
 
 		});
-		makeHbox(lbCar, tfCarModel, tfCarPrice, btnChooseCar);
+		vBoxLeft.getChildren().add(btnChooseCar);
+		makeHbox(tfCarModel, tfCarPrice);
 
 		// DOWNPAYMENT
 		Label lbDownpayment = cl.lb("Udbetaling:", textsize);
-		tfDownpayment = ctf.tf("");
+		lbDownpayment.setMinWidth(stage.getWidth()*width);
+		tfDownpayment = ctf.tf();
+		tfDownpayment.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbDownpayment, tfDownpayment);
 
 		// NUMBER OF TERMS
-		Label lbNumOfTerms = cl.lb("Lï¿½betid:", textsize);
-		tfNumOfTerms = ctf.tf("");
+		Label lbNumOfTerms = cl.lb("Løbetid:", textsize);
+		lbNumOfTerms.setMinWidth(stage.getWidth()*width);
+		tfNumOfTerms = ctf.tf();
+		tfNumOfTerms.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbNumOfTerms, tfNumOfTerms);
 
 		// BUTTONS
-		this.btnCalculate = cb.btn("Udregn");
-		btnCalculate.setOnAction(e -> {
-			offer.setNumOfTerms(Integer.parseInt(tfNumOfTerms.getText()));
-			offer.setDownPayment(tfDownpayment.getText());
-			Double loanValue = offer.getOfferCar().getPriceDouble() - offer.getDownPaymentDouble();
-			offer.setLoanValue(loanValue.toString());
-			new CalculateLoan(offer);
-			populateTableView();
-			btnCreateOffer.setDisable(false);
-		});
-		Button btnBack = cb.btn("Tilbage");
+		btnCalculate = cb.btn("Udregn", 5,1);
+		Button btnBack = cb.btn("Tilbage", 5, 1);
 
 		btnBack.setOnAction(e -> {
 			SceneMainMenu scHM = new SceneMainMenu();
 			scHM.init(stage);
 		});
-		vBoxLeft.getChildren().addAll(btnBack, btnCalculate);
+		vBoxLeft.getChildren().addAll(btnCalculate, btnBack);
 
 		// TESTING PURPOSES
 		tfCprNumber.setText("0123456789");
@@ -179,8 +222,118 @@ public class SceneCreateOffer {
 		tfNumOfTerms.setText("24");
 
 		// RIGHT SIDE
-		VboxRight = new VBox(20);
-		root.setRight(VboxRight);
+		HBox hBoxTitle = new HBox(10);
+		hBoxTitle.setAlignment(Pos.TOP_CENTER);
+		Label lbTitleRight = cl.lb("Lånetilbud:");
+		Label lbTitleValue = cl.lb();
+		hBoxTitle.getChildren().addAll(lbTitleRight,lbTitleValue);
+		vBoxRight.getChildren().add(hBoxTitle);
+		
+		Label lbCustomer = cl.lb("Kunde");
+		vBoxRight.getChildren().add(lbCustomer);		
+		HBox hBoxCustomer = new HBox();
+		
+		VBox vBoxCustomer1 = new VBox(spacing);
+		vBoxCustomer1.setPrefWidth(stage.getWidth()*0.10);
+		Label lbCustomerName = cl.lb("Navn:", Constants.textSize*0.75);
+		Label lbCustomerPhone = cl.lb("Telefonnummer:", Constants.textSize*0.75);
+		Label lbCustomerAddress = cl.lb("Addresse:", Constants.textSize*0.75);
+		vBoxCustomer1.getChildren().addAll(lbCustomerName,lbCustomerPhone, lbCustomerAddress);
+		
+		VBox vBoxCustomer2 = new VBox(spacing);
+		vBoxCustomer2.setPrefWidth(stage.getWidth()*0.2);
+		Label lbCustomerNameValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCustomerPhoneValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCustomerAddressValue = cl.lb("", Constants.textSize*0.75);
+		vBoxCustomer2.getChildren().addAll(lbCustomerNameValue, lbCustomerPhoneValue, lbCustomerAddressValue);
+		
+		VBox vBoxCustomer3 = new VBox(spacing);
+		vBoxCustomer3.setPrefWidth(stage.getWidth()*0.1);
+		Label lbCustomerCprNumber = cl.lb("CPR-Nummer:", Constants.textSize*0.75);
+		Label lbCustomerEMail = cl.lb("eMail:", Constants.textSize*0.75);
+		vBoxCustomer3.getChildren().addAll(lbCustomerCprNumber, lbCustomerEMail);
+		
+		VBox vBoxCustomer4 = new VBox(spacing);
+		vBoxCustomer4.setPrefWidth(stage.getWidth()*0.15);
+		Label lbCustomerCprNumberValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCustomerEMailValue = cl.lb("", Constants.textSize*0.75);
+		vBoxCustomer4.getChildren().addAll(lbCustomerCprNumberValue, lbCustomerEMailValue);
+		
+		hBoxCustomer.getChildren().addAll(vBoxCustomer1,vBoxCustomer2,vBoxCustomer3,vBoxCustomer4);
+		hBoxCustomer.setStyle(JavaFXStyles.HBoxStyle);
+		hBoxCustomer.setPadding(insets2);
+		vBoxRight.getChildren().add(hBoxCustomer);
+				
+		Label lbCarRight = cl.lb("Bil");
+		vBoxRight.getChildren().add(lbCarRight);
+		
+		HBox hBoxCar = new HBox(spacing);
+		VBox vBoxCar1 = new VBox();
+		vBoxCar1.setPrefWidth(stage.getWidth()*0.1);
+		Label lbCarModel = cl.lb("Model:", Constants.textSize*0.75);
+		Label lbCarMileage = cl.lb("Kilometer:", Constants.textSize*0.75);
+		vBoxCar1.getChildren().addAll(lbCarModel, lbCarMileage);
+		
+		VBox vBoxCar2 = new VBox(spacing); 
+		vBoxCar2.setPrefWidth(stage.getWidth()*0.2);
+		Label lbCarModelValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCarMileageValue = cl.lb("", Constants.textSize*0.75);
+		vBoxCar2.getChildren().addAll(lbCarModelValue, lbCarMileageValue);
+		
+		VBox vBoxCar3 = new VBox(spacing);
+		vBoxCar3.setPrefWidth(stage.getWidth()*0.1);
+		Label lbCarModelYear = cl.lb("Årgang:", Constants.textSize*0.75);
+		Label lbCarSerialNumber = cl.lb("Serienummer:", Constants.textSize*0.75);
+		vBoxCar3.getChildren().addAll(lbCarModelYear, lbCarSerialNumber);
+		
+		VBox vBoxCar4 = new VBox(spacing);
+		vBoxCar4.setPrefWidth(stage.getWidth()*0.15);	
+		Label lbCarModelYearValue = cl.lb("", Constants.textSize*0.75);
+		Label lbCarSerialNumberValue = cl.lb("", Constants.textSize*0.75);
+		vBoxCar4.getChildren().addAll(lbCarModelYearValue, lbCarSerialNumberValue);
+		
+		hBoxCar.getChildren().addAll(vBoxCar1,vBoxCar2,vBoxCar3,vBoxCar4);
+		hBoxCar.setStyle(JavaFXStyles.HBoxStyle);
+		hBoxCar.setPadding(insets2);
+		vBoxRight.getChildren().add(hBoxCar);
+		
+		HBox hBoxEmployee = new HBox(30);
+		Label lbEmployeeName = cl.lb("Sælger:", Constants.textSize*0.75);
+		Label lbEmployeeNameValue = cl.lb("", Constants.textSize*0.75);
+		hBoxEmployee.getChildren().addAll(lbEmployeeName,lbEmployeeNameValue);
+		hBoxEmployee.setPadding(insets2);
+		vBoxRight.getChildren().add(hBoxEmployee);
+		
+		HBox hBoxInfo = new HBox();
+		VBox vBoxInfo1 = new VBox(spacing);
+		vBoxInfo1.setPrefWidth(stage.getWidth()*0.1);
+		Label lbPrice = cl.lb("Pris:", Constants.textSize*0.75);
+		Label lbDownPayment = cl.lb("Udbetaling:", Constants.textSize*0.75);
+		Label lbLoanValue = cl.lb("Lånebeløb:", Constants.textSize*0.75);
+		vBoxInfo1.getChildren().addAll(lbPrice, lbDownPayment, lbLoanValue);
+		
+		VBox vBoxInfo2 = new VBox(spacing);
+		vBoxInfo2.setPrefWidth(stage.getWidth()*0.2);
+		Label lbPriceValue = cl.lb("", Constants.textSize*0.75);
+		Label lbDownPaymentValue = cl.lb("", Constants.textSize*0.75);
+		Label lbLoanValueValue = cl.lb("", Constants.textSize*0.75);
+		vBoxInfo2.getChildren().addAll(lbPriceValue, lbDownPaymentValue, lbLoanValueValue);
+		
+		VBox vBoxInfo3 = new VBox(spacing);
+		vBoxInfo3.setPrefWidth(stage.getWidth()*0.1);
+		Label lbRate = cl.lb("Rente:", Constants.textSize*0.75);
+		Label lbNumOfTermsRight = cl.lb("Løbetid:", Constants.textSize*0.75);
+		vBoxInfo3.getChildren().addAll(lbRate, lbNumOfTermsRight);
+		
+		VBox vBoxInfo4 = new VBox(spacing);
+		vBoxInfo4.setPrefWidth(stage.getWidth()*0.15);
+		Label lbRateValue = cl.lb("", Constants.textSize*0.75);
+		Label lbNumOfTermsValue = cl.lb("", Constants.textSize*0.75);
+		vBoxInfo4.getChildren().addAll(lbRateValue, lbNumOfTermsValue);
+		hBoxInfo.getChildren().addAll(vBoxInfo1,vBoxInfo2,vBoxInfo3,vBoxInfo4);
+		hBoxInfo.setStyle(JavaFXStyles.HBoxStyle);
+		hBoxInfo.setPadding(insets2);
+		vBoxRight.getChildren().add(hBoxInfo);
 
 		// CREATE TABLEVIEW
 		tvTerm = new TableView<Term>();
@@ -191,20 +344,43 @@ public class SceneCreateOffer {
 		TableColumn<Term, String> clmPrincipal = new TableColumn<>("Afdrag");
 		TableColumn<Term, String> clmNewBalance = new TableColumn<>("Ultimo Restgï¿½ld");
 
+		// COLUMN WIDTH & ALIGNMENT
+        clmTermNumber.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.11));
+		clmTermNumber.setStyle("-fx-alignment: CENTER");
+        clmPreviousBalance.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.17));
+        clmPreviousBalance.setStyle("-fx-alignment: CENTER");
+        clmPayment.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.17));
+        clmPayment.setStyle("-fx-alignment: CENTER");
+        clmInterest.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.17));
+        clmInterest.setStyle("-fx-alignment: CENTER");
+        clmPrincipal.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.17));
+        clmPrincipal.setStyle("-fx-alignment: CENTER");
+        clmNewBalance.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.18));
+        clmNewBalance.setStyle("-fx-alignment: CENTER");
+		
 		// ADD COLUMNS TO TABLEVIEW
 		tvTerm.getColumns().addAll(clmTermNumber, clmPreviousBalance, clmPayment, clmInterest, clmPrincipal,
 				clmNewBalance);
 
 		// ADD VALUES TO COLUMNS
 		clmTermNumber.setCellValueFactory(new PropertyValueFactory<Term, String>("termNumber"));
-		clmPreviousBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("previousBalance"));
-		clmPayment.setCellValueFactory(new PropertyValueFactory<Term, String>("payment"));
-		clmInterest.setCellValueFactory(new PropertyValueFactory<Term, String>("interest"));
-		clmPrincipal.setCellValueFactory(new PropertyValueFactory<Term, String>("principal"));
-		clmNewBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("newBalance"));
-		
+		clmPreviousBalance.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(String.format("%.2f", Double.parseDouble(cellData.getValue().getPreviousBalance()))+"kr");
+		});
+		clmPayment.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(String.format("%.2f", Double.parseDouble(cellData.getValue().getPayment()))+"kr");
+		});
+		clmInterest.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(String.format("%.2f", Double.parseDouble(cellData.getValue().getInterest()))+"kr");
+		});
+		clmPrincipal.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(String.format("%.2f", Double.parseDouble(cellData.getValue().getPrincipal()))+"kr");
+		});
+		clmNewBalance.setCellValueFactory(cellData -> {
+			return new ReadOnlyStringWrapper(String.format("%.2f", Double.parseDouble(cellData.getValue().getNewBalance()))+"kr");
+		});
 		// BUTTONS BELOW TABLEVIEW
-		this.btnCreateOffer = cb.btn("Opret Tilbud");
+		btnCreateOffer = cb.btn("Opret Tilbud" , 5, 1);
 		btnCreateOffer.setOnAction(e -> {
 			if (!offer.getOfferCustomer().isExists()) {
 				fillCustomer();
@@ -212,10 +388,38 @@ public class SceneCreateOffer {
 			}
 			new OfferLogic().offerCreate(offer);
 		});
-
-		VboxRight.getChildren().addAll(tvTerm, btnCreateOffer);
+		vBoxRight.getChildren().addAll(tvTerm, btnCreateOffer);
 		tfKundeIsNotHandel(false);
 		btnReset();
+		
+		btnCalculate.setOnAction(e -> {
+			offer.setNumOfTerms(Integer.parseInt(tfNumOfTerms.getText()));
+			offer.setDownPayment(tfDownpayment.getText());
+			Double loanValue = offer.getOfferCar().getPriceDouble() - offer.getDownPaymentDouble();
+			offer.setLoanValue(loanValue.toString());
+			new CalculateLoan(offer);
+			populateTableView();
+			btnCreateOffer.setDisable(false);
+			lbTitleValue.setText(offer.getOfferID());
+			lbCustomerNameValue.setText(offer.getOfferCustomer().getFirstName()+offer.getOfferCustomer().getLastName());
+			lbCustomerPhoneValue.setText(offer.getOfferCustomer().getPhoneNumber());
+			lbCustomerCprNumberValue.setText(offer.getOfferCustomer().getCprNumber());
+			lbCustomerEMailValue.setText(offer.getOfferCustomer().geteMail());
+			lbCustomerAddressValue.setText(offer.getOfferCustomer().getAddress()+offer.getOfferCustomer().getZipCode()+offer.getOfferCustomer().getCity());
+			
+			lbCarModelValue.setText(offer.getOfferCar().getModel());
+			lbCarMileageValue.setText(offer.getOfferCar().getMileage());
+			lbCarModelYearValue.setText(offer.getOfferCar().getModelYear());
+			lbCarSerialNumberValue.setText(offer.getOfferCar().getSerialNumber());
+			
+			lbEmployeeNameValue.setText(offer.getOfferEmployee().getFirstName()+ " " + offer.getOfferEmployee().getLastName());
+			
+			lbPriceValue.setText(offer.getOfferCar().getPrice());
+			lbDownPaymentValue.setText(offer.getDownPayment());
+			lbLoanValueValue.setText(offer.getLoanValue());
+			lbRateValue.setText(String.format("%.2f",Double.parseDouble(offer.getRate())));
+			lbNumOfTermsValue.setText(Integer.toString(offer.getNumOfTerms()));
+		});
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
@@ -317,7 +521,7 @@ public class SceneCreateOffer {
 	 * @return HBox with all the nodes added in order
 	 */
 	private HBox makeHbox(Node... nodes) {
-		HBox tempHBox = new HBox();
+		HBox tempHBox = new HBox(20);
 		for (Node node : nodes) {
 			tempHBox.getChildren().add(node);
 		}
