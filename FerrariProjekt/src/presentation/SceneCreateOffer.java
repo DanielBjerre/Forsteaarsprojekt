@@ -42,7 +42,7 @@ public class SceneCreateOffer {
 	Label customerError;
 	VBox vBoxLeft, VboxRight;
 	Insets insets = new Insets(15, 15, 15, 15);
-	Button btnFindCustomer;
+	Button btnFindCustomer, btnChooseCar, btnCalculate, btnCreateOffer;
 	APIController ac = new APIController();
 	TableView<Term> tvTerm;
 	
@@ -68,7 +68,7 @@ public class SceneCreateOffer {
 		// CPR NUMBER
 		tfCprNumber = ctf.tf("");
 		Label lbCprNumber = cl.lb("CPR Nummer:", textsize);
-		btnFindCustomer = new Button("Søg");
+		this.btnFindCustomer = new Button("Sï¿½g");
 		btnFindCustomer.setOnAction(e -> {
 			if (tfCprNumber.getLength() != 10) {
 				customerError.setText("Ugyldigt CPR-Nummer");
@@ -129,7 +129,14 @@ public class SceneCreateOffer {
 		Label lbCar = cl.lb("Bil:", textsize);
 		TextField tfCarModel = ctf.tf("");
 		TextField tfCarPrice = ctf.tf("");
-		Button btnChooseCar = cb.btn("Vælg bil");
+		tfCarModel.setEditable(false);
+		tfCarPrice.setEditable(false);
+		this.btnChooseCar = cb.btn("Vï¿½lg bil");
+
+		tfCarPrice.textProperty().addListener(c-> {
+			btnCalculate.setDisable(false);
+		});
+
 		btnChooseCar.setOnAction(e -> {
 			StageChooseCar stCC = new StageChooseCar();
 			stCC.init(new Stage(), stage, offer, tfCarModel, tfCarPrice);
@@ -143,12 +150,12 @@ public class SceneCreateOffer {
 		makeHbox(lbDownpayment, tfDownpayment);
 
 		// NUMBER OF TERMS
-		Label lbNumOfTerms = cl.lb("Løbetid:", textsize);
+		Label lbNumOfTerms = cl.lb("Lï¿½betid:", textsize);
 		tfNumOfTerms = ctf.tf("");
 		makeHbox(lbNumOfTerms, tfNumOfTerms);
 
 		// BUTTONS
-		Button btnCalculate = cb.btn("Udregn");
+		this.btnCalculate = cb.btn("Udregn");
 		btnCalculate.setOnAction(e -> {
 			offer.setNumOfTerms(Integer.parseInt(tfNumOfTerms.getText()));
 			offer.setDownPayment(tfDownpayment.getText());
@@ -156,6 +163,7 @@ public class SceneCreateOffer {
 			offer.setLoanValue(loanValue.toString());
 			new CalculateLoan(offer);
 			populateTableView();
+			btnCreateOffer.setDisable(false);
 		});
 		Button btnBack = cb.btn("Tilbage");
 
@@ -177,11 +185,11 @@ public class SceneCreateOffer {
 		// CREATE TABLEVIEW
 		tvTerm = new TableView<Term>();
 		TableColumn<Term, String> clmTermNumber = new TableColumn<>("Termin nr:");
-		TableColumn<Term, String> clmPreviousBalance = new TableColumn<>("Primo Restgæld");
+		TableColumn<Term, String> clmPreviousBalance = new TableColumn<>("Primo Restgï¿½ld");
 		TableColumn<Term, String> clmPayment = new TableColumn<>("Ydelse");
 		TableColumn<Term, String> clmInterest = new TableColumn<>("Rente");
 		TableColumn<Term, String> clmPrincipal = new TableColumn<>("Afdrag");
-		TableColumn<Term, String> clmNewBalance = new TableColumn<>("Ultimo Restgæld");
+		TableColumn<Term, String> clmNewBalance = new TableColumn<>("Ultimo Restgï¿½ld");
 
 		// ADD COLUMNS TO TABLEVIEW
 		tvTerm.getColumns().addAll(clmTermNumber, clmPreviousBalance, clmPayment, clmInterest, clmPrincipal,
@@ -196,7 +204,7 @@ public class SceneCreateOffer {
 		clmNewBalance.setCellValueFactory(new PropertyValueFactory<Term, String>("newBalance"));
 		
 		// BUTTONS BELOW TABLEVIEW
-		Button btnCreateOffer = cb.btn("Opret Tilbud");
+		this.btnCreateOffer = cb.btn("Opret Tilbud");
 		btnCreateOffer.setOnAction(e -> {
 			if (!offer.getOfferCustomer().isExists()) {
 				fillCustomer();
@@ -206,6 +214,8 @@ public class SceneCreateOffer {
 		});
 
 		VboxRight.getChildren().addAll(tvTerm, btnCreateOffer);
+		tfKundeIsNotHandel(false);
+		btnReset();
 
 		Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 		stage.setScene(scene);
@@ -238,10 +248,19 @@ public class SceneCreateOffer {
 		} catch (CustomException e) {
 			offer.setOfferCustomer(new Customer());
 			offer.getOfferCustomer().setExists(false);
+			if(!offer.getOfferCustomer().isExists())
+			{
+				tfKundeIsNotHandel(true);
+			}
 			customerError.setText(e.getMessage());
 			clearInfo();
 		} finally {
-			ac.findRating(cprNumber, this::fillRating);
+			if(offer.getOfferCustomer().isBadStanding())
+			{
+				customerError.setText("Vi kan ikke oprette et lÃ¥n til denne kunde (bad standing)");
+			} else {
+				ac.findRating(cprNumber, this::fillRating);
+			}
 		}
 
 	}
@@ -286,6 +305,7 @@ public class SceneCreateOffer {
 				}
 				offer.getOfferCustomer().setCreditRating(creditRate);
 				btnFindCustomer.setDisable(false);
+				btnChooseCar.setDisable(false);
 			}
 		});
 	}
@@ -323,5 +343,23 @@ public class SceneCreateOffer {
 		offer.getOfferCustomer().setAddress(tfAddress.getText());
 		offer.getOfferCustomer().setZipCode(tfZipCode.getText());
 		offer.getOfferCustomer().setCity(tfCity.getText());
+	}
+
+	private void tfKundeIsNotHandel(boolean state)
+	{
+		tfPhoneNumber.setEditable(state);
+		tfFirstName.setEditable(state);
+		tfLastName.setEditable(state);
+		tfEMail.setEditable(state);
+		tfCity.setEditable(state);
+		tfZipCode.setEditable(state);
+		tfCreditrating.setEditable(state);
+	}
+
+	private void btnReset()
+	{
+		btnCalculate.setDisable(true);
+		btnChooseCar.setDisable(true);
+		btnCreateOffer.setDisable(true);
 	}
 }
