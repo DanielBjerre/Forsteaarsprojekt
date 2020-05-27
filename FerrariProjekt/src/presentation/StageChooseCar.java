@@ -31,15 +31,13 @@ import logic.OfferLogic;
 import styles.JavaFXStyles;
 
 public class StageChooseCar {
-	Stage stage;
-	CreateButton cb = new CreateButton();
-	CreateLabel clabel = new CreateLabel();
-	CarLogic cl = new CarLogic();
-	ListSort ls = new ListSort();
-	TableView<Car> tvCar;
+	private CreateButton cb = new CreateButton();
+	private CreateLabel clabel = new CreateLabel();
+	private CarLogic cl = new CarLogic();
+	private ListSort ls = new ListSort();
+	private TableView<Car> tvCar;
 
 	public void init(Stage stage, Stage baseStage, Offer offer, TextField tfCarModel, TextField tfCarPrice) {
-		this.stage = stage;
 
 		// Setup BorderPane
 		Insets insets = new Insets(20, 100, 20, 100);

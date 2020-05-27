@@ -33,26 +33,22 @@ import logic.PrintCSV;
 import styles.JavaFXStyles;
 
 public class SceneLookUpOffer {
-	TextField tfSearch;
-	Stage stage;
-	VBox vBoxLeft, vBoxRight;
-	HBox hBoxCenter;
-	Insets insets = new Insets(15, 15, 15, 15);
-	Insets insets2 = new Insets(5, 5, 5, 5);
+	private TextField tfSearch;
+	private VBox vBoxLeft, vBoxRight;
+	private HBox hBoxCenter;
+	private Insets insets = new Insets(15, 15, 15, 15);
+	private Insets insets2 = new Insets(5, 5, 5, 5);
 
-	TableView<Term> tvTerm;
-	TableView<Offer> tvOffer;
-	CreateButton cb = new CreateButton();
-	CreateTextField ctf = new CreateTextField();
-	OfferLogic offerLogic = new OfferLogic();
-	ListSort ls = new ListSort();
-	ComboBox<String> cbSearch;
-	CreateLabel cl = new CreateLabel();
+	private TableView<Term> tvTerm;
+	private TableView<Offer> tvOffer;
+	private CreateButton cb = new CreateButton();
+	private CreateTextField ctf = new CreateTextField();
+	private OfferLogic offerLogic = new OfferLogic();
+	private ListSort ls = new ListSort();
+	private ComboBox<String> cbSearch;
+	private CreateLabel cl = new CreateLabel();
 
 	public void init(Stage stage) {
-
-		this.stage = stage;
-
 		// Setup
 		int spacing = 5;
 		BorderPane root = new BorderPane();

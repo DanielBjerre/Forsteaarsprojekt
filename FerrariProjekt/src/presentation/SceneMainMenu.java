@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 import styles.JavaFXStyles;
 
 public class SceneMainMenu {
-	Stage stage;
-	CreateLabel cl = new CreateLabel();
-	CreateButton cb = new CreateButton();
+	private Stage stage;
+	private CreateLabel cl = new CreateLabel();
+	private CreateButton cb = new CreateButton();
 
 	public void init(Stage stage) {
 		this.stage = stage;
