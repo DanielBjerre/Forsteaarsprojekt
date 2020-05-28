@@ -98,7 +98,6 @@ public class SceneCreateOffer {
 				clearInfo();
 			} else {
 				findCustomer(tfCprNumber.getText());
-				btnFindCustomer.setDisable(true);
 			}
 		});
 		makeHbox(lbCprNumber, tfCprNumber, btnFindCustomer);
@@ -112,6 +111,7 @@ public class SceneCreateOffer {
 		Label lbCreditRating = cl.lb("Kundens Kreditvurdering:", textsize);
 		lbCreditRating.setMinWidth(stage.getWidth()*width);
 		tfCreditrating = ctf.tf();
+		tfCreditrating.setEditable(false);
 		tfCreditrating.setMinWidth(stage.getWidth()*width);
 		makeHbox(lbCreditRating, tfCreditrating);
 
@@ -478,7 +478,9 @@ public class SceneCreateOffer {
 			if(offer.getOfferCustomer().isBadStanding())
 			{
 				customerError.setText("Vi kan ikke oprette et lån til denne kunde (bad standing)");
+				btnFindCustomer.setDisable(false);
 			} else {
+				btnFindCustomer.setDisable(true);
 				ac.findRating(cprNumber, this::fillRating);
 			}
 		}
@@ -573,7 +575,7 @@ public class SceneCreateOffer {
 		tfEMail.setEditable(state);
 		tfCity.setEditable(state);
 		tfZipCode.setEditable(state);
-		tfCreditrating.setEditable(state);
+		tfAddress.setEditable(state);
 	}
 
 	private void btnReset()
