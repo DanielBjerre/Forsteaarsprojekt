@@ -156,11 +156,11 @@ public class SceneLookUpOffer {
 				clmManagerAccept);
 		
 		// COLUMN WIDTH AND ALIGNMENT
-		clmCustomer.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.15));
+		clmCustomer.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
 		clmCustomer.setStyle("-fx-alignment: CENTER");
-		clmCar.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
+		clmCar.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.13));
 		clmCar.setStyle("-fx-alignment: CENTER");
-		clmEmployee.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
+		clmEmployee.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.13));
 		clmEmployee.setStyle("-fx-alignment: CENTER");
 		clmLoanValue.prefWidthProperty().bind(tvOffer.widthProperty().multiply(0.14));
 		clmLoanValue.setStyle("-fx-alignment: CENTER");
@@ -207,7 +207,8 @@ public class SceneLookUpOffer {
 		Button btnPrintCSV = cb.btn("Print til CSV-Fil", 3, 1);
 		btnPrintCSV.setOnAction(e -> {
 			new PrintCSV(tvOffer.getSelectionModel().getSelectedItem());
-			
+			StagePopUp stPP = new StagePopUp();
+			stPP.init(new Stage(), "CSV-Fil printet", null);
 		});
 		vBoxLeft.getChildren().add(btnPrintCSV);
 		vBoxLeft.getChildren().add(btnBack);

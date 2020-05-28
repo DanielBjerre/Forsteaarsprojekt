@@ -384,13 +384,9 @@ public class SceneCreateOffer {
 		// BUTTONS BELOW TABLEVIEW
 		btnCreateOffer = cb.btn("Opret Tilbud" , 5, 1);
 		btnCreateOffer.setOnAction(e -> {
-			if (!offer.getOfferCustomer().isExists()) {
-				fillCustomer();
-				new CustomerController().createCustomer(offer);
-			}
 			new OfferLogic().offerCreate(offer);
 			StagePopUp stPP = new StagePopUp();
-			stPP.init(new Stage(), "Ordre oprettet", stage);
+			stPP.init(new Stage(), "Tilbud oprettet", stage);
 		});
 		vBoxRight.getChildren().addAll(tvTerm, btnCreateOffer);
 		tfKundeIsNotHandel(false);
@@ -408,6 +404,10 @@ public class SceneCreateOffer {
 			if(terms > 84) {
 				throw new IncorrectInputException("Løbetid kan ikke være højere end 84");
 			}
+			if (!offer.getOfferCustomer().isExists()) {
+				fillCustomer();
+				new CustomerController().createCustomer(offer);
+			}
 			offer.setNumOfTerms(Integer.parseInt(tfNumOfTerms.getText()));
 			offer.setDownPayment(tfDownpayment.getText());
 			Double loanValue = offer.getOfferCar().getPriceDouble() - offer.getDownPaymentDouble();
@@ -416,11 +416,11 @@ public class SceneCreateOffer {
 			populateTableView();
 			btnCreateOffer.setDisable(false);
 			lbTitleValue.setText(offer.getOfferID());
-			lbCustomerNameValue.setText(offer.getOfferCustomer().getFirstName()+offer.getOfferCustomer().getLastName());
+			lbCustomerNameValue.setText(offer.getOfferCustomer().getFirstName()+" "+offer.getOfferCustomer().getLastName());
 			lbCustomerPhoneValue.setText(offer.getOfferCustomer().getPhoneNumber());
 			lbCustomerCprNumberValue.setText(offer.getOfferCustomer().getCprNumber());
 			lbCustomerEMailValue.setText(offer.getOfferCustomer().geteMail());
-			lbCustomerAddressValue.setText(offer.getOfferCustomer().getAddress()+offer.getOfferCustomer().getZipCode()+offer.getOfferCustomer().getCity());
+			lbCustomerAddressValue.setText(offer.getOfferCustomer().getAddress()+" "+offer.getOfferCustomer().getZipCode()+" "+offer.getOfferCustomer().getCity());
 			
 			lbCarModelValue.setText(offer.getOfferCar().getModel());
 			lbCarMileageValue.setText(offer.getOfferCar().getMileage());
@@ -432,8 +432,8 @@ public class SceneCreateOffer {
 			lbPriceValue.setText(offer.getOfferCar().getPrice());
 			lbDownPaymentValue.setText(offer.getDownPayment());
 			lbLoanValueValue.setText(offer.getLoanValue());
-			lbRateValue.setText(String.format("%.2f",Double.parseDouble(offer.getRate())));
-			lbNumOfTermsValue.setText(Integer.toString(offer.getNumOfTerms()));
+			lbRateValue.setText(String.format("%.2f",Double.parseDouble(offer.getRate()))+" %");
+			lbNumOfTermsValue.setText(Integer.toString(offer.getNumOfTerms())+" måneder");
 			} catch (IncorrectInputException e2) {
 				errorMessage.setText(e2.getMessage());
 			}

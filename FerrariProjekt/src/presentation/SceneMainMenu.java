@@ -26,7 +26,7 @@ public class SceneMainMenu {
 		root.setCenter(vBoxCenter);
 		root.setStyle(JavaFXStyles.backgroundStyle1);
 		vBoxCenter.setAlignment(Pos.CENTER);
-		vBoxCenter.setMaxSize(stage.getWidth()/3, stage.getHeight()*0.6);
+		vBoxCenter.setMaxSize(stage.getWidth()/3, stage.getHeight()*0.65);
 		vBoxCenter.setStyle(JavaFXStyles.backgroundStyle2);
 
 		// Buttons and Labels
