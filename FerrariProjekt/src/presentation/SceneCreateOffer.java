@@ -482,6 +482,8 @@ public class SceneCreateOffer {
 			if (offer.getOfferCustomer().isBadStanding()) {
 				customerError.setText("Vi kan ikke oprette et lån til denne kunde (bad standing)");
 				btnFindCustomer.setDisable(false);
+				btnReset();
+				tfKundeIsNotHandel(false);
 			} else {
 				btnFindCustomer.setDisable(true);
 				ac.findRating(cprNumber, this::fillRating);

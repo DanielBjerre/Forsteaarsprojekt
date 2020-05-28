@@ -216,7 +216,7 @@ public class SceneLookUpOffer {
 		// RIGHT SIDE
 		HBox hBoxTitle = new HBox(10);
 		hBoxTitle.setAlignment(Pos.TOP_CENTER);
-		Label lbTitle = cl.lb("Lï¿½netilbud:");
+		Label lbTitle = cl.lb("Lånetilbud:");
 		Label lbTitleValue = cl.lb();
 		hBoxTitle.getChildren().addAll(lbTitle, lbTitleValue);
 		vBoxRight.getChildren().add(hBoxTitle);
