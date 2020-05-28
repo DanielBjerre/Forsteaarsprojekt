@@ -18,7 +18,7 @@ public class CalculateLoan {
 		calculateTermRate();
 		calculatePayment();
 		calculateTerms();
-		
+
 	}
 
 	private void calculateRate() {

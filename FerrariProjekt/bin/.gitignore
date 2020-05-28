@@ -1,8 +1,8 @@
-/presentation/
-/JUnit/
 /logic/
-/entities/
+/presentation/
+/styles/
 /database/
 /create/
-/Ferrari.css
-/styles/
+/entities/
+/exception/
+/JUnit/

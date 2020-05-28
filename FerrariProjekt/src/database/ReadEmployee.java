@@ -17,7 +17,7 @@ public class ReadEmployee {
 			stmt.setString(2, password);
 
 			try (ResultSet rs = stmt.executeQuery()) {
-				if (rs.next()) {				
+				if (rs.next()) {
 					if (username.toUpperCase().equals(rs.getString("username").toUpperCase())
 							&& password.equals(rs.getString("employeePassword"))) {
 						Employee e = new Employee();
@@ -28,12 +28,12 @@ public class ReadEmployee {
 						e.setTitle(rs.getString("title"));
 						return e;
 					}
-				
+
 				}
 			} catch (SQLException exc) {
 			}
 		} catch (SQLException ex) {
-	}
+		}
 		throw new CustomException("Brugernavn eller adgangskode forkert");
 	}
 

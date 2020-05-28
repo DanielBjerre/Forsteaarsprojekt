@@ -108,20 +108,20 @@ public class SceneLookUpOffer {
 		cbSearch = new ComboBox<>();
 		cbSearch.setStyle(JavaFXStyles.ComboBoxStyle1);
 		cbSearch.setPrefSize(Constants.stageWidth / 10, Constants.stageHeight / 25);
-		cbSearch.getItems().add("Sï¿½lger");
+		cbSearch.getItems().add("Sælger");
 		cbSearch.getItems().add("Kunde");
 		cbSearch.getItems().add("Bil");
 
 		tfSearch = ctf.tf();
 		tfSearch.setMinWidth(stage.getWidth() * 0.20);
-		tfSearch.setPromptText("Vï¿½lg sï¿½gekriterie");
+		tfSearch.setPromptText("Vælg søgekriterie");
 
 		cbSearch.getSelectionModel().selectedItemProperty().addListener(c -> {
 			tfSearch.clear();
 			if (cbSearch.getSelectionModel().getSelectedItem() != null) {
 				switch (cbSearch.getSelectionModel().getSelectedItem()) {
-					case "Sï¿½lger":
-						tfSearch.setPromptText("Indtast sï¿½lger ID");
+					case "Sælger":
+						tfSearch.setPromptText("Indtast sælger ID");
 						break;
 					case "Kunde":
 						tfSearch.setPromptText("Indtast kundens CPR-Nummer");
@@ -131,9 +131,9 @@ public class SceneLookUpOffer {
 						break;
 				}
 			} else
-				tfSearch.setPromptText("Vï¿½lg sï¿½gekriterie");
+				tfSearch.setPromptText("Vælg søgekriterie");
 		});
-		Button btnSearch = cb.btn("Sï¿½g", 2, 1);
+		Button btnSearch = cb.btn("Søg", 2, 1);
 		hbSearch.getChildren().addAll(cbSearch, tfSearch, btnSearch);
 		hbSearch.setSpacing(20);
 		hbSearch.setAlignment(Pos.CENTER);
@@ -145,9 +145,9 @@ public class SceneLookUpOffer {
 		tvOffer.setPlaceholder(new Label("Ingen tilbud fundet"));
 		TableColumn<Offer, String> clmCustomer = new TableColumn<>("Kunde");
 		TableColumn<Offer, String> clmCar = new TableColumn<>("Bil");
-		TableColumn<Offer, String> clmEmployee = new TableColumn<>("Sï¿½lger");
+		TableColumn<Offer, String> clmEmployee = new TableColumn<>("Sælger");
 		TableColumn<Offer, String> clmLoanValue = new TableColumn<>("Hovedstol");
-		TableColumn<Offer, String> clmNumOfTerms = new TableColumn<>("Lï¿½betid");
+		TableColumn<Offer, String> clmNumOfTerms = new TableColumn<>("Løbetid");
 		TableColumn<Offer, String> clmCustomerAccept = new TableColumn<>("Accepteret");
 		TableColumn<Offer, String> clmManagerAccept = new TableColumn<>("Godkendt");
 
@@ -274,7 +274,7 @@ public class SceneLookUpOffer {
 
 		VBox vBoxCar3 = new VBox(spacing);
 		vBoxCar3.setPrefWidth(stage.getWidth() * 0.1);
-		Label lbCarModelYear = cl.lb("ï¿½rgang:", Constants.textSize * 0.75);
+		Label lbCarModelYear = cl.lb("Årgang:", Constants.textSize * 0.75);
 		Label lbCarSerialNumber = cl.lb("Serienummer:", Constants.textSize * 0.75);
 		vBoxCar3.getChildren().addAll(lbCarModelYear, lbCarSerialNumber);
 
@@ -290,7 +290,7 @@ public class SceneLookUpOffer {
 		vBoxRight.getChildren().add(hBoxCar);
 
 		HBox hBoxEmployee = new HBox(30);
-		Label lbEmployeeName = cl.lb("Sï¿½lger:", Constants.textSize * 0.75);
+		Label lbEmployeeName = cl.lb("Sælger:", Constants.textSize * 0.75);
 		Label lbEmployeeNameValue = cl.lb("", Constants.textSize * 0.75);
 		hBoxEmployee.getChildren().addAll(lbEmployeeName, lbEmployeeNameValue);
 		hBoxEmployee.setPadding(insets2);
@@ -301,7 +301,7 @@ public class SceneLookUpOffer {
 		vBoxInfo1.setPrefWidth(stage.getWidth() * 0.1);
 		Label lbPrice = cl.lb("Pris:", Constants.textSize * 0.75);
 		Label lbDownPayment = cl.lb("Udbetaling:", Constants.textSize * 0.75);
-		Label lbLoanValue = cl.lb("Lï¿½nebelï¿½b:", Constants.textSize * 0.75);
+		Label lbLoanValue = cl.lb("Lånebeløb:", Constants.textSize * 0.75);
 		vBoxInfo1.getChildren().addAll(lbPrice, lbDownPayment, lbLoanValue);
 
 		VBox vBoxInfo2 = new VBox(spacing);
@@ -314,7 +314,7 @@ public class SceneLookUpOffer {
 		VBox vBoxInfo3 = new VBox(spacing);
 		vBoxInfo3.setPrefWidth(stage.getWidth() * 0.1);
 		Label lbRate = cl.lb("Rente:", Constants.textSize * 0.75);
-		Label lbNumOfTerms = cl.lb("Lï¿½betid:", Constants.textSize * 0.75);
+		Label lbNumOfTerms = cl.lb("Løbetid:", Constants.textSize * 0.75);
 		vBoxInfo3.getChildren().addAll(lbRate, lbNumOfTerms);
 
 		VBox vBoxInfo4 = new VBox(spacing);
@@ -331,11 +331,11 @@ public class SceneLookUpOffer {
 		tvTerm = new TableView<Term>();
 
 		TableColumn<Term, String> clmTermNumber = new TableColumn<>("Termin nr:");
-		TableColumn<Term, String> clmPreviousBalance = new TableColumn<>("Primo Restgï¿½ld");
+		TableColumn<Term, String> clmPreviousBalance = new TableColumn<>("Primo Restgæld");
 		TableColumn<Term, String> clmPayment = new TableColumn<>("Ydelse");
 		TableColumn<Term, String> clmInterest = new TableColumn<>("Rente");
 		TableColumn<Term, String> clmPrincipal = new TableColumn<>("Afdrag");
-		TableColumn<Term, String> clmNewBalance = new TableColumn<>("Ultimo Restgï¿½ld");
+		TableColumn<Term, String> clmNewBalance = new TableColumn<>("Ultimo Restgæld");
 
 		// COLUMN WIDTH & ALIGNMENT
 		clmTermNumber.prefWidthProperty().bind(tvTerm.widthProperty().multiply(0.11));
@@ -420,7 +420,7 @@ public class SceneLookUpOffer {
 			new OfferLogic().offerUpdate(tvOffer.getSelectionModel().getSelectedItem());
 			tvOffer.refresh();
 		});
-		Button btnDeclineManager = cb.btn("Afslï¿½", 3, 1);
+		Button btnDeclineManager = cb.btn("Afslå", 3, 1);
 		btnDeclineManager.setDisable(true);
 		btnDeclineManager.setOnAction(e -> {
 			// OPDATER BOOLEAN VALUE I DATABSE

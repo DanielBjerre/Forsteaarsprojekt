@@ -1,4 +1,5 @@
 package presentation;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -15,6 +16,6 @@ public class Main extends Application {
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.show();
 		SceneLogin scLogin = new SceneLogin();
-		scLogin.init(primaryStage);		
+		scLogin.init(primaryStage);
 	}
 }

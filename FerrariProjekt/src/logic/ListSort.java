@@ -49,15 +49,15 @@ public class ListSort {
 		}
 		return tempList;
 	}
- /**
-  * Takes an arraylist of cars
-  * Returns an arrayList of either used or new cars
-  * Used cars if condition TRUE
-  * New cars if condition FALSE
-  * @param arrayList
-  * @param condition
-  * @return
-  */
+
+	/**
+	 * Takes an arraylist of cars Returns an arrayList of either used or new cars
+	 * Used cars if condition TRUE New cars if condition FALSE
+	 * 
+	 * @param arrayList
+	 * @param condition
+	 * @return
+	 */
 	public ArrayList<Car> sortCar(ArrayList<Car> arrayList, Boolean condition) {
 		ArrayList<Car> tempList = new ArrayList<>();
 		for (Car car : arrayList) {

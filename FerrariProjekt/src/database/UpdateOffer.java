@@ -7,8 +7,7 @@ import java.sql.SQLException;
 import entities.Offer;
 
 public class UpdateOffer {
-    public UpdateOffer(Offer offer)
-    {
+	public UpdateOffer(Offer offer) {
 		try (Connection con = new dbConnection().newConnection()) {
 			String sql = "UPDATE Offer SET customerID=?, employeeID=?, carID=?, customerAccept=?, managerAccept=?, rate=?, downpayment=?, numOfTerms=?, loanValue=? WHERE offerID=?";
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -26,5 +25,5 @@ public class UpdateOffer {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-    }
+	}
 }

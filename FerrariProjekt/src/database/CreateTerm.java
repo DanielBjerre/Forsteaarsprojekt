@@ -12,7 +12,7 @@ public class CreateTerm {
 		try (Connection con = new dbConnection().newConnection()) {
 			String sql = "INSERT INTO Term" + "(offerID, termNumber, previousBalance, payment, "
 					+ "interest, principal, newBalance) values (?,?,?,?,?,?,?);";
-			
+
 			for (Term term : offer.getPeriods()) {
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setInt(1, offerID);

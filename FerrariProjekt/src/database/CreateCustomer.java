@@ -29,7 +29,7 @@ public class CreateCustomer {
 					System.out.println(offer.getOfferCustomer().getCustomerID());
 				}
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
