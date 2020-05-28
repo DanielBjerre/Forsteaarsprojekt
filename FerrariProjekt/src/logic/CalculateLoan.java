@@ -6,11 +6,10 @@ import entities.Offer;
 import entities.Term;
 
 public class CalculateLoan {
-	Offer offer;
-	Double monthlyRate;
-	Double payment;
-	Double totalPayment;
-	int numOfTerms;
+	private Offer offer;
+	private Double monthlyRate;
+	private Double payment;
+	private int numOfTerms;
 
 	public CalculateLoan(Offer offer) {
 		this.offer = offer;
@@ -54,7 +53,6 @@ public class CalculateLoan {
 		double potens = (numOfTerms - (numOfTerms * 2));
 		double lower = 1 - Math.pow((1.0 + monthlyRate), potens);
 		payment = (offer.getLoanValueDouble()) * (monthlyRate / lower);
-		totalPayment = numOfTerms * payment;
 	}
 
 	private void calculateTerms() {

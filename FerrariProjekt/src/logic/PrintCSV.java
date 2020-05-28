@@ -7,7 +7,7 @@ import entities.Offer;
 import entities.Term;
 
 public class PrintCSV {
-    Offer offer;
+    private Offer offer;
     public PrintCSV(Offer offer) {
         this.offer = offer;
         csvOffer();

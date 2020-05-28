@@ -11,7 +11,6 @@ public class Login {
 		Employee employee = ru.login(username, password);
 		ActiveEmployee au = ActiveEmployee.getInstance();
 		au.setEmployee(employee);
-		au.setLoggedIn(true);
 		} catch (CustomException e) {
 			throw e;
 		}
