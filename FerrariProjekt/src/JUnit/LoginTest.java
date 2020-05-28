@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import database.ReadEmployee;
 import entities.Employee;
 import exception.CustomException;
-import logic.ActiveEmployee;
 import logic.Login;
 
 class LoginTest {
@@ -29,8 +28,6 @@ class LoginTest {
 	void testLoginLogic() {
 		Login login = new Login();
 		login.login("username", "password");
-		ActiveEmployee ae = ActiveEmployee.getInstance();
-		assertEquals(true, ae.getLoggedIn());
 		assertThrows(CustomException.class, () -> {
 			login.login("failed", "failed");
 		});

@@ -12,9 +12,8 @@ import entities.Offer;
 import logic.CalculateLoan;
 
 class CalculateLoanTest {
-	Customer customerA, customerB, customerC;
-	Offer offerAOver, offerAUnder, offerBOver, offerBUnder, offerCOver, offerCUnder, offerMiddle;
-	Car car;
+	private Offer offerAOver, offerAUnder, offerBOver, offerBUnder, offerCOver, offerCUnder, offerMiddle;
+	private Car car;
 
 	@BeforeEach
 	void setUp() throws Exception {	

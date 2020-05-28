@@ -36,26 +36,24 @@ import logic.OfferLogic;
 import styles.JavaFXStyles;
 
 public class SceneCreateOffer {
-	Stage stage;
-	CreateLabel cl = new CreateLabel();
-	CreateButton cb = new CreateButton();
-	CreateTextField ctf = new CreateTextField();
-	Offer offer = new Offer();
-	TextField tfPhoneNumber, tfCprNumber, tfCreditrating, tfFirstName, tfLastName, tfEMail, tfCity, tfZipCode,
+	private CreateLabel cl = new CreateLabel();
+	private CreateButton cb = new CreateButton();
+	private CreateTextField ctf = new CreateTextField();
+	private Offer offer = new Offer();
+	private TextField tfPhoneNumber, tfCprNumber, tfCreditrating, tfFirstName, tfLastName, tfEMail, tfCity, tfZipCode,
 			tfAddress, tfDownpayment, tfNumOfTerms;
-	Label customerError;
-	VBox vBoxLeft, vBoxRight;
-	HBox hBoxCenter;
-	Insets insets = new Insets(5, 15, 5, 15);
-	Insets insets2 = new Insets(5, 5, 5, 5);
-	Button btnFindCustomer, btnChooseCar, btnCalculate, btnCreateOffer;
-	APIController ac = new APIController();
-	TableView<Term> tvTerm;
+	private Label customerError;
+	private VBox vBoxLeft, vBoxRight;
+	private HBox hBoxCenter;
+	private Insets insets = new Insets(5, 15, 5, 15);
+	private Insets insets2 = new Insets(5, 5, 5, 5);
+	private Button btnFindCustomer, btnChooseCar, btnCalculate, btnCreateOffer;
+	private APIController ac = new APIController();
+	private TableView<Term> tvTerm;
 	
 	public void init(Stage stage) {
 		offer.setOfferEmployee(ActiveEmployee.getInstance().getEmployee());
 		double spacing = 10;
-		this.stage = stage;
 		double textsize = Constants.textSize;
 		double width = 0.15;
 		// Get daily rate when opening page

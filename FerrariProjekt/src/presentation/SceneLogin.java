@@ -21,12 +21,12 @@ import logic.Login;
 import styles.JavaFXStyles;
 
 public class SceneLogin {
-	Stage stage;
-	CreateLabel cl = new CreateLabel();
-	CreateTextField ctf = new CreateTextField();
-	Label lbError;
-	TextField tfUsername; 
-	PasswordField pfPassword;
+	private Stage stage;
+	private CreateLabel cl = new CreateLabel();
+	private CreateTextField ctf = new CreateTextField();
+	private Label lbError;
+	private TextField tfUsername; 
+	private PasswordField pfPassword;
 
 	public void init(Stage stage) {
 		this.stage = stage;
