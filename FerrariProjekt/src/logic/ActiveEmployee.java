@@ -5,11 +5,11 @@ import entities.Employee;
 public class ActiveEmployee {
 	private static ActiveEmployee instance = null;
 	private Employee employee;
-	
+
 	public static ActiveEmployee getInstance() {
 		if (instance == null)
 			instance = new ActiveEmployee();
-		
+
 		return instance;
 	}
 
@@ -21,4 +21,3 @@ public class ActiveEmployee {
 		return employee;
 	}
 }
-

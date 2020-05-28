@@ -11,58 +11,56 @@ import exception.CustomException;
 
 public class OfferLogic {
 	private ArrayList<Offer> completeList;
-	
+
 	/**
-	 * Method to create offer
-	 * Sets current ActiveEmployee to the Offer
-	 * Creates database entries for offer and terms
-	 * Creates database entry for customer if customer doesn't already exist
+	 * Method to create offer Sets current ActiveEmployee to the Offer Creates
+	 * database entries for offer and terms Creates database entry for customer if
+	 * customer doesn't already exist
 	 */
-    public void offerCreate(Offer offer)  {
-    	new CreateOffer(offer);
-    }
-    /**
-     * Method checks if customer already has an offer for the chosen car
-     * Throws exception if that is true
-     */
-    public void validateCar(Offer offer) {
-    	try {
-    	ReadOffer ro = new ReadOffer();
-    	ro.validateCar(offer);
-    	} catch (CustomException e) {
-    		throw e;
-    	}
-    	
+	public void offerCreate(Offer offer) {
+		new CreateOffer(offer);
 	}
+
+	/**
+	 * Method checks if customer already has an offer for the chosen car Throws
+	 * exception if that is true
+	 */
+	public void validateCar(Offer offer) {
+		try {
+			ReadOffer ro = new ReadOffer();
+			ro.validateCar(offer);
+		} catch (CustomException e) {
+			throw e;
+		}
+
+	}
+
 	/**
 	 * @return Returns a complete list of all the offers in the database
 	 */
-	public ArrayList<Offer> completeOfferList(){
+	public ArrayList<Offer> completeOfferList() {
 		completeList = new ReadOfferComplete().readOfferComplete();
 		return completeList;
 	}
+
 	public ArrayList<Offer> getCompleteList() {
 		return completeList;
 	}
 
-	public void offerUpdate(Offer offer)
-	{
+	public void offerUpdate(Offer offer) {
 		new UpdateOffer(offer);
 	}
 
-	public void checkOverOrUnderLimit(Offer offer)
-	{
-		if(offer.getOfferEmployee().getTitle().equals("Manager"))
-		{
+	public void checkOverOrUnderLimit(Offer offer) {
+		if (offer.getOfferEmployee().getTitle().equals("Manager")) {
 			offer.setManagerAccept(true);
 		} else {
 			double dLimit = offer.getOfferEmployee().getLimit();
 			double dCarPrize = offer.getOfferCar().getPriceDouble();
-			if(dLimit>dCarPrize) {
+			if (dLimit > dCarPrize) {
 				offer.setManagerAccept(true);
 			}
 		}
 	}
-	
 
 }

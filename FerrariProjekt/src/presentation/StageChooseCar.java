@@ -56,16 +56,16 @@ public class StageChooseCar {
 		});
 		Button btnNewCars = cb.btn("Nye biler", 2, 1);
 		btnNewCars.setOnAction(e -> {
-			populateTableView(ls.sortCar(cl.getOriginalList(),false));
+			populateTableView(ls.sortCar(cl.getOriginalList(), false));
 		});
 		Button btnUsedCars = cb.btn("Brugte biler", 2, 1);
 		btnUsedCars.setOnAction(e -> {
-			populateTableView(ls.sortCar(cl.getOriginalList(),true));
+			populateTableView(ls.sortCar(cl.getOriginalList(), true));
 		});
 		hBoxChoice.getChildren().addAll(btnAllCars, btnNewCars, btnUsedCars);
 		hBoxChoice.setSpacing(20);
 		hBoxChoice.setAlignment(Pos.CENTER);
-		
+
 		// Create tableview
 		TableView<Car> tvCar = new TableView<Car>();
 		this.tvCar = tvCar;
@@ -74,7 +74,7 @@ public class StageChooseCar {
 		TableColumn<Car, String> clmCondition = new TableColumn<>("Stand");
 		TableColumn<Car, String> clmSerialNumber = new TableColumn<>("Serienummer");
 		TableColumn<Car, String> clmModel = new TableColumn<>("Model");
-		TableColumn<Car, String> clmModelYear = new TableColumn<>("ï¿½rgang");
+		TableColumn<Car, String> clmModelYear = new TableColumn<>("Årgang");
 		TableColumn<Car, String> clmColor = new TableColumn<>("Farve");
 		TableColumn<Car, String> clmMileage = new TableColumn<>("Kilometer");
 		TableColumn<Car, String> clmPrice = new TableColumn<>("Pris");
@@ -98,7 +98,7 @@ public class StageChooseCar {
 		clmMileage.setStyle("-fx-alignment: CENTER");
 		clmPrice.prefWidthProperty().bind(tvCar.widthProperty().multiply(0.14));
 		clmPrice.setStyle("-fx-alignment: CENTER");
-		
+
 		// Add values to columns
 		clmCondition.setCellValueFactory(cellData -> {
 			return new ReadOnlyStringWrapper(cellData.getValue().isUsed() ? "Brugt" : "Ny");
@@ -113,11 +113,8 @@ public class StageChooseCar {
 		// Add items to tableview
 		populateTableView(cl.getOriginalList());
 
-
 		// Error label
 		Label lbError = clabel.lb();
-		
-
 
 		// Buttons below tableview
 		HBox hBoxButtons = new HBox(20);
@@ -125,7 +122,7 @@ public class StageChooseCar {
 		btnClose.setOnAction(e -> {
 			stage.close();
 		});
-		Button btnChoose = cb.btn("Vï¿½lg bil", 3, 1);
+		Button btnChoose = cb.btn("Vælg bil", 3, 1);
 		btnChoose.setOnAction(e -> {
 			if (tvCar.getSelectionModel().getSelectedItem() != null) {
 				try {
@@ -134,7 +131,7 @@ public class StageChooseCar {
 					tfCarModel.setText(tvCar.getSelectionModel().getSelectedItem().getModel());
 					tfCarPrice.setText(tvCar.getSelectionModel().getSelectedItem().getPrice());
 					new OfferLogic().checkOverOrUnderLimit(offer);
-					
+
 					stage.close();
 				} catch (CustomException e2) {
 					lbError.setText(e2.getMessage());
@@ -144,7 +141,7 @@ public class StageChooseCar {
 		hBoxButtons.getChildren().addAll(btnClose, btnChoose);
 		hBoxButtons.setAlignment(Pos.CENTER);
 
-		vBoxCenter.getChildren().addAll(hBoxChoice, tvCar,lbError, hBoxButtons);
+		vBoxCenter.getChildren().addAll(hBoxChoice, tvCar, lbError, hBoxButtons);
 
 		Scene scene = new Scene(root, baseStage.getWidth() / 1.5, baseStage.getHeight() / 1.5);
 		stage.initModality(Modality.APPLICATION_MODAL);

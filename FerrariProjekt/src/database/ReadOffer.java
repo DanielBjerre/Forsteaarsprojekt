@@ -15,18 +15,18 @@ public class ReadOffer {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, offer.getOfferCustomer().getCustomerID());
 			stmt.setString(2, offer.getOfferCar().getSerialNumber());
-			
+
 			try (ResultSet rs = stmt.executeQuery()) {
-				if(rs.next()) {
+				if (rs.next()) {
 					throw new CustomException("Kunden har allerede et tilbud p� den valgte bil");
 				}
-				
-			}catch (SQLException e) {
+
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
